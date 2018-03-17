@@ -46,6 +46,11 @@ function setVideoSrc(source) {
     var vid = $("<video controls><source src='https://ipfs.io/ipfs/" + source + "' type='video/mp4'>Your browser doesn't support HTML5 video</video>")
     $('#vid-cont').append(vid);
     plyr.setup();
+    $("#info").html("")
+    $("#info").append("<h3>"+ videos[source]["title"] +"</h3>");
+    $("#info").append("<h5>"+ videos[source]["duration"] +"</h5>");
+    $("#info").append("<p>"+ videos[source]["description"] +"</p>");
+    $
 }
 
 function renderEps(title, season) {
