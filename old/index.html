@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdn.plyr.io/2.0.18/plyr.css">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="leftBar" class="col l3 m4 s12">
+                <div id="title-select" class="sideBar">
+                    <img src='assets/logo.png'>
+                    <div id="titleHolder">
+                    </div>
+                </div>
+            </div>
+            <div id="Center" class='col l6 m4 s12 container-fluid'>
+                <div id='vid-cont' class-"row">
+                    <video controls>
+                        <source src="/media/big_buck_bunny.mp4" type="video/mp4">
+                       Your browser doesn't support HTML5 videos :(
+                    </video>
+                </div>
+                <div class="row" id="info">
+                    
+                </div>
+
+            </div>
+            <div id="rightBar" class="col l3 m4">
+                <div id="ep-select" class="sideBar">
+                    <h5>Episode Selector</h5>
+                    <div id="input-field">
+                        <select id='ep-selector'>
+                        </select>
+                    </div>
+                    <div id='ep-box'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="https://cdn.plyr.io/2.0.18/plyr.js"></script>
+    <script src="scripts/titles.js"></script>
+    <script src="scripts/videos.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
