@@ -177,8 +177,8 @@
 												<a class="btn btn-green-pro btn-slider-pro btn-shadow-pro afterglow" :href="getAddress()"><i class="fas fa-play"></i>Watch</a>
 
 
-                                                <div :class="'c100 p'+title.rating*10 + ' small ' + getColor(title.rating)">
-                                                    <span style="font-weight: bold;">{{ title.rating }}</span>
+                                                <div :class="'c100 p'+title.rating*10 + ' small ' + getColor(title.rating)" style="float: right; zoom:.8">
+                                                    <span :style="'font-weight: bold; color:'+getColor(title.rating)">{{ title.rating }}</span>
                                                     <div class="slice">
                                                         <div class="bar"></div>
                                                         <div class="fill"></div>
