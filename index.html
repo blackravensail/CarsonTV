@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/circle.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMontserrat:300,400,600,700">
 
@@ -161,20 +162,28 @@
 										<a class="progression-studios-slider-play-btn afterglow" :href="getAddress()"><i class="fas fa-play"></i></a>
 
 
-										<p v-html="getReticle(title.rating)"></p>
 
 										<div class="progression-studios-slider-dashboard-caption-width">
 											<div class="progression-studios-slider-caption-align">
-												<h6>{{ getType() }}</h6>
-												<h2><a :href="getAddress()">{{ title["title"] }}</a></h2>
-												<ul class="progression-studios-slider-meta">
+												<h6 class="light-fonts-pro">{{ getType() }}</h6>
+												<h2 class="light-fonts-pro"><a :href="getAddress()">{{ title["title"] }}</a></h2>
+												<ul class="progression-studios-slider-meta light-fonts-pro">
                                                     <li>{{ title["release_date"]}}</li>
                                                     <li>{{ title["duration"]}} mins.</li>
                                                     <li>{{ title["genres"][0]}}</li>
 												</ul>
-												<p class="progression-studios-slider-description">{{ title["description"]}}</p>
+												<p class="progression-studios-slider-description light-fonts-pro">{{ title["description"]}}</p>
 
 												<a class="btn btn-green-pro btn-slider-pro btn-shadow-pro afterglow" :href="getAddress()"><i class="fas fa-play"></i>Watch</a>
+
+
+                                                <div :class="'c100 p'+title.rating*10 + ' small ' + getColor(title.rating)">
+                                                    <span style="font-weight: bold;">{{ title.rating }}</span>
+                                                    <div class="slice">
+                                                        <div class="bar"></div>
+                                                        <div class="fill"></div>
+                                                    </div>
+                                                </div>
 
 
 
@@ -254,17 +263,23 @@
 
             <div class="clearfix"></div>
 
-            <div class="dashboard-container">
+            <div class="dashboard-container" id="pannelCont">
 
-                <h4 class="heading-extra-margin-bottom">Everything</h4>
-                <div class="row" id="pannelCont">
+                <h4 class="heading-extra-margin-bottom">{{ header }}</h4>
+                <div class="row">
                     <div class="col-12 col-md-6 col-lg-4 col-xl-3" v-for='title in titles'>
                         <div class="item-listing-container-skrn">
                             <a :href="getaddress(title)"><img :src="addheader(title.tall)" :alt="title.title"></a>
                             <div class="item-listing-text-skrn">
                                 <div class="item-listing-text-skrn-vertical-align">
                                     <h6><a :href="getaddress(title)">{{ title.title }}</a></h6>
-                                    <p v-html="getReticle(title.rating)"></p>
+                                    <div :class="' c100 p'+title.rating*10 + ' small ' + getColor(title.rating)" style="float: right; zoom:.5;">
+                                        <span style="font-weight: bold;">{{ title.rating }}</span>
+                                        <div class="slice">
+                                            <div class="bar"></div>
+                                            <div class="fill"></div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- close .item-listing-text-skrn-vertical-align -->
                             </div>
