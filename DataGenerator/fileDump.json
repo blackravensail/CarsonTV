@@ -8,11 +8,11 @@
         "main_id": "QmPBZMM9EzLfZTf59qbGJ3pmMACpjDojwmMjnuMZZuupTv",
         "trailer_id": "QmeCy1167bNNKtbjYTb4RcYu38GNJteX82a4p3AXLt19uz",
         "duration": 111,
-        "tall": "QmYHsAkxhjADBpnfYhj4y2guGkBr8FFZY12Mc5yFmygYLv",
-        "wide": "images/seconhand.jpg"
+        "tall": "images/seconhand_tall.jpg",
+        "wide": "images/seconhand_wide.png"
     }],
     "series": [{
-        "rating": 9.8,
+        "rating": 3.8,
         "genres": ["Animation", "Comedy", "Family", "Mystery", "Sci-Fi"],
         "description": "Three kids, Jackie, Matt, Inez, and their bird friend Digit, must save cyberspace from the evil Hacker with the use of strategy and math skills.",
         "title": "Cyberchase",
@@ -29,7 +29,7 @@
                 "title": "02 - Castleblanca"
             }]
         },
-        "tall": "QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH",
+        "tall": "images/cyberchase_tall.jpg",
         "wide": "images/cyberchase.jpg"
     }]
 }
