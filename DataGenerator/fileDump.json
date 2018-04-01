@@ -5,8 +5,8 @@
         "description": "A coming-of-age story about a shy, young boy sent by his irresponsible mother to spend the summer with his wealthy, eccentric uncles in Texas.",
         "title": "Secondhand Lions",
         "release_date": 2003,
-        "main_id": "QmPBZMM9EzLfZTf59qbGJ3pmMACpjDojwmMjnuMZZuupTv",
-        "trailer_id": "QmeCy1167bNNKtbjYTb4RcYu38GNJteX82a4p3AXLt19uz",
+        "main_id": "images/full.mp4",
+        "trailer_id": "images/videoplayback.mp4",
         "duration": 111,
         "tall": "images/seconhand_tall.jpg",
         "wide": "images/seconhand_wide.png"
@@ -17,16 +17,25 @@
         "description": "Three kids, Jackie, Matt, Inez, and their bird friend Digit, must save cyberspace from the evil Hacker with the use of strategy and math skills.",
         "title": "Cyberchase",
         "release_date": 2002,
-        "trailer_id": "QmakHQ8Gb8gctj7kL2LQeLd2HtFm94Gvt3FCGLb9sRQ5A4",
+        "trailer_id": "images/videoplayback.mp4",
         "ep_map": {
             "Season 1": [{
-                "tall": "QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH",
-                "id": "Qmdiav56GaC1iEnwAm6B4vzLAE6K2THY6s6s5HvLa3hswZ",
+                "tall": "images/cyberchase_tall.jpg",
+                "id": "images/full.mp4",
                 "title": "01 - Lost My Marbles"
             }, {
-                "tall": "QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH",
-                "id": "Qmdiav56GaC1iEnwAm6B4vzLAE6K2THY6s6s5HvLa3hswZ",
+                "tall": "images/cyberchase_tall.jpg",
+                "id": "images/full.mp4",
                 "title": "02 - Castleblanca"
+            }],
+            "Season 2": [{
+                "tall": "images/cyberchase_tall.jpg",
+                "id": "images/full.mp4",
+                "title": "04 - Lost My Marbles"
+            }, {
+                "tall": "images/cyberchase_tall.jpg",
+                "id": "images/full.mp4",
+                "title": "05 - Castleblanca"
             }]
         },
         "tall": "images/cyberchase_tall.jpg",
