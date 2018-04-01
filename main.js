@@ -8,6 +8,7 @@ $.getJSON("./DataGenerator/fileDump.json", function(json) {
     var tl = data["series"]
     tl = tl.concat(data["movies"])
     var rand = Math.floor(Math.random() * tl.length)
+    rand  = 1 //dev reasons, remove for release
     slider = new Vue({
         el: "#vue_slider",
         data:{
