@@ -3,7 +3,8 @@ var id = url.searchParams.get("id")
 var main_obj
 var j = 0
 
-var header = ""
+//var header = "https://ipfs.io/ipfs/"
+var header = "http://127.0.0.1:8080/ipfs/"
 var sidebar
 var main_area
 var player
@@ -50,12 +51,14 @@ $.getJSON("./DataGenerator/fileDump.json", function(json) {
                                 type: 'video/mp4'
                             }]
                         }
+                        player.ratio = "16:9"
                     }
                 }
             })
         }
     }
     player = new Plyr("#main_video")
+    player.ratio = "16:9"
     window.rr = player
 
 
@@ -69,6 +72,7 @@ $.getJSON("./DataGenerator/fileDump.json", function(json) {
                 type: 'video/mp4'
             }]
         }
+        player.ratio = "16:9"
         $("#trailer_Button").hide()
     }
     else {
@@ -80,6 +84,7 @@ $.getJSON("./DataGenerator/fileDump.json", function(json) {
                 type: 'video/mp4'
             }]
         }
+        player.ratio = "16:9"
     }
     player.poster = header + main_obj["wide"]
     player.ratio = "16:9"
@@ -94,6 +99,7 @@ $.getJSON("./DataGenerator/fileDump.json", function(json) {
                     type: 'video/mp4'
                 }]
             }
+            player.ratio = "16:9"
             $("#trailer_Button").html("<i class='fas fa-play'></i>Watch Film")
         }
         else{
@@ -105,6 +111,7 @@ $.getJSON("./DataGenerator/fileDump.json", function(json) {
                     type: 'video/mp4'
                 }]
             }
+            player.ratio = "16:9"
             $("#trailer_Button").html("<i class='fas fa-play'></i>Watch Trailer")
         }
         j++;
@@ -142,4 +149,5 @@ function changeVideo(id) {
             type: 'video/mp4'
         }]
     }
+    player.ratio = "16:9"
 }

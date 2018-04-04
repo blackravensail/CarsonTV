@@ -1,0 +1,44 @@
+{
+    "movies": [{
+        "rating": 7.6,
+        "genres": ["Comedy", "Drama", "Family"],
+        "description": "A coming-of-age story about a shy, young boy sent by his irresponsible mother to spend the summer with his wealthy, eccentric uncles in Texas.",
+        "title": "Secondhand Lions",
+        "release_date": 2003,
+        "main_id": "images/full.mp4",
+        "trailer_id": "images/videoplayback.mp4",
+        "duration": 111,
+        "tall": "images/seconhand_tall.jpg",
+        "wide": "images/seconhand_wide.png"
+    }],
+    "series": [{
+        "rating": 3.8,
+        "genres": ["Animation", "Comedy", "Family", "Mystery", "Sci-Fi"],
+        "description": "Three kids, Jackie, Matt, Inez, and their bird friend Digit, must save cyberspace from the evil Hacker with the use of strategy and math skills.",
+        "title": "Cyberchase",
+        "release_date": 2002,
+        "trailer_id": "images/videoplayback.mp4",
+        "ep_map": {
+            "Season 1": [{
+                "tall": "images/cyberchase_tall.jpg",
+                "id": "images/full.mp4",
+                "title": "01 - Lost My Marbles"
+            }, {
+                "tall": "images/cyberchase_tall.jpg",
+                "id": "images/full.mp4",
+                "title": "02 - Castleblanca"
+            }],
+            "Season 2": [{
+                "tall": "images/cyberchase_tall.jpg",
+                "id": "images/full.mp4",
+                "title": "04 - Lost My Marbles"
+            }, {
+                "tall": "images/cyberchase_tall.jpg",
+                "id": "images/full.mp4",
+                "title": "05 - Castleblanca"
+            }]
+        },
+        "tall": "images/cyberchase_tall.jpg",
+        "wide": "images/cyberchase.jpg"
+    }]
+}
