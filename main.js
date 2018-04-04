@@ -1,5 +1,5 @@
-header = ""
-
+//header = "https://ipfs.io/ipfs/"
+header = "http://127.0.0.1:8080/ipfs/"
 var data;
 var slider;
 var titleCont;
@@ -41,8 +41,8 @@ $.getJSON("./DataGenerator/fileDump.json", function(json) {
             },
             getColor: function(rating) {
                 if (rating > 7){return "green"}
-                if (rating > 5){return "orange"}
-                return "red"
+                else if (rating > 5){return "orange"}
+                else {return "red"}
             },
             getAddress: function() {
                 if(this.title.hasOwnProperty("id")){
@@ -135,3 +135,75 @@ $(".genre_button").on("click", function() {
     titleCont.titles = list
 
 })
+
+function search(query, movies, series, genre, minRating, maxRating) {
+    list = []
+    if (movies) {
+        for (var i=0;i < data["movies"];i++){
+            if(data["movies"][i]["rating"] > minRating && data["movies"][i]["rating"] > maxRating) {
+                if (genre == "0"){
+                    list.push(data["movies"][i])
+                }
+                else if (data["movies"][i]['genres'].indexOf(genre) >= 0){
+                    list.push(data["movies"][i])
+                }
+            }
+        }
+    }
+    if (series) {
+        for (var i=0;i < data["series"].length;i++){
+            if(data["series"][i]["rating"] > minRating && data["series"][i]["rating"] > maxRating) {
+                if (genre == "0"){
+                    list.push(data["series"][i])
+                }
+                else if (data["series"][i]['genres'].indexOf(genre) >= 0){
+                    list.push(data["series"][i])
+                }
+            }
+        }
+    }
+
+    obj = {}
+    queryl = query.split(' ')
+    for(var i; i < list.length;i++) {
+        rank = 0
+        for(var j; j < queryl.length; i++){
+            rank += count(list[i]["title"], queryl[j])
+            rank += count(list[i]["description"], queryl[j])
+        }
+        obj[rank.toString() + "--" + Math.floor(Math.random() * 10000).toString()] = list[i]
+
+    }
+
+    keys = []
+
+    for (k in obj) {
+        if (myObj.hasOwnProperty(k)) {
+            keys.push(k);
+        }
+    }
+    keys.sort()
+    nobj = []
+    for(i = 0; i < keys.length;i++){
+        nobj.push(obj[keys[i]])
+    }
+
+    titleCont.header = query
+    titleCont.titles = nobj
+}
+
+function count(main_str, sub_str) {
+    main_str += '';
+    sub_str += '';
+
+    if (sub_str.length <= 0) {
+        return main_str.length + 1;
+    }
+
+   subStr = sub_str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+   return (main_str.match(new RegExp(subStr, 'gi')) || []).length;
+}
+
+function getSearchPrams() {
+
+}
