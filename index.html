@@ -29,7 +29,7 @@
 
             <div id="video-search-header">
                 <div id="search-icon-more"></div>
-                <input type="text" placeholder="Search for Movies or TV Series" aria-label="Search">
+                <input type="text" placeholder="Search for Movies or TV Series" aria-label="Search" id="searchBar">
                 <div id="video-search-header-filtering">
                     <form id="video-search-header-filtering-padding">
                         <div class="row">
@@ -57,7 +57,7 @@
                             <!-- close .col -->
                             <div class="col-sm extra-padding">
                                 <h5>Genres:</h5>
-                                <select class="custom-select">
+                                <select class="custom-select" id="genreSearch">
 								  <option value="0" selected>All Genres</option>
 								  <option value="1">Action</option>
 								  <option value="2">Adventure</option>
@@ -84,8 +84,7 @@
                         </div>
                         <!-- close .row -->
                         <div id="video-search-header-buttons">
-                            <a href="#!" class="btn btn-green-pro">Filter Search</a>
-                            <a href="#!" class="btn">Reset</a>
+                            <a class="btn btn-green-pro" id="searchButton">Search</a>
                         </div>
                         <!-- close #video-search-header-buttons -->
                     </form>

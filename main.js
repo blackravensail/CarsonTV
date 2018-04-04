@@ -93,14 +93,9 @@ $.getJSON("./DataGenerator/fileDump.json", function(json) {
             }
         }
     })
+    //search("killer", true, true, "Drama", 4, 10)
 });
 
-function render(list) {
-    var rand = Math.floor(Math.random() * list.length)
-    slider.title = list[rand]
-    titleCont.titles = list
-
-}
 
 $(".men_item").on('click', function() {
     $(".men_item").removeClass("current-menu-item")
@@ -135,12 +130,14 @@ $(".genre_button").on("click", function() {
     titleCont.titles = list
 
 })
-
+/*
 function search(query, movies, series, genre, minRating, maxRating) {
+    console.log(query, movies, series, genre, minRating, maxRating)
     list = []
     if (movies) {
-        for (var i=0;i < data["movies"];i++){
-            if(data["movies"][i]["rating"] > minRating && data["movies"][i]["rating"] > maxRating) {
+        for (i = 0; i < data["movies"].length; i++){
+            if(data["movies"][i]["rating"] > minRating && data["movies"][i]["rating"] < maxRating) {
+                console.log("Hola")
                 if (genre == "0"){
                     list.push(data["movies"][i])
                 }
@@ -151,8 +148,8 @@ function search(query, movies, series, genre, minRating, maxRating) {
         }
     }
     if (series) {
-        for (var i=0;i < data["series"].length;i++){
-            if(data["series"][i]["rating"] > minRating && data["series"][i]["rating"] > maxRating) {
+        for (i = 0; i < data["series"].length; i++){
+            if(data["series"][i]["rating"] > minRating && data["series"][i]["rating"] < maxRating) {
                 if (genre == "0"){
                     list.push(data["series"][i])
                 }
@@ -162,14 +159,17 @@ function search(query, movies, series, genre, minRating, maxRating) {
             }
         }
     }
-
-    obj = {}
+    console.log(list)
+    var obj = {}
+    query = query.toLowerCase()
+    query = query.replace(",","")
     queryl = query.split(' ')
-    for(var i; i < list.length;i++) {
+    for(i = 0; i < list.length; i++) {
         rank = 0
-        for(var j; j < queryl.length; i++){
-            rank += count(list[i]["title"], queryl[j])
-            rank += count(list[i]["description"], queryl[j])
+        main = list[i]
+        for(j = 0; j < queryl.length; i++){
+            rank += count(main["title"], queryl[j])
+            rank += count(main["description"], queryl[j])
         }
         obj[rank.toString() + "--" + Math.floor(Math.random() * 10000).toString()] = list[i]
 
@@ -205,5 +205,25 @@ function count(main_str, sub_str) {
 }
 
 function getSearchPrams() {
-
+    var genre = $("#genreSearch option:selected").text()
+    if (genre == "All Genres"){
+        genre = "0"
+    }
+    range = $(".range-example-rating-input").val()
+    range = range.split(',')
+    range[0] = parseInt(range[0])
+    range[1] = parseInt(range[1])
+    if (range[0] <= range[1]) {
+        minR = range[0]
+        maxR = range[1]
+    }
+    else {
+        minR = range[1]
+        maxR = range[0]
+    }
+    search($("#searchBar").val(), $("#movies-type").attr("checked") == "checked", $("#tv-type").attr("checked") == "checked", genre, minR, maxR)
 }
+
+$("#searchButton").on("click", function() {
+    getSearchPrams()
+})*/
