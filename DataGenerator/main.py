@@ -115,33 +115,33 @@ for name in os.listdir(os.path.join(dir, 'Series')):
         tempData["wide"] = api.add(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))["Hash"]
 
         print("Done Boring Stuff, Saving to File")
-
-        tempData["ep_map"] = {}
-
-        for seasonName in os.listdir(path):
-            seasonPath = os.path.join(path, seasonName)
-            if os.path.isdir(seasonPath):
-                tempData['ep_map'][seasonName] = []
-                for episodeName in os.listdir(seasonPath):
-                    episodePath = os.path.join(seasonPath, episodeName)
-                    if not os.path.exists(os.path.join(episodePath, "info.json")):
-                        print("No data found for: " + episodeName + " Lets make some!" )
-                        td = {
-                            "title": episodeName,
-                            "id" : api.add(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'*.mp4'))[0]))["Hash"],
-                            "tall" : api.add(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'tall.*'))[0]))["Hash"]
-                        }
-                        with open(os.path.join(episodePath, "info.json"),'w') as file:
-                            json.dump(td, file)
-                    else:
-                        print("Found Data for: " + episodeName + "Load and Save!")
-                        td = json.loads(open(os.path.join(episodePath, "info.json")).read())
-                    tempData['ep_map'][seasonName].append(td)
         with open(os.path.join(path, "info.json"),'w') as file:
             json.dump(tempData, file)
     else:
         print("Found Data, for "+name+" , loading and saving!")
         tempData = json.loads(open(os.path.join(path, "info.json")).read())
+
+    tempData["ep_map"] = {}
+
+    for seasonName in os.listdir(path):
+        seasonPath = os.path.join(path, seasonName)
+        if os.path.isdir(seasonPath):
+            tempData['ep_map'][seasonName] = []
+            for episodeName in os.listdir(seasonPath):
+                episodePath = os.path.join(seasonPath, episodeName)
+                if not os.path.exists(os.path.join(episodePath, "info.json")):
+                    print("No data found for: " + episodeName + " Lets make some!" )
+                    td = {
+                        "title": episodeName,
+                        "id" : api.add(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'*.mp4'))[0]))["Hash"],
+                        "tall" : api.add(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'tall*'))[0]))["Hash"]
+                    }
+                    with open(os.path.join(episodePath, "info.json"),'w') as file:
+                        json.dump(td, file)
+                else:
+                    print("Found Data for: " + episodeName + "Load and Save!")
+                    td = json.loads(open(os.path.join(episodePath, "info.json")).read())
+                tempData['ep_map'][seasonName].append(td)
     data["series"].append(tempData)
 
 with open("fileDump.json",'w') as file:

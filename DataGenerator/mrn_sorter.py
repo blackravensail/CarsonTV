@@ -1,11 +1,13 @@
 import glob
+import os
+from shutil import copyfile
 
 data = {
     "Alike and Different": ["1581", "1582", "1583", "1584", "1585"],
 
     "Art": ["1641", "1642", "1643", "1644", "1645"],
 
-    "Be Yourself: That's the Best": ["1716", "1717", "1718", "1719", "1720"],
+    "Be Yourself That's the Best": ["1716", "1717", "1718", "1719", "1720"],
 
     "Brave &amp; Strong": ["1706", "1707", "1708", "1709", "1710"],
 
@@ -103,7 +105,7 @@ data = {
 
     "Playthings": ["1566", "1567", "1568", "1569", "1570"],
 
-    "Ready to Read?": ["1756", "1757", "1758", "1759", "1760"],
+    "Ready to Read": ["1756", "1757", "1758", "1759", "1760"],
 
     "Secrets": ["1596", "1597", "1598", "1599", "1600"],
 
@@ -119,7 +121,7 @@ data = {
 
     "Up &amp; Down": ["1656", "1657", "1658", "1659", "1660"],
 
-    "What Do You Do With the Mad That You Feel?": ["1691", "1692", "1693", "1694", "1695"],
+    "What Do You Do With the Mad That You Feel": ["1691", "1692", "1693", "1694", "1695"],
 
     "When Parents Go To Work": ["1611", "1612", "1613", "1614", "1615"],
 
@@ -131,12 +133,358 @@ data = {
 
     "You and I Together": ["1726", "1727", "1728", "1729", "1730"]
 }
-inputDir = ""
-p = re.compile()
+#inputDir = "F:\\MRN_just_files"
+outputDir = "E:\\CarsonMedia\Series\\Mr Rogers Neighborhood"
+'''
+os.chdir(inputDir)
 for key in data:
-    if !os.path.isdir(os.path.join(key)):
-        os.mkdir(key)
+    print(key + "-----------------------------------------")
+    if not os.path.isdir(os.path.join(outputDir, key)):
+        os.mkdir(os.path.join(outputDir, key))
     for episode in data[key]:
-        files = glob.glob(os.path.join(inputDir, key))
+        if not os.path.isdir(os.path.join(os.path.join(outputDir, key),episode)):
+            os.mkdir(os.path.join(os.path.join(outputDir, key),episode))
+        files = glob.glob(episode + "-*")
         for file in files:
-            os.rename(os.path.join(inputDir, file), os.path.join(key, file))
+            copyfile(file, os.path.join(os.path.join(os.path.join(outputDir, key),episode), file))
+        print(episode)
+'''
+
+for folder in os.listdir(outputDir):
+    if os.path.isdir(os.path.join(outputDir,folder)):
+        for episode in os.listdir(os.path.join(outputDir,folder)):
+            os.chdir(os.path.join(os.path.join(outputDir,folder),episode))
+            files = glob.glob("*.jpg")
+            if len(files) != 0:
+                file = files[0]
+                print("---------")
+                os.rename(file,"tall"+file)
+            else:
+                print("No file found in: " + episode)
+
+
+mData ="---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1643
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1706
+No file found in: 1707
+No file found in: 1708
+No file found in: 1709
+No file found in: 1710
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1521
+No file found in: 1522
+No file found in: 1523
+No file found in: 1524
+No file found in: 1525
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1686
+No file found in: 1687
+No file found in: 1688
+No file found in: 1689
+No file found in: 1690
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1683
+No file found in: 1684
+No file found in: 1685
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1601
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1461
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1535
+---------
+---------
+---------
+---------
+---------
+No file found in: 1701
+No file found in: 1702
+No file found in: 1703
+No file found in: 1704
+No file found in: 1705
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1691
+No file found in: 1692
+No file found in: 1693
+No file found in: 1694
+No file found in: 1695
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1559
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1549
+---------
+No file found in: 1586
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1711
+No file found in: 1712
+No file found in: 1713
+No file found in: 1714
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+No file found in: 1696
+No file found in: 1697
+No file found in: 1698
+No file found in: 1699
+No file found in: 1700
+---------
+---------
+---------
+---------
+No file found in: 1660
+No file found in: 1691
+No file found in: 1692
+No file found in: 1693
+No file found in: 1694
+No file found in: 1695
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------
+---------"
