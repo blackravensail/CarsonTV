@@ -15,7 +15,6 @@ $.getJSON("./DataGenerator/fileDump.json", function(json) {
         },
         methods: {
             getBackgroundStyle: function(str) {
-                console.log(str)
                 return "background-image:url("+header + str+");"
             },
             getType: function(){
