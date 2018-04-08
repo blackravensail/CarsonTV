@@ -146,3 +146,6 @@ for name in os.listdir(os.path.join(dir, 'Series')):
 
 with open("fileDump.json",'w') as file:
     json.dump(data, file)
+with open("dataDump.js",'w') as file:
+    file.write("data = ")
+    file.write(open("fileDump.json").read())
