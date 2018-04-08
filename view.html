@@ -30,7 +30,7 @@
 
 			<div id="video-search-header">
 				<div id="search-icon-more"></div>
-				<input type="text" placeholder="Search for Movies or TV Series" aria-label="Search">
+				<input type="text" placeholder="Search for Movies or TV Series" aria-label="Search" id="searchBar">
 				<div id="video-search-header-filtering">
 					<form id="video-search-header-filtering-padding">
 						<div class="row">
@@ -45,7 +45,7 @@
 										</label>
 
 										<label class="checkbox-pro-container">TV Series
-										  <input type="checkbox" id="tv-type">
+										  <input type="checkbox"  checked="checked" id="tv-type">
 										  <span class="checkmark-pro"></span>
 										</label>
 									</div>
@@ -59,7 +59,7 @@
 							<!-- close .col -->
 							<div class="col-sm extra-padding">
 								<h5>Genres:</h5>
-								<select class="custom-select">
+								<select class="custom-select" id="genreSearch">
 								  <option selected>All Genres</option>
 								  <option value="1">Action</option>
 								  <option value="2">Adventure</option>
@@ -125,7 +125,7 @@
 				<div class="clearfix"></div>
 
 				<div id="search-mobile-nav-pro">
-					<input type="text" placeholder="Search for Movies or TV Series" aria-label="Search">
+					<input type="text" placeholder="Search for Movies or TV Series" aria-label="Search" id="mobileSearch">
 				</div>
 
 			</nav>
@@ -233,7 +233,7 @@
 						<h2>{{ currentSeasonName }}</h2>
 						<div class="row">
 							<div class="col-12 col-md-6 col-lg-6 col-xl-4" :id="episode.id" v-for="episode in currentSeason">
-								<div class="item-listing-container-skrn  episode" @click="changeVideo(episode.id)">
+								<div class="item-listing-container-skrn episode title" @click="changeVideo(episode.id)">
 									<a><img :src="header + episode.tall" alt="Listing"></a>
 									<div class="item-listing-text-skrn">
 										<div class="item-listing-text-skrn-vertical-align">
@@ -281,6 +281,8 @@
 	<!-- Range Slider JS Plugin -->
 	<script src="js/circle-progress.min.js" defer></script>
 	<!-- Circle Progress JS Plugin -->
+	<script src="js/jquery.scrollTo.min.js" defer></script>
+    <!-- Scroll Plugin-->
 	<script src="js/plyr.js"></script>
 	<!-- Video Player JS Plugin -->
 	<script src="js/script.js" defer></script>
