@@ -3,8 +3,8 @@ var id = url.searchParams.get("id")
 var main_obj
 var j = 0
 
-//var header = "https://ipfs.io/ipfs/"
-var header = "http://127.0.0.1:8080/ipfs/"
+var header = "https://ipfs.io/ipfs/"
+//var header = "http://127.0.0.1:8080/ipfs/"
 var sidebar
 var main_area
 var player
