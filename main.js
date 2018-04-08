@@ -27,26 +27,11 @@ slider = new Vue({
                 return "TV Show"
             }
         },
-        getReticle: function(rating) {
-            if (rating > 6) {
-                ratingColor = "#42b740"
-                ratingColorBack = "#def6de"
-            } else {
-                ratingColor = "#FF4343"
-                ratingColorBack = "FFEBEB"
-            }
-
-            return "<div class='circle-rating-pro' data-value='" + rating / 10 + "' data-animation-start-value='" + rating / 10 + "' data-size='70' data-thickness='6' data-fill='{&quot;color&quot;: &quot;" + ratingColor + "&quot;}' data-empty-fill='" + ratingColorBack + "' data-reverse='true'><span style='color:" + ratingColor + ";'>" + rating + "</span></div>"
-            //return "<div class='circle-rating-pro' data-value='0.82' data-animation-start-value='0.82' data-size="70" data-thickness="6" data-fill="{&quot;color&quot;: &quot;#42b740&quot;}" data-empty-fill="#203521" data-reverse="true"><span style="color:#42b740;">8.2</span></div>"
-        },
         getColor: function(rating) {
-            if (rating > 7) {
+            if (rating > 6) {
                 return "green"
-            } else if (rating > 5) {
-                return "orange"
-            } else {
-                return "red"
             }
+            return "red"
         },
         getAddress: function() {
             if (this.title.hasOwnProperty("id")) {
@@ -68,27 +53,9 @@ titleCont = new Vue({
         addheader: function(str) {
             return header + str
         },
-        getColorHex: function(rating, bool) {
-            if (rating > 6) {
-                ratingColor = "#42b740"
-                ratingColorBack = "#def6de"
-            } else {
-                ratingColor = "#FF4343"
-                ratingColorBack = "FFEBEB"
-            }
-
-            if (bool) {
-                return ratingColor
-            } else {
-                return ratingColorBack
-            }
-        },
         getColor: function(rating) {
-            if (rating > 7) {
+            if (rating > 6) {
                 return "green"
-            }
-            if (rating > 5) {
-                return "orange"
             }
             return "red"
         },
