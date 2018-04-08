@@ -3,8 +3,8 @@ var id = url.searchParams.get("id")
 var main_obj
 var j = 0
 
-var header = "https://ipfs.io/ipfs/"
-//var header = "http://127.0.0.1:8080/ipfs/"
+//var header = "https://ipfs.io/ipfs/"
+var header = "http://127.0.0.1:8080/ipfs/"
 var sidebar
 var main_area
 var player
@@ -42,8 +42,8 @@ for (var i = 0; i < tl.length; i++) {
                     return "red"
                 },
                 changeVideo: function(id) {
-                    console.log("HIIII")
-                    console.log(id)
+                    console.log("Hi")
+                    $(window).scrollTo({left:0,top:0},800)
                     player.source = {
                         type: 'video',
                         title: "",
@@ -52,15 +52,15 @@ for (var i = 0; i < tl.length; i++) {
                             type: 'video/mp4'
                         }]
                     }
-                    player.ratio = "16:9"
+
                 }
             }
         })
     }
 }
-player = new Plyr("#main_video")
-player.ratio = "16:9"
-window.rr = player
+player = new Plyr("#main_video", {
+    ratio : "16:9"
+})
 
 
 if (main_obj.hasOwnProperty("ep_map")) {
@@ -73,7 +73,7 @@ if (main_obj.hasOwnProperty("ep_map")) {
             type: 'video/mp4'
         }]
     }
-    player.ratio = "16:9"
+
     $("#trailer_Button").hide()
 } else {
     player.source = {
@@ -84,10 +84,10 @@ if (main_obj.hasOwnProperty("ep_map")) {
             type: 'video/mp4'
         }]
     }
-    player.ratio = "16:9"
+
 }
 player.poster = header + main_obj["wide"]
-player.ratio = "16:9"
+
 
 $("#trailer_Button").on("click", function() {
     if (j % 2 == 0) {
@@ -99,7 +99,7 @@ $("#trailer_Button").on("click", function() {
                 type: 'video/mp4'
             }]
         }
-        player.ratio = "16:9"
+
         $("#trailer_Button").html("<i class='fas fa-play'></i>Watch Film")
     } else {
         player.source = {
@@ -110,7 +110,7 @@ $("#trailer_Button").on("click", function() {
                 type: 'video/mp4'
             }]
         }
-        player.ratio = "16:9"
+
         $("#trailer_Button").html("<i class='fas fa-play'></i>Watch Trailer")
     }
     j++;
@@ -147,5 +147,69 @@ function changeVideo(id) {
             type: 'video/mp4'
         }]
     }
-    player.ratio = "16:9"
+
 }
+
+function navtoLoc(loc, obj){
+    str = loc + "?"
+    for(key in obj){
+        if (obj.hasOwnProperty(key)){
+            str = str + key + "=" + obj[key]
+            str += "&"
+        }
+    }
+    str = str.slice(0, -1)
+    window.location = str
+}
+
+function getSearchPrams() {
+    var genre = $("#genreSearch option:selected").text()
+    if (genre == "All Genres"){
+        genre = "0"
+    }
+    console.log(genre)
+    range = $(".range-example-rating-input").val()
+    range = range.split(',')
+    range[0] = parseInt(range[0])
+    range[1] = parseInt(range[1])
+    if (range[0] <= range[1]) {
+        minR = range[0]
+        maxR = range[1]
+    }
+    else {
+        minR = range[1]
+        maxR = range[0]
+    }
+    navtoLoc("index.html",{
+        "search":true,
+        "query": $("#searchBar").val(),
+        "movies": ($("#movies-type").attr("checked") == "checked"),
+        "series": ($("#tv-type").attr("checked") == "checked"),
+        "genre": genre,
+        "minRating": minR,
+        "maxRating": maxR
+    })
+}
+
+$("#searchButton").on("click", function() {
+    getSearchPrams()
+})
+$("#searchBar").keydown(function(event) {
+    if (event.keyCode === 13) {
+        getSearchPrams();
+    }
+});
+
+$("#mobileSearch").keydown(function(event) {
+    if (event.keyCode === 13) {
+        navtoLoc("index.html",{
+            "search":true,
+            "query": $("#mobileSearch").val(),
+            "movies": true,
+            "series": true,
+            "genre": "0",
+            "minRating": 0,
+            "maxRating": 10
+        })
+    }
+});

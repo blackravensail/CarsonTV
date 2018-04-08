@@ -102,7 +102,7 @@ titleCont = new Vue({
     }
 })
 
-//search("killer", true, true, "Drama", 4, 10)
+
 
 
 $(".men_item").on('click', function() {
@@ -137,14 +137,13 @@ $(".genre_button").on("click", function() {
     titleCont.titles = list
 
 })
-/*
+
 function search(query, movies, series, genre, minRating, maxRating) {
-    console.log(query, movies, series, genre, minRating, maxRating)
     list = []
+    //get all matching movies
     if (movies) {
         for (i = 0; i < data["movies"].length; i++){
             if(data["movies"][i]["rating"] > minRating && data["movies"][i]["rating"] < maxRating) {
-                console.log("Hola")
                 if (genre == "0"){
                     list.push(data["movies"][i])
                 }
@@ -154,6 +153,7 @@ function search(query, movies, series, genre, minRating, maxRating) {
             }
         }
     }
+    //get all matching series
     if (series) {
         for (i = 0; i < data["series"].length; i++){
             if(data["series"][i]["rating"] > minRating && data["series"][i]["rating"] < maxRating) {
@@ -166,37 +166,64 @@ function search(query, movies, series, genre, minRating, maxRating) {
             }
         }
     }
-    console.log(list)
+    //rank by number of occurances of each individual word
     var obj = {}
-    query = query.toLowerCase()
-    query = query.replace(",","")
-    queryl = query.split(' ')
+    var nquery = query.toLowerCase()
+    nquery = nquery.replace(",","")
+    nquery = nquery.replace(" the "," ")
+    nquery = nquery.replace(" of "," ")
+    nquery = nquery.replace(" and "," ")
+    nquery = nquery.replace(" a "," ")
+    nquery = nquery.replace(" to "," ")
+    nquery = nquery.replace(" on "," ")
+    nquery = nquery.replace("the ","")
+
+    var querylist = nquery.split(' ')
+
     for(i = 0; i < list.length; i++) {
         rank = 0
         main = list[i]
-        for(j = 0; j < queryl.length; i++){
-            rank += count(main["title"], queryl[j])
-            rank += count(main["description"], queryl[j])
+        for(j = 0; j < querylist.length; j++){
+            rank += count(main["title"].toLowerCase(), querylist[j])
+            rank += count(main["description"].toLowerCase(), querylist[j])
         }
-        obj[rank.toString() + "--" + Math.floor(Math.random() * 10000).toString()] = list[i]
+        obj[i] = {"title": main, "rank":rank }
 
     }
+    //convert list
+    console.log(obj)
+    nlist = []
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)){
+            if (obj[key].rank == 0) {
+                delete obj[key]
+            }
+            else {
+                nlist.push(obj[key])
+            }
 
-    keys = []
-
-    for (k in obj) {
-        if (myObj.hasOwnProperty(k)) {
-            keys.push(k);
         }
     }
-    keys.sort()
-    nobj = []
-    for(i = 0; i < keys.length;i++){
-        nobj.push(obj[keys[i]])
-    }
 
+    //sort by rank
+    nlist.sort(compare)
+    nalist = []
+    for(var i = 0; i < nlist.length; i++) {
+        nalist[i] = nlist[i]["title"]
+    }
+    //display
     titleCont.header = query
-    titleCont.titles = nobj
+    titleCont.titles = nalist
+    var url = new URL(window.location.href)
+    $(window).scrollTo($("#pannelCont"),800)
+
+}
+function compare(a,b) {
+  if (a.rank < b.rank)
+    return 1;
+  if (a.rank > b.rank)
+    return -1;
+  return 0;
 }
 
 function count(main_str, sub_str) {
@@ -233,4 +260,30 @@ function getSearchPrams() {
 
 $("#searchButton").on("click", function() {
     getSearchPrams()
-})*/
+})
+$("#searchBar").keyup(function(event) {
+    if (event.keyCode === 13) {
+        getSearchPrams();
+    }
+});
+
+$("#mobileSearch").keyup(function(event) {
+    if (event.keyCode === 13) {
+        search($("#mobileSearch").val(), true, true, "0", 0, 10)
+    }
+});
+
+var url = new URL(window.location.href)
+if(url.searchParams.get("search") != null) {
+    //query, movies, series, genre, minRating, maxRating
+    var queryt = url.searchParams.get("query")
+
+    var moviest = (url.searchParams.get("movies") == "true")
+    var seriest = (url.searchParams.get("series") == "true")
+
+    var genret = url.searchParams.get("genre")
+
+    var minRatingt = parseInt(url.searchParams.get("minRating"))
+    var maxRatingt = parseInt(url.searchParams.get("maxRating"))
+    search(queryt, moviest, seriest, genret, minRatingt, maxRatingt)
+}

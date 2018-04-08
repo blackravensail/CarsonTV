@@ -1,3 +1,7 @@
+.title {
+	cursor: pointer;
+}
+
 /*
 
 Template Name: SKRN Progression
@@ -44,9 +48,9 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 /*
 =============================================== 01. FONT STYLES ===============================================
 */
-body, input, textarea, select { 
+body, input, textarea, select {
 	font-family: 'Lato', sans-serif;
-	line-height: 1.8; 
+	line-height: 1.8;
 	color:#555555;
 	font-size:15px;
 }
@@ -154,7 +158,7 @@ h2.registration-final-heading span,
 ul.welcome-features li:before,
 ul.checkmark-list-pro li:before,
 .billing-plan-container h3 .total,
-.jumbotron-pro [class^="icon-"], .jumbotron-pro [class*=" icon-"], 
+.jumbotron-pro [class^="icon-"], .jumbotron-pro [class*=" icon-"],
 .jumbotron-pro i.fa-check-circle,
 ul.registration-genres-choice li i.fa-check-circle,
 ul.registration-invite-friends-list li i.fa-check-circle,
@@ -212,7 +216,7 @@ body .short-border-bottom:after,
 #pro-scroll-top:hover {
 	color:#ffffff;
 	border-color:#3db13d;
-	background:#3db13d;	
+	background:#3db13d;
 }
 
 /* Dark Grey Button Color */
@@ -274,11 +278,11 @@ img {
 }
 
 .noselect {
-	-webkit-touch-callout: none; 
-	-webkit-user-select: none;  
-	-khtml-user-select: none;  
-	-moz-user-select: none;  
-	-ms-user-select: none; 
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 	user-select: none;
 }
 
@@ -467,7 +471,7 @@ nav#site-navigation-pro {
 	  -webkit-font-smoothing: antialiased;
 }
 
-.sf-arrows .sf-with-ul:after { 
+.sf-arrows .sf-with-ul:after {
 	font-weight:normal;
 	font-style:normal;
 	border:none;
@@ -481,7 +485,7 @@ nav#site-navigation-pro {
 }
 .sf-arrows ul .sf-with-ul:after {
 	font:normal normal normal 10px/1 "Font Awesome 5 Free";
-	content:"\f105"; 
+	content:"\f105";
 	margin-top:-5px;
 	right:14px;
 }
@@ -547,7 +551,7 @@ nav#sidebar-nav {
 	width:95px;
 	text-align:center;
 	margin:0px 0px 0px 0px;
-	
+
 }
 nav#sidebar-nav {
 	position:fixed;
@@ -626,7 +630,7 @@ ul.dashboard-genres-pro {
 	border-bottom:1px solid #e7e7e7;
 	width:100%;
 	overflow:hidden;
-	
+
 	display: table; /* [1] */
 	table-layout: fixed; /* [2] */
 	width: 100%; /* [3] */
@@ -851,7 +855,7 @@ ul#vertical-sidebar-nav.sf-menu ul {
 ul#vertical-sidebar-nav.sf-menu li li a {
 	text-transform:normal;
 	text-align:left;
-	
+
 	font-size:13px;
 	padding:14px 10px 14px 0px;
 	border-bottom:1px solid rgba(255,255,255, 0.08);
@@ -1162,7 +1166,7 @@ span.user-notification-count {
 	height:89px;
 	line-height:89px;
 	position:relative;
-	
+
 }
 
 #video-search-header input {
@@ -1224,7 +1228,7 @@ span.user-notification-count {
 	border-bottom:1px solid rgba(0,0,0,  0.1);
 	box-shadow:0px 15px 20px rgba(0,0,0,  0.05);
 	line-height:1.6;
-	
+
 }
 
 #video-search-header-filtering:before {
@@ -1458,7 +1462,7 @@ span.user-notification-count {
 	height:1px;
 	width:100%;
 	background:rgba(0,0,0,  0.05);
-	
+
 }
 
 .flexslider.progression-studios-dashboard-slider .container {
@@ -1631,7 +1635,7 @@ p.progression-studios-slider-description {
 .progression-studios-slider-more-options ul li:last-child a {
 	color:#aaaaaa;
 	margin-bottom:0px;
-	padding-top:11px;	
+	padding-top:11px;
 	padding-bottom:11px;
 }
 
@@ -1974,7 +1978,7 @@ ul#sidebar-reviews-pro .sidebar-review-time {
 	bottom:0px;
 	width:100%;
 	height:260px;
-	
+
 	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,1+100 */
 	background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%); /* FF3.6-15 */
 	background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
@@ -2011,12 +2015,12 @@ a.movie-detail-media-link h6 {
 	font-weight:400;
 	font-size:13px;
 	padding:20px 0px 10px 0px;
-		
+
 	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,1+100 */
 	background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.88) 100%); /* FF3.6-15 */
 	background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.88) 100%); /* Chrome10-25,Safari5.1-6 */
 	background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.88) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	
+
 }
 
 .movie-detail-media-image {
@@ -2148,7 +2152,7 @@ a.movie-detail-header-play-btn i {
 .rating-pro {
     unicode-bidi: bidi-override;
     direction: rtl;
-   
+
 }
 
 .rating-pro input {
@@ -2160,7 +2164,7 @@ a.movie-detail-header-play-btn i {
     display: inline-block;
     font-size: 0;
 	cursor:pointer;
-	
+
 }
 
 .rating-pro > label:before {
@@ -2293,7 +2297,7 @@ ul.dashboard-sub-menu li.current a {
 .account-settings-form .registration-genres-step {
 	margin-top:0px;
 	margin-bottom:15px;
-} 
+}
 
 .current-plan-account {
 	padding-top:15px;
@@ -2678,7 +2682,7 @@ button.close.float-close-pro {
 	font-weight:400;
 	color: rgba(0,0,0,  0.5);
 	margin-bottom:15px;
-	
+
 }
 
 .forgot-your-password,
@@ -3127,7 +3131,7 @@ ul.welcome-features li:before {
 */
 #search-mobile-nav-pro input:focus,
 select.custom-select:focus,
-.form-group input:focus, 
+.form-group input:focus,
 .form-group textarea:focus {
 	outline:none;
 	box-shadow:none;
@@ -3183,24 +3187,24 @@ footer#footer-pro ul.social-icons-pro {
 
 /* Scroll to top */
 #pro-scroll-top {
-	display: block; 
-	position: fixed; 
-	overflow: hidden; 
-	white-space: nowrap; 
-	visibility: hidden; 
+	display: block;
+	position: fixed;
+	overflow: hidden;
+	white-space: nowrap;
+	visibility: hidden;
 	opacity: 0;
 	text-align:center;
-	
+
 	z-index:100;
 	padding:0px;
 	margin:0px;
-  	bottom: 0px; 
+  	bottom: 0px;
 	right: 30px;
 	border-top-left-radius:4px;
 	border-top-right-radius:4px;
 	color:#ffffff;
 	background:rgba(0,0,0,  0.3);
-	
+
 	height: 31px;
 	width: 42px;
 	font-size:12px;
@@ -3272,13 +3276,13 @@ ul.checkmark-list-pro li:before {
 	background:#ffffff;
 	box-shadow:0px 15px 30px rgba(255,255,255,  0.8);
 	border:1px solid rgba(0,0,0,  0);
-	
+
 }
 
 .pricing-table-pro  .pricing-table-col-shadow-pro {
 	box-shadow:0px 26px 30px rgba(0,0,0,  0.09);
 	border-color:rgba(0,0,0,  0.05);
-	
+
 }
 
 .pricing-table-pro h6 {
@@ -3343,7 +3347,7 @@ ul.checkmark-list-pro li:before {
 	left:0;
 	width:100%;
 	height:100%;
-	
+
 	opacity:0;
 }
 
@@ -3358,7 +3362,7 @@ ul.checkmark-list-pro li:before {
 	height:1px;
 	width:100%;
 	background:rgba(0,0,0,  0.05);
-	
+
 }
 
 .progression-studios-slider-display-table {
@@ -3440,10 +3444,10 @@ html[xmlns] .flexslider .slides { display: block; }
     cursor: pointer;
     -webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	transform: translate(0, 0); 
-    font-family: 'Font Awesome 5 Free'; 
+	transform: translate(0, 0);
+    font-family: 'Font Awesome 5 Free';
 	font-weight: 900;
-    text-align:center;	
+    text-align:center;
     border:none;
     margin: -20px 0 0 0;
     font-size:24px;
@@ -3454,8 +3458,8 @@ html[xmlns] .flexslider .slides { display: block; }
 	box-shadow: 1px 1px 5px rgba(0,0,0,  0.02);
 }
 .flexslider .flex-direction-nav a {
-	transition-duration: 250ms; 
-	transition-property: all; 
+	transition-duration: 250ms;
+	transition-property: all;
 	transition-timing-function: ease-in-out;
 }
 
@@ -3537,8 +3541,8 @@ html[xmlns] .flexslider .slides { display: block; }
   position:relative;
 }
 .flex-control-paging li {
-	width:20px; 
-	height:10px; 
+	width:20px;
+	height:10px;
 	text-align:center;
 }
 
@@ -3639,7 +3643,7 @@ ul#mobile-menu-pro span.user-notification-count {
 	padding:34px 30px;
 	cursor:pointer;
 	margin-right:-15px;
-	display:none;	
+	display:none;
 }
 
 #mobile-bars-icon-pro  i.fa-bars {
@@ -3647,7 +3651,7 @@ ul#mobile-menu-pro span.user-notification-count {
 	text-align:center;
 }
 .active-mobile-icon-pro #mobile-bars-icon-pro  i.fa-bars:before {
-	content: "\f00d"; 
+	content: "\f00d";
 }
 
 /* Mobile Menu Drop Down Styles */
@@ -3659,11 +3663,11 @@ header#masthead-pro #mobile-navigation-pro {
 	line-height:1;
 	position:relative;
 	z-index:20;
-	
+
 	background:#ffffff;
 	border-bottom:1px solid rgba(0,0,0,  0.1);
 	box-shadow:0px 15px 20px rgba(0,0,0,  0.05);
-	
+
     font-weight: 600;
 	font-family:'Montserrat', sans-serif;
 	text-transform:uppercase;
@@ -3673,7 +3677,7 @@ header#masthead-pro #mobile-navigation-pro {
 ul#mobile-menu-pro li a {
     display: block;
 	line-height:1;
-	color:#272727;	
+	color:#272727;
 	font-size:13px;
 	padding:20px 20px;
 }
@@ -3691,8 +3695,8 @@ ul#mobile-menu-pro li a {
 
 
 /* slimmenu plugin default styles */
-@media only screen and (min-width: 960px) { 
-	#mobile-navigation-pro { 
+@media only screen and (min-width: 960px) {
+	#mobile-navigation-pro {
 		display:none !important;
 	}
 }
@@ -3704,11 +3708,11 @@ ul#mobile-menu-pro li a {
 ul#mobile-menu-pro {
     width: 100%;
     margin: 0;
-    padding: 0;	
+    padding: 0;
     list-style-type: none;
 	display:block !important;
 	overflow:hidden;
-	width: 100%; 
+	width: 100%;
 }
 
 ul#mobile-menu-pro li {
@@ -3765,7 +3769,7 @@ ul#mobile-menu-pro.collapsed li .sub-collapser.expanded {
 	transform: rotate(180deg);
 }
 
-ul#mobile-menu-pro li .sub-collapser > i { 
+ul#mobile-menu-pro li .sub-collapser > i {
 	display:none;
 }
 
@@ -3933,13 +3937,13 @@ ul.social-icons-pro li.instagram-color a:hover {
 =============================================== 23. CSS3 ANIMATIONS ===============================================
 */
 .btn, a, .form-group input, .form-group textarea {
-	transition-duration: 250ms; 
-	transition-property: color, background-color, border; 
+	transition-duration: 250ms;
+	transition-property: color, background-color, border;
 	transition-timing-function: ease-in-out;
 }
 
 .btn {
-	transition-duration: 300ms; 
+	transition-duration: 300ms;
 }
 
 
@@ -3957,17 +3961,17 @@ ul.registration-invite-friends-list li,
 .social-icon-login,
 ul#registration-steps-pro li,
 .jumbotron-pro,
-#pro-scroll-top, 
-.sf-menu a:before, 
+#pro-scroll-top,
+.sf-menu a:before,
 button.close {
-	transition-duration: 250ms; 
-	transition-property: all; 
+	transition-duration: 250ms;
+	transition-property: all;
 	transition-timing-function: ease-in-out;
 }
 
 .sf-menu a {
-	transition-duration: 250ms; 
-	transition-property:  padding-top, padding-bottom, color, background-color, width; 
+	transition-duration: 250ms;
+	transition-property:  padding-top, padding-bottom, color, background-color, width;
 	transition-timing-function: ease-in-out;
 }
 
@@ -4036,7 +4040,7 @@ li.sfHover ul.sub-menu {
 .progression_studios_animate_down .progression-studios-slider-caption-align,
 .progression_studios_animate_right .progression-studios-slider-caption-align,
 .progression_studios_animate_left .progression-studios-slider-caption-align  {
-		animation-delay:  500ms; 
+		animation-delay:  500ms;
 		animation-duration: 800ms;
 		opacity:0;
 		animation-fill-mode: both;
@@ -4105,31 +4109,31 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 */
 /* ======== #DESKTOP (959px-1100px) ======== */
 @media only screen and (min-width: 959px) and (max-width: 1100px) {
-	
+
 	.col-sm.extra-padding {
 		padding-right:15px;
 		padding-left:15px;
 		position:relative;
 	}
-	
+
 	ul.dashboard-genres-pro {
 		padding-right:20px;
 		padding-left:20px;
 	}
-	
+
 	ul.dashboard-genres-pro li {
 		float:left;
 		width:16.6%;
 	}
-	
+
 	ul.dashboard-genres-pro li h6 {
 		font-size:11px;
 	}
-	
+
 	.dashboard-container {
 		padding:0px 40px;
 	}
-	
+
 	/* Responsive Dashboard Slider Styles */
 	.progression-studios-slider-dashboard-caption-width {
 		max-width:450px;
@@ -4137,12 +4141,12 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	a.progression-studios-slider-play-btn {
 		right:10%;
 	}
-	
+
 	ul.dashboard-sub-menu li a {
 		font-size:15px;
 		margin:0px 10px 5px 10px;
 	}
-	
+
 	/* Responsive Sidebar Size */
 	#content-sidebar-pro {
 		width:260px;
@@ -4155,54 +4159,54 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	main#col-main-with-sidebar {
 		margin-left:420px;
 	}
-	
 
-	
-	
+
+
+
 }
 
 /* ======== #Tablet (768px-959px) ======== */
 @media only screen and (min-width: 768px) and (max-width: 959px) {
-	
-	
+
+
 	/* Mobile Navigation */
 	#site-navigation-pro, #masthead-pro .btn-header-pro {
 		display:none;
 	}
-	
+
 	nav#sidebar-nav, #sidebar-bg:before, #sidebar-bg:after {
 		display:none;
 	}
-	
+
 	#header-user-notification, #video-search-header {
 		display:none;
 	}
-	
+
 	#video-logo-background:after, #video-logo-background:before {
 		display:none;
 	}
-	
+
 	#mobile-bars-icon-pro {
 		display:block;
 	}
-	
+
 	#header-user-profile-click {
 		padding-right:15px;
 	}
 	#header-user-profile-menu {
 		right:-5px;
 	}
-	
+
 	main#col-main {
 		margin-left:0px;
 	}
-	
+
 
 	#content-sidebar-pro {
 		margin-left:0px;
 		width:260px;
 	}
-	
+
 	#content-sidebar-pro:after {
 		left:0px;
 		width:260px;
@@ -4211,7 +4215,7 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	main#col-main-with-sidebar {
 		margin-left:260px;
 	}
-	
+
 	#page-title-pro h1 {
 		font-size:32px;
 	}
@@ -4219,12 +4223,12 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	#page-title-pro h6 {
 		font-size:15px;
 	}
-	
+
 	ul#registration-steps-pro li {
 		width:50%;
 		margin-bottom:25px;
 	}
-	
+
 	.modal-body-pro .registration-social-login-container,
 	.registration-social-login-container {
 		border-right:0px;
@@ -4241,18 +4245,18 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 		padding:0px;
 		right:0px;
 	}
-	
+
 
 	.modal-body-pro .registration-social-login-options,
 	.registration-social-login-options {
 		padding-left:20px;
 		width:100%;
 	}
-	
+
 	.registration-social-login-options h6 {
 		margin-top:0px;
 	}
-	
+
 	ul.registration-invite-friends-list li {
 		width:calc(49.5% - 8px);
 	}
@@ -4271,31 +4275,31 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 		font-size:15px;
 		margin-bottom:25px;
 	}
-	
+
 	ul.dashboard-genres-pro {
 		padding-right:20px;
 		padding-left:20px;
 	}
-	
+
 	ul.dashboard-genres-pro li {
 		float:left;
 		width:16.6%;
 	}
-	
+
 	ul.dashboard-genres-pro li h6 {
 		font-size:11px;
 	}
-	
-	
+
+
  	.dashboard-container {
 		padding:0px 20px;
 	}
-	
+
 	/* Responsive Dashboard Slider Styles */
 	a.progression-studios-slider-play-btn {
 		right:8%;
 	}
-	
+
 	.progression-studios-slider-dashboard-caption-width {
 		max-width:400px;
 	}
@@ -4303,28 +4307,28 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 		font-size:14px;
 		margin-bottom:16px;
 	}
-	
+
 	ul.progression-studios-slider-rating {
 		margin:0px 0px 5px 0px;
 	}
-	
+
 	ul.progression-studios-slider-rating li {
 		padding:5px;
 		font-size:10px;
 	}
-	
+
 	.flexslider.progression-studios-dashboard-slider h2 {
 		font-size:40px;
 	}
-	
+
 	ul.progression-studios-slider-meta {
 		margin:0px 0px 10px 0px;
 	}
-	
+
 	ul.progression-studios-slider-meta li {
 		font-size:13px;
 	}
-	
+
 	p.progression-studios-slider-description {
 		font-size:13px;
 		margin-bottom:20px;
@@ -4334,25 +4338,25 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 
 /* ======== #Mobile (0px-767px) ======== */
 @media only screen and (max-width: 767px) {
-	
-	
+
+
 	/* Mobile Navigation */
 	#site-navigation-pro, #masthead-pro .btn-header-pro {
 		display:none;
 	}
-	
+
 	nav#sidebar-nav, #sidebar-bg:before, #sidebar-bg:after {
 		display:none;
 	}
-	
+
 	#video-logo-background:after, #video-logo-background:before {
 		display:none;
 	}
-	
+
 	#header-user-notification, #video-search-header {
 		display:none;
 	}
-	
+
 	#mobile-bars-icon-pro {
 		display:block;
 	}
@@ -4360,23 +4364,23 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	#header-user-profile-click {
 		padding-right:0px;
 	}
-	
+
 	#header-user-profile img {
 		margin-right:0px;
 	}
-	
+
 	#header-user-profile-menu {
 		right:0px;
 	}
-	
+
 	#header-user-profile #header-username {
 		display:none;
 	}
-	
+
 	main#col-main {
 		margin-left:0px;
 	}
-	
+
 	#content-sidebar-pro {
 		margin-left:0px;
 		width:100%;
@@ -4390,7 +4394,7 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	main#col-main-with-sidebar {
 		margin-left:0px;
 	}
-	
+
 	#page-title-pro h1 {
 		font-size:26px;
 	}
@@ -4398,7 +4402,7 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	#page-title-pro h6 {
 		font-size:14px;
 	}
-	
+
 	.copyright-text-pro,
 	footer#footer-pro ul.social-icons-pro {
 		text-align:center;
@@ -4406,16 +4410,16 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	footer#footer-pro ul.social-icons-pro li:last-child a {
 		margin-right:4px;
 	}
-	
+
 	footer#footer-pro ul.social-icons-pro {
 		padding-top:0px;
 	}
-	
+
 	ul#registration-steps-pro li {
 		width:100%;
 		margin-bottom:20px;
 	}
-	
+
 	.registration-steps-page-container .last-form-group-continue .btn {
 		float:none;
 	}
@@ -4425,22 +4429,22 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 		margin-top:20px;
 		margin-left:0px;
 	}
-	
+
 	.registration-steps-page-container .checkbox-remember-pro input {
 		position:absolute;
 	}
 	.registration-steps-page-container .checkbox-remember-pro label {
 		margin-left:26px;
 	}
-	
-	
+
+
 	.modal-body-pro .registration-social-login-container,
 	.registration-social-login-container {
 		border-right:0px;
 		width:100%;
 		padding-right:0px;
 	}
-	
+
 	.modal-body-pro .registration-social-login-or,
 	.registration-social-login-or {
 		position:relative;
@@ -4450,34 +4454,34 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 		padding:0px;
 		right:0px;
 	}
-	
+
 	.modal-body-pro .registration-social-login-options,
 	.registration-social-login-options {
 		padding-left:20px;
 		width:100%;
 	}
-	
+
 	.registration-social-login-options h6 {
 		margin-top:0px;
 	}
-	
+
 	.registration-steps-page-container form.registration-steps-form {
 		padding:0px;
 	}
-	
+
 	.form-group-invite-friends, .registration-step-final-padding, .registration-billing-form {
 		padding:20px;
 	}
-	
+
 	.pricing-plans-page-container .pricing-table-col {
 		padding-right:0px;
 		padding-left:0px;
 	}
-	
+
 	.billing-plan-container {
 		margin-bottom:25px;
 	}
-	
+
 	.registration-billing-form .btn, .billing-plan-container {
 		float:none;
 	}
@@ -4485,16 +4489,16 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	ul.registration-invite-friends-list li {
 		width:calc(99% - 8px);
 	}
-	
+
 	ul.registration-genres-choice li {
 		width:calc(33.3% - 10px);
 	}
-	
+
 	ul.welcome-features li {
 		width:100%;
 	}
-	
-	
+
+
 	/* Responsive Landing Page Slider Styles */
 	.progression-studios-slider-mobile-background-cover-dark,
 	.progression-studios-slider-mobile-background-cover {
@@ -4527,24 +4531,24 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 		font-size:13px;
 		padding:11px 18px;
 	}
-	
-	
+
+
 	ul.dashboard-genres-pro {
 		padding-right:0px;
 		padding-left:0px;
 	}
-	
+
 	ul.dashboard-genres-pro li {
 		float:left;
 		width:33.2%;
 	}
-	
-	
+
+
  	.dashboard-container {
 		padding:0px 20px;
 	}
-	
-	
+
+
 	/* Responsive Dashboard Slider Styles */
 	.progression-studios-full-height-slider .progression-studios-slider-dashboard-image-background,
 	.flexslider.progression-studios-dashboard-slider.progression-studios-full-height-slider {
@@ -4560,17 +4564,17 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	.progression-studios-slider-dashboard-image-background {
 		min-height:640px;
 	}
-	
+
 	.flexslider.progression-studios-dashboard-slider .circle-rating-pro,
 	a.progression-studios-slider-play-btn {
 		display:none;
 	}
-	
+
 	.progression-studios-slider-dashboard-caption-width {
 		max-width:100%;
 		margin-left:0px;
 	}
-	
+
 	.flexslider.progression-studios-dashboard-slider h6 {
 		font-size:13px;
 		margin-bottom:14px;
@@ -4608,29 +4612,29 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 		font-size:13px;
 		margin-bottom:20px;
 	}
-	
+
 	.progression-studios-dashboard-slider .btn-slider-pro {
 		margin-right:10px;
 	}
-	
+
 	.progression-studios-slider-more-options i {
 		height:44px;
 		width:44px;
 		line-height:44px;
 		font-size:12px;
 	}
-	
+
 	.progression-studios-slider-more-options ul {
 		top:100%;
 		left:-65px;
 	}
-	
+
 	.flexslider.progression-studios-dashboard-slider h5 {
 		font-size:13px;
 		margin-top:6px;
 		margin-bottom:12px;
 	}
-	
+
 	#account-edit-photo {
 		padding:0px;
 	}
@@ -4641,7 +4645,7 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 		margin:0px 10px 5px 10px;
 		font-size:15px;
 	}
-	
+
 	.right-border-payment {
 		padding-right:0px;
 		padding-bottom:50px;
@@ -4654,8 +4658,8 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 		height:1px;
 		bottom:35px;
 	}
-	
-	
+
+
 	#movie-detail-rating h6 {
 		float:left;
 		margin-left:0px;
@@ -4665,14 +4669,12 @@ li.flex-active-slide.progression_studios_animate_right .progression-studios-slid
 	#movie-detail-rating .circle-rating-pro {
 		float:left;
 	}
-	
+
 	#movie-detail-header-media {
 		display:none;
 	}
 
 
-	
-	
+
+
 }
-
-
