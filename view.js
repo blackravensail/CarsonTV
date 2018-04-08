@@ -33,11 +33,8 @@ for (var i = 0; i < tl.length; i++) {
             },
             methods: {
                 getColor: function(rating) {
-                    if (rating > 7) {
+                    if (rating > 6) {
                         return "green"
-                    }
-                    if (rating > 5) {
-                        return "orange"
                     }
                     return "red"
                 },
