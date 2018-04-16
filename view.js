@@ -210,3 +210,7 @@ $("#mobileSearch").keydown(function(event) {
         })
     }
 });
+
+$(".movieButton").on('click', function() {
+    navtoLoc("index.html",{"search":false})
+})

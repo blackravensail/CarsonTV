@@ -109,12 +109,11 @@ function search(query, movies, series, genre, minRating, maxRating) {
     list = []
     //get all matching movies
     if (movies) {
-        for (i = 0; i < data["movies"].length; i++){
-            if(data["movies"][i]["rating"] > minRating && data["movies"][i]["rating"] < maxRating) {
-                if (genre == "0"){
+        for (i = 0; i < data["movies"].length; i++) {
+            if (data["movies"][i]["rating"] > minRating && data["movies"][i]["rating"] < maxRating) {
+                if (genre == "0") {
                     list.push(data["movies"][i])
-                }
-                else if (data["movies"][i]['genres'].indexOf(genre) >= 0){
+                } else if (data["movies"][i]['genres'].indexOf(genre) >= 0) {
                     list.push(data["movies"][i])
                 }
             }
@@ -122,12 +121,11 @@ function search(query, movies, series, genre, minRating, maxRating) {
     }
     //get all matching series
     if (series) {
-        for (i = 0; i < data["series"].length; i++){
-            if(data["series"][i]["rating"] > minRating && data["series"][i]["rating"] < maxRating) {
-                if (genre == "0"){
+        for (i = 0; i < data["series"].length; i++) {
+            if (data["series"][i]["rating"] > minRating && data["series"][i]["rating"] < maxRating) {
+                if (genre == "0") {
                     list.push(data["series"][i])
-                }
-                else if (data["series"][i]['genres'].indexOf(genre) >= 0){
+                } else if (data["series"][i]['genres'].indexOf(genre) >= 0) {
                     list.push(data["series"][i])
                 }
             }
@@ -136,36 +134,38 @@ function search(query, movies, series, genre, minRating, maxRating) {
     //rank by number of occurances of each individual word
     var obj = {}
     var nquery = query.toLowerCase()
-    nquery = nquery.replace(",","")
-    nquery = nquery.replace(" the "," ")
-    nquery = nquery.replace(" of "," ")
-    nquery = nquery.replace(" and "," ")
-    nquery = nquery.replace(" a "," ")
-    nquery = nquery.replace(" to "," ")
-    nquery = nquery.replace(" on "," ")
-    nquery = nquery.replace("the ","")
+    nquery = nquery.replace(",", "")
+    nquery = nquery.replace(" the ", " ")
+    nquery = nquery.replace(" of ", " ")
+    nquery = nquery.replace(" and ", " ")
+    nquery = nquery.replace(" a ", " ")
+    nquery = nquery.replace(" to ", " ")
+    nquery = nquery.replace(" on ", " ")
+    nquery = nquery.replace("the ", "")
 
     var querylist = nquery.split(' ')
 
-    for(i = 0; i < list.length; i++) {
+    for (i = 0; i < list.length; i++) {
         rank = 0
         main = list[i]
-        for(j = 0; j < querylist.length; j++){
+        for (j = 0; j < querylist.length; j++) {
             rank += count(main["title"].toLowerCase(), querylist[j])
             rank += count(main["description"].toLowerCase(), querylist[j])
         }
-        obj[i] = {"title": main, "rank":rank }
+        obj[i] = {
+            "title": main,
+            "rank": rank
+        }
 
     }
     //convert list
     console.log(obj)
     nlist = []
     for (key in obj) {
-        if (obj.hasOwnProperty(key)){
+        if (obj.hasOwnProperty(key)) {
             if (obj[key].rank == 0) {
                 delete obj[key]
-            }
-            else {
+            } else {
                 nlist.push(obj[key])
             }
 
@@ -175,22 +175,23 @@ function search(query, movies, series, genre, minRating, maxRating) {
     //sort by rank
     nlist.sort(compare)
     nalist = []
-    for(var i = 0; i < nlist.length; i++) {
+    for (var i = 0; i < nlist.length; i++) {
         nalist[i] = nlist[i]["title"]
     }
     //display
     titleCont.header = query
     titleCont.titles = nalist
     var url = new URL(window.location.href)
-    $(window).scrollTo($("#pannelCont"),800)
+    $(window).scrollTo($("#pannelCont"), 800)
 
 }
-function compare(a,b) {
-  if (a.rank < b.rank)
-    return 1;
-  if (a.rank > b.rank)
-    return -1;
-  return 0;
+
+function compare(a, b) {
+    if (a.rank < b.rank)
+        return 1;
+    if (a.rank > b.rank)
+        return -1;
+    return 0;
 }
 
 function count(main_str, sub_str) {
@@ -201,13 +202,13 @@ function count(main_str, sub_str) {
         return main_str.length + 1;
     }
 
-   subStr = sub_str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-   return (main_str.match(new RegExp(subStr, 'gi')) || []).length;
+    subStr = sub_str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return (main_str.match(new RegExp(subStr, 'gi')) || []).length;
 }
 
 function getSearchPrams() {
     var genre = $("#genreSearch option:selected").text()
-    if (genre == "All Genres"){
+    if (genre == "All Genres") {
         genre = "0"
     }
     range = $(".range-example-rating-input").val()
@@ -217,8 +218,7 @@ function getSearchPrams() {
     if (range[0] <= range[1]) {
         minR = range[0]
         maxR = range[1]
-    }
-    else {
+    } else {
         minR = range[1]
         maxR = range[0]
     }
@@ -241,7 +241,7 @@ $("#mobileSearch").keyup(function(event) {
 });
 
 var url = new URL(window.location.href)
-if(url.searchParams.get("search") != null) {
+if (url.searchParams.get("search") == "true") {
     //query, movies, series, genre, minRating, maxRating
     var queryt = url.searchParams.get("query")
 
@@ -253,4 +253,12 @@ if(url.searchParams.get("search") != null) {
     var minRatingt = parseInt(url.searchParams.get("minRating"))
     var maxRatingt = parseInt(url.searchParams.get("maxRating"))
     search(queryt, moviest, seriest, genret, minRatingt, maxRatingt)
+}
+
+if (url.searchParams.get("search") == "false") {
+    $(".men_item").removeClass("current-menu-item")
+    titleCont.titles = data["movies"]
+    titleCont.header = "Movies"
+
+    $("#movie_menu_item").addClass("current-menu-item")
 }
