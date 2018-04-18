@@ -3,6 +3,9 @@ var id = url.searchParams.get("id")
 var main_obj
 var j = 0
 
+data = JSON.parse(localStorage.ljson)[localStorage.current]
+console.log("Found local data")
+
 var header = "https://ipfs.io/ipfs/"
 //var header = "http://127.0.0.1:8080/ipfs/"
 var sidebar
@@ -214,3 +217,7 @@ $("#mobileSearch").keydown(function(event) {
 $(".movieButton").on('click', function() {
     navtoLoc("index.html",{"search":false})
 })
+/*
+window.setInterval(function(){
+
+}, 10000);*/

@@ -2,75 +2,88 @@ header = "https://ipfs.io/ipfs/"
 //header = "http://127.0.0.1:8080/ipfs/"
 var slider;
 var titleCont;
-td = data["series"]
-td = td.concat(data["movies"])
+
+if (localStorage.ljson == null) {
+    console.log("No local JSON found, loading default")
+    localStorage.ljson = JSON.stringify({
+        "default": data
+    })
+    localStorage.current = "default"
+    location.reload()
 
 
-var rand = Math.floor((new Date()).getTime() / 100000) % td.length
-var sliderTitle = td[rand]
+} else {
+    console.log("Found local Data")
+    data = JSON.parse(localStorage.ljson)[localStorage.current]
+
+    td = data["series"]
+    td = td.concat(data["movies"])
 
 
-console.log(sliderTitle)
-slider = new Vue({
-    el: "#vue_slider",
-    data: {
-        title: sliderTitle,
-    },
-    methods: {
-        getBackgroundStyle: function(str) {
-            return "background-image:url(" + header + str + ");"
-        },
-        getType: function() {
-            if (this.title.hasOwnProperty("main_id")) {
-                return "Film"
-            } else {
-                return "TV Show"
-            }
-        },
-        getColor: function(rating) {
-            if (rating > 6) {
-                return "green"
-            }
-            return "red"
-        },
-        getAddress: function() {
-            if (this.title.hasOwnProperty("id")) {
-                return "view.html?id=" + this.title["id"]
-            } else {
-                return "view.html?id=" + this.title["title"]
-            }
-        }
-    }
-})
+    var rand = Math.floor((new Date()).getTime() / 100000) % td.length
+    var sliderTitle = td[rand]
 
-titleCont = new Vue({
-    el: "#pannelCont",
-    data: {
-        titles: data["series"],
-        header: "TV Shows"
-    },
-    methods: {
-        addheader: function(str) {
-            return header + str
+
+    console.log(sliderTitle)
+    slider = new Vue({
+        el: "#vue_slider",
+        data: {
+            title: sliderTitle,
         },
-        getColor: function(rating) {
-            if (rating > 6) {
-                return "green"
-            }
-            return "red"
-        },
-        getaddress: function(obj) {
-            if (obj.hasOwnProperty("id")) {
-                return "view.html?id=" + obj["id"]
-            } else {
-                return "view.html?id=" + obj["title"]
+        methods: {
+            getBackgroundStyle: function(str) {
+                return "background-image:url(" + header + str + ");"
+            },
+            getType: function() {
+                if (this.title.hasOwnProperty("main_id")) {
+                    return "Film"
+                } else {
+                    return "TV Show"
+                }
+            },
+            getColor: function(rating) {
+                if (rating > 6) {
+                    return "green"
+                }
+                return "red"
+            },
+            getAddress: function() {
+                if (this.title.hasOwnProperty("id")) {
+                    return "view.html?id=" + this.title["id"]
+                } else {
+                    return "view.html?id=" + this.title["title"]
+                }
             }
         }
-    }
-})
+    })
 
+    titleCont = new Vue({
+        el: "#pannelCont",
+        data: {
+            titles: data["series"],
+            header: "TV Shows"
+        },
+        methods: {
+            addheader: function(str) {
+                return header + str
+            },
+            getColor: function(rating) {
+                if (rating > 6) {
+                    return "green"
+                }
+                return "red"
+            },
+            getaddress: function(obj) {
+                if (obj.hasOwnProperty("id")) {
+                    return "view.html?id=" + obj["id"]
+                } else {
+                    return "view.html?id=" + obj["title"]
+                }
+            }
+        }
+    })
 
-
+}
 
 $(".men_item").on('click', function() {
     $(".men_item").removeClass("current-menu-item")
