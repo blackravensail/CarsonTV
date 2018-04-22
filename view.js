@@ -1,5 +1,4 @@
-//var header = "https://ipfs.io/ipfs/"
-var header = "http://127.0.0.1:8080/ipfs/"
+var header = "https://ipfs.io/ipfs/"
 
 var url = new URL(window.location.href)
 var id = url.searchParams.get("id")
