@@ -86,6 +86,9 @@ if (type == "series") {
                 type: 'video/mp4'
             }]
         }
+
+        $(window).scrollTo({left:0,top:0},800)
+
         //player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration)
         setTimeout(function(){ player.currentTime = (((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration)); },300);
     })
@@ -214,19 +217,6 @@ $("#trailer_Button").on("click", function() {
     }
     j++;
 })
-
-function changeVideo(id) {
-    $(window).scrollTo({left:0,top:0},800)
-    player.source = {
-        type: 'video',
-        title: "",
-        sources: [{
-            src: header + id,
-            type: 'video/mp4'
-        }]
-    }
-
-}
 
 function navtoLoc(loc, obj){
     str = loc + "?"
