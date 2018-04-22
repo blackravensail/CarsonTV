@@ -3,22 +3,19 @@ import os
 import requests
 from PIL import Image
 from imdbpie import Imdb
+import ipfsapi as ipfs
 import glob
 import cv2
-import subprocess
 
 imdb = Imdb()
 
-def ipfsHash(file):
-    original = str(subprocess.check_output(["E:\\ipfs\\ipfs", "add", "--raw-leaves", "--only-hash", "--quiet", file], shell=True))
-    return original[2:-3]
+api = ipfs.connect('127.0.0.1', 5001)
 
-
-dir = "E:\\ipfs\\CarsonMedia"
+dir = "E:\\CarsonMedia"
 
 data = {"movies": [],
         "series": []}
-
+'''
 for name in os.listdir(os.path.join(dir, 'Movies')):
     print ("Starting: " + name)
 
@@ -37,9 +34,8 @@ for name in os.listdir(os.path.join(dir, 'Movies')):
                     "main_id":"",
                     "trailer_id":"",
                     "tall":"",
-                    "wide":"",
-                    "progress":0}
-    if "" in tempData.values() or [] in tempData.values() or "progress" not in tempData.keys():
+                    "wide":""}
+    if "" in tempData.values() or [] in tempData.values():
         try:
             if tempData["imdb_id"] == "":
                 imdb_id = imdb.search_for_title(name)[0]["imdb_id"]
@@ -90,12 +86,10 @@ for name in os.listdir(os.path.join(dir, 'Movies')):
         except:
             print ("Couldn't get geners")
 
-        tempData["progress"] = 0
-
         #Add main video file
         if tempData["main_id"] == "":
             print("Adding File to IPFS")
-            tempData["main_id"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'*.mp4'))[0]))
+            tempData["main_id"] = api.add(os.path.join(path, glob.glob(os.path.join(path,'*.mp4'))[0]), only_hash=True)["Hash"]
 
         #Add trailer file, download if doesn't exist
         if tempData["trailer_id"] == "":
@@ -104,7 +98,7 @@ for name in os.listdir(os.path.join(dir, 'Movies')):
                 url = imdb.get_title_videos(tempData["imdb_id"])['videos'][0]["encodings"][0]["play"]
                 r = requests.get(url)
                 open(os.path.join(path, tempData['title']+".trailer"),'wb').write(r.content)
-            tempData["trailer_id"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'*.trailer'))[0]))
+            tempData["trailer_id"] = api.add(os.path.join(path, glob.glob(os.path.join(path,'*.trailer'))[0]), only_hash=True)["Hash"]
             print ("Got a trailer")
         if tempData["tall"] == "":
             #Add tall image, download if necessary
@@ -113,9 +107,9 @@ for name in os.listdir(os.path.join(dir, 'Movies')):
                 url = movie['base']["image"]['url']
                 r = requests.get(url)
                 open(os.path.join(path, "tall.jpg"),'wb').write(r.content)
-            tempData["tall"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]))
+            tempData["tall"] = api.add(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]), only_hash=True)["Hash"]
         if tempData["wide"] == "":
-            tempData["wide"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))
+            tempData["wide"] = api.add(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]), only_hash=True)["Hash"]
 
         with open(os.path.join(path, "info.json"),'w') as file:
             json.dump(tempData, file)
@@ -124,6 +118,7 @@ for name in os.listdir(os.path.join(dir, 'Movies')):
 
 
 
+'''
 #-----------------------------------------------------------------
 
 
@@ -135,9 +130,8 @@ for name in os.listdir(os.path.join(dir, 'Series')):
     print("Starting: " + name)
 
     if os.path.exists(os.path.join(path, "info.json")):
-        print("found Data")
         tempData = json.loads(open(os.path.join(path, "info.json")).read())
-
+        otempData = tempData
     else:
         tempData = {"title":"",
                     "rating":"",
@@ -149,10 +143,8 @@ for name in os.listdir(os.path.join(dir, 'Series')):
                     "wide":"",
                     "cS":0,
                     "cE":0,
-                    "ep_map":[],
-                    "progress": 0}
-    otempData = tempData
-    if "" in tempData.values() or "progress" not in tempData.keys():
+                    "ep_map":[]}
+    if "" in tempData.values():
         try:
             if tempData["imdb_id"] == "":
                 imdb_id = imdb.search_for_title(name)[0]["imdb_id"]
@@ -176,16 +168,11 @@ for name in os.listdir(os.path.join(dir, 'Series')):
         if tempData["genres"] == []:
             tempData["genres"] = imdb.get_title_genres(imdb_id)["genres"]
         if tempData["tall"] == "":
-            tempData["tall"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]))
+            tempData["tall"] = api.add(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]))["Hash"]
         if tempData["wide"] == "":
-            tempData["wide"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))
-        if otempData != tempData:
-            with open(os.path.join(path, "info.json"),'w') as file:
-                json.dump(tempData, file)
-        tempData["progress"] = 0
+            tempData["wide"] = api.add(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))["Hash"]
 
-    tempData["ep_map"] = []
-
+    tempData["ep_map"] == []
     for seasonName in os.listdir(os.path.join(path, "seasons")):
         seasonPath = os.path.join(os.path.join(path, "seasons"), seasonName)
         print("--Starting: " + seasonName)
@@ -194,39 +181,42 @@ for name in os.listdir(os.path.join(dir, 'Series')):
         for episodeName in os.listdir(seasonPath):
             episodePath = os.path.join(seasonPath, episodeName)
             print("----Starting: "+episodeName)
-            if name == "Mister Rogers Neighborhood":
-                tname = episodeName
-            else:
-                tname = episodeName[5:]
-            if os.path.exists(os.path.join(episodePath, "info.json")):
-                td = json.loads(open(os.path.join(episodePath, "info.json")).read())
-
-            else:
-                td ={
-                    "title": tname,
-                    "id": "",
-                    "tall": "",
-                    "progress": 0
-                }
-            if td["tall"] == "":
+            if not os.path.exists(os.path.join(episodePath, "info.json")):
                 if len(glob.glob(os.path.join(episodePath,'tall*'))) == 0:
                     cap = cv2.VideoCapture(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'*.mp4'))[0]))
                     for i in range(6000):
                         ret, frame = cap.read()
                     cv2.imwrite(os.path.join(episodePath, "tall.jpg"), frame)
-                td["tall"] = ipfsHash(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'tall*'))[0]))
 
-            if td["id"] == "":
-                td["id"] = ipfsHash(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'*.mp4'))[0]))
-
-            with open(os.path.join(episodePath, "info.json"),'w') as file:
-                json.dump(td, file)
+                if name == "Mister Rogers Neighborhood":
+                    tname = episodeName
+                else:
+                    tname = episodeName[5:]
+                td = {
+                    "title": tname,
+                    "id" : api.add(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'*.mp4'))[0]), only_hash=True)["Hash"],
+                    "tall" : api.add(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'tall*'))[0]))["Hash"],
+                    "progress":0
+                }
+                with open(os.path.join(episodePath, "info.json"),'w') as file:
+                    json.dump(td, file)
+            else:
+                td = json.loads(open(os.path.join(episodePath, "info.json")).read())
 
             sO["episodes"].append(td)
-
+        print(tempData)
         tempData["ep_map"].append(sO)
 
+    try:
+        if otempData != tempData:
+            with open(os.path.join(path, "info.json"),'w') as file:
+                json.dump(tempData, file)
+    except:
+        with open(os.path.join(path, "info.json"),'w') as file:
+            json.dump(tempData, file)
+
     data["series"].append(tempData)
+    break
 
 with open("fileDump.json",'w') as file:
     json.dump(data, file)

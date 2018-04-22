@@ -192,13 +192,14 @@
 			<div id="movie-detail-rating">
 				<div class="dashboard-container">
 					<div class="row" id="ratingBar">
+						<h3 id="epTitle" style="float:left;">{{ title }}</h3>
 						<div class="col-sm">
 							<a class="btn btn-green-pro btn-slider-pro btn-shadow-pro afterglow" id="trailer_Button"><i class="fas fa-play"></i>Watch Trailer</a>
 						</div>
 						<div class="col-sm">
 							<h6>User Rating</h6>
-							<div :class="'c100 p'+title.rating*10 + ' small ' + getColor(title.rating)" style="float: right; zoom:.5">
-								<span :style="'font-weight: bold; color:'+getColor(title.rating)">{{ title.rating }}</span>
+							<div :class="'c100 p'+rating*10 + ' small ' + getColor(rating)" style="float: right; zoom:.5">
+								<span :style="'font-weight: bold; color:'+getColor(rating)">{{ rating }}</span>
 								<div class="slice">
 									<div class="bar"></div>
 									<div class="fill"></div>
@@ -214,32 +215,35 @@
 			<!-- close #movie-detail-rating -->
 
 			<div class="dashboard-container">
-				<div class="movie-details-section">
+				<div class="movie-details-section" id="desBox">
 					<h2>Storyline</h2>
-					<p>{{ title.description }}</p>
+					<p>{{ description }}</p>
 				</div>
 				<!-- close .movie-details-section -->
 
 				<div id="seriesCont">
-					<ul class="dashboard-sub-menu">
-						<li v-for="(vaue, key) in epMap" class="seasonButton"><a style="user-select:none;">{{ key }}</a></li>
+					<ul class="dashboard-sub-menu" id="seasonBox">
+						<li v-for="(item, index) in sList" class="seasonButton" :data-index="index"><a style="user-select:none;">{{ item.title }}</a></li>
 
 					</ul>
 					<!-- close .dashboard-sub-menu -->
 
-					<div class="movie-details-section">
-						<h2>{{ currentSeasonName }}</h2>
+					<div class="movie-details-section" id="epBox">
 						<div class="row">
-							<div class="col-12 col-md-6 col-lg-6 col-xl-4" :id="episode.id" v-for="episode in currentSeason">
-								<div class="item-listing-container-skrn episode title" @click="changeVideo(episode.id)">
-									<a><img :src="header + episode.tall" alt="Listing"></a>
+							<div class="col-12 col-md-6 col-lg-6 col-xl-4 episodes" :data-index="index" v-for="(episode, index) in episodes">
+								<div class="item-listing-container-skrn title">
+									<a class="episode"><img :src="header + episode.tall" alt="Listing">
+									<div class="progressDiv">
+										<div :style="'width: ' + episode.progress +'%;'"></div>
+									</div>
 									<div class="item-listing-text-skrn">
 										<div class="item-listing-text-skrn-vertical-align">
 
-											<h6><a>{{ episode.title }}</a></h6>
+											<h6>{{ episode.title }}</h6>
 										</div>
 										<!-- close .item-listing-text-skrn-vertical-align -->
 									</div>
+								</a>
 									<!-- close .item-listing-text-skrn -->
 								</div>
 								<!-- close .item-listing-container-skrn -->

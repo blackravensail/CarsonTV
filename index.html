@@ -156,14 +156,14 @@
 
                                     <div class="container">
 
-                                        <a class="progression-studios-slider-play-btn afterglow" :href="getAddress()"><i class="fas fa-play"></i></a>
+                                        <a class="progression-studios-slider-play-btn afterglow" :href="'view.html?id=' + title['imdb_id']"><i class="fas fa-play"></i></a>
 
 
 
                                         <div class="progression-studios-slider-dashboard-caption-width">
                                             <div class="progression-studios-slider-caption-align">
                                                 <h6 class="light-fonts-pro">{{ getType() }}</h6>
-                                                <h2 class="light-fonts-pro"><a :href="getAddress()">{{ title["title"] }}</a></h2>
+                                                <h2 class="light-fonts-pro"><a :href="'view.html?id=' + title['imdb_id']">{{ title["title"] }}</a></h2>
                                                 <ul class="progression-studios-slider-meta light-fonts-pro">
                                                     <li>{{ title["release_date"]}}</li>
                                                     <li>{{ title["duration"]}} mins.</li>
@@ -171,7 +171,7 @@
                                                 </ul>
                                                 <p class="progression-studios-slider-description light-fonts-pro">{{ title["description"]}}</p>
 
-                                                <a class="btn btn-green-pro btn-slider-pro btn-shadow-pro afterglow" :href="getAddress()"><i class="fas fa-play"></i>Watch</a>
+                                                <a class="btn btn-green-pro btn-slider-pro btn-shadow-pro afterglow" :href="'view.html?id=' + title['imdb_id']"><i class="fas fa-play"></i>Watch</a>
 
 
                                                 <div :class="'c100 p'+title.rating*10 + ' small ' + getColor(title.rating)" style="float: right; zoom:.8">
@@ -258,10 +258,13 @@
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-4 col-xl-3" v-for='title in titles'>
                         <div class="item-listing-container-skrn title">
-                            <a :href="getaddress(title)"><img :src="addheader(title.tall)" :alt="title.title"></a>
+                            <a :href="'view.html?id=' + title['imdb_id']"><img :src="addheader(title.tall)" :alt="title.title"></a>
+                            <div class="progressDiv">
+                                <div :style="'width: ' + title.progress +'%;'"></div>
+                            </div>
                             <div class="item-listing-text-skrn">
                                 <div class="item-listing-text-skrn-vertical-align">
-                                    <h6><a :href="getaddress(title)">{{ title.title }}</a></h6>
+                                    <h6><a :href="'view.html?id=' + title['imdb_id']">{{ title.title }}</a></h6>
                                     <div :class="' c100 p'+title.rating*10 + ' small ' + getColor(title.rating)" style="float: right; zoom:.5;">
                                         <span style="font-weight: bold;">{{ title.rating }}</span>
                                         <div class="slice">

@@ -1,5 +1,5 @@
 header = "https://ipfs.io/ipfs/"
-//header = "http://127.0.0.1:8080/ipfs/"
+header = "http://127.0.0.1:8080/ipfs/"
 var slider;
 var titleCont;
 
@@ -13,8 +13,11 @@ if (localStorage.ljson == null) {
 
 
 } else {
+
     console.log("Found local Data")
     data = JSON.parse(localStorage.ljson)[localStorage.current]
+
+    window.data = data
 
     td = data["series"]
     td = td.concat(data["movies"])
