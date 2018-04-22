@@ -1,5 +1,5 @@
 header = "https://ipfs.io/ipfs/"
-header = "http://127.0.0.1:8080/ipfs/"
+
 var slider;
 var titleCont;
 
