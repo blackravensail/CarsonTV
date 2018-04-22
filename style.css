@@ -2,6 +2,16 @@
 	cursor: pointer;
 }
 
+.progressDiv {
+	width: 100%;
+	height: 4px;
+}
+
+.progressDiv div {
+	background-color: red;
+	height:100%;
+}
+
 /*
 
 Template Name: SKRN Progression
