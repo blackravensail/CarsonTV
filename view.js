@@ -102,8 +102,6 @@ if (type == "series") {
             type: 'video/mp4'
         }]
     }
-
-    setTimeout(function(){ player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration); },500);
 }
 else {
     $("#seriesCont").hide()
@@ -115,19 +113,17 @@ else {
             type: 'video/mp4'
         }]
     }
-    setTimeout(function(){ player.currentTime = ((data[type][titleIndex]["progress"]/100) * player.duration); },500);
 }
-/*
+
 player.on('ready', event => {
     console.log("video Ready")
     if (type == "series"){
-        player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100.0) * player.duration)
+        setTimeout(function(){ player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100.0) * player.duration); },500);
     }
     else if(j % 2 == 0) {
-        console.log(player.duration)
-        player.currentTime = ((data[type][titleIndex]["progress"]/100) * player.duration)
+        setTimeout(function(){ player.currentTime = ((data[type][titleIndex]["progress"]/100) * player.duration); },500);
     }
-});*/
+});
 
 function defineVueElm() {
     sideBar = new Vue({
