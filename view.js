@@ -5,8 +5,23 @@ var id = url.searchParams.get("id")
 
 var j = 0
 
-data = JSON.parse(localStorage.ljson)[localStorage.current]
-console.log("Found local data")
+if (localStorage.ljson == null) {
+    console.log("No local JSON found, loading example")
+    firstLoad = true
+    /*
+    localStorage.ljson = JSON.stringify({
+        "default": data
+    })
+    localStorage.current = "default"
+    location.reload()
+    */
+
+
+} else {
+
+    console.log("Found local Data")
+    data = JSON.parse(localStorage.ljson)[localStorage.current]
+}
 
 var main_obj
 var type

@@ -1,4 +1,5 @@
 data = {
+    "header":"https://ipfs.io/ipfs/",
     "series": [{
         "description": "David Attenborough returns in this breathtaking documentary showcasing life on Planet Earth.",
         "progress": 0,
@@ -14,34 +15,34 @@ data = {
         "ep_map": [{
             "title": "Season 1",
             "episodes": [{
-                "id": "QmZwobAFsPqnypNQ15i9JTfmf63pkCfuq919jTcKwez9wg",
+                "id": "",
                 "tall": "QmRZrMxixqdCvefNQBNp1ZyYf6r5sE2q7CcEnnxo5B9y8f",
-                "title": "slands",
+                "title": "Islands",
                 "progress": 0
             }, {
-                "id": "QmUpmohMm6gavpT6JT8xU3R9SwjNVzSoqbhiYDGVaU3TtD",
+                "id": "",
                 "tall": "QmTfp3tNDdA1BBnix2JVxiUU65E1DEQGyN55HBPBjiAa91",
-                "title": "ountains",
+                "title": "Mountains",
                 "progress": 0
             }, {
-                "id": "QmctjBvkpiwDcrFNtaH7BiBX1wrV8qqT1eYH8Huua1p7eN",
+                "id": "",
                 "tall": "QmPhokAPcwtWzRq2Xspf3UShSn7m3DEzbvWjs8YhMw5Qba",
-                "title": "ungles",
+                "title": "Jungles",
                 "progress": 0
             }, {
-                "id": "QmYZay43fEUztecokcTVRy6dT4obJ2nPpzQRYqe6zYhbbt",
+                "id": "",
                 "tall": "Qmbit4VmgMAvAfCpvbEVJLnrYV7R4t9LxXjpbb11NirAUe",
-                "title": "eserts",
+                "title": "Deserts",
                 "progress": 0
             }, {
-                "id": "QmcFkRFcstnLa4w3SVxyn8eZMAiFaV5sRjfKrmcsPvcC6u",
+                "id": "",
                 "tall": "QmQdWrhSw9C6Cbft1isnRSdn2EHQayMBYQL3yD1TA2YSWc",
-                "title": "rasslands",
+                "title": "Grasslands",
                 "progress": 0
             }, {
-                "id": "QmNzJ1ofSwYwFUu4je12yP4uHQcenaTv8vLXDKzpQCZXgH",
+                "id": "",
                 "tall": "QmZziNYUcS9K2LxXJEsyfjuaPgvxXXK5foM251XpMbCL2x",
-                "title": "ities",
+                "title": "Cities",
                 "progress": 0
             }]
         }]
@@ -58,7 +59,7 @@ data = {
         "tall": "QmSEZjJ1MNT3u99LP8vCrumQpjTRRactLzMKEcuzeJsQ8C",
         "title": "Back to the Future",
         "imdb_id": "tt0088763",
-        "main_id": "QmUcxKX8FQqy6B4W44y66odGcydUfBAkyqHxvySZaomcpY"
+        "main_id": ""
     }, {
         "description": "Blacksmith Will Turner teams up with eccentric pirate \"Captain\" Jack Sparrow to save his love, the governor's daughter, from Jack's former pirate allies, who are now undead.",
         "progress": 0,
@@ -71,7 +72,7 @@ data = {
         "tall": "QmVLMruid235L9VPvciB9geNncHvMdq5paYjHHqK7x34Nf",
         "title": "Pirates of the Caribbean: The Curse of the Black Pearl",
         "imdb_id": "tt0325980",
-        "main_id": "QmfKrEWc7rq2X3NzttJgUfcjn9gsyBf8xVGA5YPWjTLzJw"
+        "main_id": ""
     }, {
         "description": "A high school wise guy is determined to have a day off from school, despite what the Principal thinks of that.",
         "progress": 0,
@@ -84,7 +85,7 @@ data = {
         "tall": "QmVRfPBHeBKybDQJxdj3hvtPtMZahBxR4NdHXj24it5tA9",
         "title": "Ferris Bueller's Day Off",
         "imdb_id": "tt0091042",
-        "main_id": "QmcZ7yJrzpWXmUnBeGemptFgJHtcaDRZm5nJf2VLvW8uAN"
+        "main_id": ""
     }, {
         "description": "A rat who can cook makes an unusual alliance with a young kitchen worker at a famous restaurant.",
         "progress": 0,
@@ -97,7 +98,7 @@ data = {
         "tall": "QmVrUfkrrvqCEHJJnxV3R86voRfhzXcj5drB9F4iUhs6w1",
         "title": "Ratatouille",
         "imdb_id": "tt0382932",
-        "main_id": "QmbiWVueV2kpi8vd5WEdqLLcH9u3LRmv2o3ZeB1JRy5KdA"
+        "main_id": ""
     }, {
         "description": "A coming-of-age story about a shy, young boy sent by his irresponsible mother to spend the summer with his wealthy, eccentric uncles in Texas.",
         "progress": 0,
@@ -110,7 +111,7 @@ data = {
         "tall": "QmfSg6kHFcGYB7Z6o6Nd8HdRfv2MFHDHNmNwtJmcSNqhgf",
         "title": "Secondhand Lions",
         "imdb_id": "tt0327137",
-        "main_id": "QmXfzKQmkvVcJKxs85meW8sZNMFr4HnSznLH7ZL2oCZwaZ"
+        "main_id": ""
     }, {
         "description": "A Swiss family must survive being shipwrecked on a deserted island.",
         "progress": 0,
@@ -123,7 +124,7 @@ data = {
         "tall": "zb2rhhepnaThWtUuQiKJNHD6gw4shGMNgzRwrPGjAFmhoK3ib",
         "title": "Swiss Family Robinson",
         "imdb_id": "tt0054357",
-        "main_id": "QmeyHFoSDqCbZkQkrwBnj22koEMjqUH84RtmcBE5B2yx8X"
+        "main_id": ""
     }, {
         "description": "In the distant future, a small waste-collecting robot inadvertently embarks on a space journey that will ultimately decide the fate of mankind.",
         "progress": 0,
@@ -136,6 +137,6 @@ data = {
         "tall": "QmRAy71Q93H2gTMKZ2ejBrK6JHWDdiQwEDANjhQ1ogbpfx",
         "title": "Wall E",
         "imdb_id": "tt0910970",
-        "main_id": "QmbT5bMWZDfQRwFqXrqkgRPAaE1tJUPLYRFoZejD6AiJQ3"
+        "main_id": ""
     }]
 }

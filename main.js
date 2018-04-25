@@ -1,29 +1,45 @@
-header = "https://ipfs.io/ipfs/"
-
 var slider;
 var titleCont;
 
+var firstLoad = false
+
 if (localStorage.ljson == null) {
-    console.log("No local JSON found, loading default")
+    console.log("No local JSON found, loading example")
+    firstLoad = true
+    /*
     localStorage.ljson = JSON.stringify({
         "default": data
     })
     localStorage.current = "default"
     location.reload()
+    */
 
 
 } else {
 
     console.log("Found local Data")
     data = JSON.parse(localStorage.ljson)[localStorage.current]
+}
+
+$(document).ready(function() {
+    if (firstLoad) {
+        $("#exampleModal").modal('show');
+    }
+
+    header = data['header']
 
     window.data = data
 
     td = data["series"]
     td = td.concat(data["movies"])
 
+    if (firstLoad){
+        rand = 7
+    }
+    else {
+        var rand = Math.floor((new Date()).getTime() / 100000) % td.length
+    }
 
-    var rand = Math.floor((new Date()).getTime() / 100000) % td.length
     var sliderTitle = td[rand]
 
 
@@ -85,8 +101,9 @@ if (localStorage.ljson == null) {
             }
         }
     })
+})
 
-}
+
 
 $(".men_item").on('click', function() {
     $(".men_item").removeClass("current-menu-item")
@@ -272,9 +289,41 @@ if (url.searchParams.get("search") == "true") {
 }
 
 if (url.searchParams.get("search") == "false") {
-    $(".men_item").removeClass("current-menu-item")
-    titleCont.titles = data["movies"]
-    titleCont.header = "Movies"
+    $(document).ready(function() {
+        $(".men_item").removeClass("current-menu-item")
+        $(".movie_menu_item").addClass("current-menu-item")
+        titleCont.titles = data["movies"]
+        titleCont.header = "Movies"
+    })
 
-    $("#movie_menu_item").addClass("current-menu-item")
+}
+
+$(".fa-cogs").on('click', function() {
+    $("#exampleModal").modal('show');
+})
+
+$("#saveChange").on('click', function() {
+    loadJSON();
+})
+
+function loadJSON() {
+    console.log("Saving Chanes")
+    var file = $("#inputGroupFile01").get(0).files[0]
+    if(!file) {
+        console.log("No file Found")
+        return
+    }
+    fr = new FileReader();
+    fr.onload = recievedText;
+    fr.readAsText(file)
+
+    function recievedText(e) {
+        lines = e.target.result;
+        localStorage.ljson = JSON.stringify({
+            "default": JSON.parse(lines)
+        })
+        localStorage.current = "default"
+        location.reload()
+
+    }
 }
