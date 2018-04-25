@@ -77,7 +77,7 @@ If you want to contribute feel free to contact me.
 
 ## Authors
 
-* **Blake Wintermute** - *Initial work*
+* **Blake Wintermute**
 
 
 ## License
