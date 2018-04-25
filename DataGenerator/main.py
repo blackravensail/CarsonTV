@@ -6,23 +6,38 @@ from imdbpie import Imdb
 import glob
 import cv2
 import subprocess
+import sys
 
 imdb = Imdb()
 
-def ipfsHash(file):
-    original = str(subprocess.check_output(["E:\\ipfs\\ipfs", "add", "--raw-leaves", "--only-hash", "--quiet", file], shell=True))
-    return original[2:-3]
+#----Variable Pointers ------------ Refer to README for how to
+inputDirectory = ""
+
+header = ""
+
+ipfsCommand = "ipfs"  #unless you didn't add ipfs to path, you shouldn't need to change this
+
+#-------------------------------
 
 
-dir = "E:\\ipfs\\CarsonMedia"
+
+def getPointer(file):
+    #------------------Edit where you pointers go to---------------
+    original = str(subprocess.check_output([sys.argv[3], "add", "--raw-leaves", "--only-hash", "--quiet", file], shell=True))
+    return(original[2:-3])
+
+    #return(file)
+
+
+os.chdir(dir)
 
 data = {"movies": [],
         "series": []}
 
-for name in os.listdir(os.path.join(dir, 'Movies')):
+for name in os.listdir('Movies'):
     print ("Starting: " + name)
 
-    path = os.path.join(os.path.join(dir, 'Movies'),name)
+    path = os.path.join('Movies',name)
 
     if os.path.exists(os.path.join(path, "info.json")):
         tempData = json.loads(open(os.path.join(path, "info.json")).read())
@@ -94,8 +109,8 @@ for name in os.listdir(os.path.join(dir, 'Movies')):
 
         #Add main video file
         if tempData["main_id"] == "":
-            print("Adding File to IPFS")
-            tempData["main_id"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'*.mp4'))[0]))
+            print("Getting Pointer")
+            tempData["main_id"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'*.mp4'))[0]))
 
         #Add trailer file, download if doesn't exist
         if tempData["trailer_id"] == "":
@@ -104,7 +119,7 @@ for name in os.listdir(os.path.join(dir, 'Movies')):
                 url = imdb.get_title_videos(tempData["imdb_id"])['videos'][0]["encodings"][0]["play"]
                 r = requests.get(url)
                 open(os.path.join(path, tempData['title']+".trailer"),'wb').write(r.content)
-            tempData["trailer_id"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'*.trailer'))[0]))
+            tempData["trailer_id"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'*.trailer'))[0]))
             print ("Got a trailer")
         if tempData["tall"] == "":
             #Add tall image, download if necessary
@@ -113,9 +128,14 @@ for name in os.listdir(os.path.join(dir, 'Movies')):
                 url = movie['base']["image"]['url']
                 r = requests.get(url)
                 open(os.path.join(path, "tall.jpg"),'wb').write(r.content)
-            tempData["tall"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]))
+            tempData["tall"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]))
         if tempData["wide"] == "":
-            tempData["wide"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))
+            if len(glob.glob(os.path.join(path,'wide*'))) == 0:
+                cap = cv2.VideoCapture(os.path.join(path, glob.glob(os.path.join(episodePath,'*.mp4'))[0]))
+                for i in range(10000):
+                    ret, frame = cap.read()
+                cv2.imwrite(os.path.join(episodePath, "wide.jpg"), frame)
+            tempData["wide"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))
 
         with open(os.path.join(path, "info.json"),'w') as file:
             json.dump(tempData, file)
@@ -128,10 +148,8 @@ for name in os.listdir(os.path.join(dir, 'Movies')):
 
 
 
-
-
-for name in os.listdir(os.path.join(dir, 'Series')):
-    path = os.path.join(os.path.join(dir, 'Series'), name)
+for name in os.listdir('Series'):
+    path = os.path.join('Series', name)
     print("Starting: " + name)
 
     if os.path.exists(os.path.join(path, "info.json")):
@@ -176,9 +194,9 @@ for name in os.listdir(os.path.join(dir, 'Series')):
         if tempData["genres"] == []:
             tempData["genres"] = imdb.get_title_genres(imdb_id)["genres"]
         if tempData["tall"] == "":
-            tempData["tall"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]))
+            tempData["tall"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]))
         if tempData["wide"] == "":
-            tempData["wide"] = ipfsHash(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))
+            tempData["wide"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))
         if otempData != tempData:
             with open(os.path.join(path, "info.json"),'w') as file:
                 json.dump(tempData, file)
@@ -214,10 +232,10 @@ for name in os.listdir(os.path.join(dir, 'Series')):
                     for i in range(6000):
                         ret, frame = cap.read()
                     cv2.imwrite(os.path.join(episodePath, "tall.jpg"), frame)
-                td["tall"] = ipfsHash(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'tall*'))[0]))
+                td["tall"] = getPointer(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'tall*'))[0]))
 
             if td["id"] == "":
-                td["id"] = ipfsHash(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'*.mp4'))[0]))
+                td["id"] = getPointer(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'*.mp4'))[0]))
 
             with open(os.path.join(episodePath, "info.json"),'w') as file:
                 json.dump(td, file)
@@ -227,9 +245,6 @@ for name in os.listdir(os.path.join(dir, 'Series')):
         tempData["ep_map"].append(sO)
 
     data["series"].append(tempData)
-
+data["header"] = "http://ipfs.io/ipfs/"
 with open("fileDump.json",'w') as file:
     json.dump(data, file)
-with open("dataDump.js",'w') as file:
-    file.write("data = ")
-    file.write(open("fileDump.json").read())
