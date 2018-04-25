@@ -1,6 +1,6 @@
 # CarsonTV
 
-CarsonTV is a user populated media consumption tool. It is primarily built for parents whom want to tailor their kids viewing to specific contents, without just handing them a bunch of files to watch. It remembers your progress through a film and where you are in a tv show. All the content CarsonTV can access is defined by a JSON file. This includes not only the pointers(something we'll define later) but also the ratings, descriptions, and  other meta-data. It works best with IPFS, but can use basic http as well.
+CarsonTV is a user populated media viewer. You can access it at blakewintermute.github.io/CarsonTV It is primarily built for parents whom want to tailor their kids viewing to specific contents, without just handing them a bunch of files to watch. It remembers your progress through a film and where you are in a tv show. All the content CarsonTV can access is defined by a JSON file. This includes not only the pointers(something we'll define later) but also the ratings, descriptions, and  other meta-data. It works best with IPFS, but can use basic http as well.
 
 ## Getting Started
 
