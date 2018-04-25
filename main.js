@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 var slider;
 var titleCont;
 
@@ -7,18 +8,31 @@ if (localStorage.ljson == null) {
     console.log("No local JSON found, loading example")
     firstLoad = true
     /*
+=======
+header = "https://ipfs.io/ipfs/"
+
+var slider;
+var titleCont;
+
+if (localStorage.ljson == null) {
+    console.log("No local JSON found, loading default")
+>>>>>>> 770d92e63ba7fa266048b48aef4523c195a7d5f7
     localStorage.ljson = JSON.stringify({
         "default": data
     })
     localStorage.current = "default"
     location.reload()
+<<<<<<< HEAD
     */
+=======
+>>>>>>> 770d92e63ba7fa266048b48aef4523c195a7d5f7
 
 
 } else {
 
     console.log("Found local Data")
     data = JSON.parse(localStorage.ljson)[localStorage.current]
+<<<<<<< HEAD
 }
 
 $(document).ready(function() {
@@ -27,12 +41,15 @@ $(document).ready(function() {
     }
 
     header = data['header']
+=======
+>>>>>>> 770d92e63ba7fa266048b48aef4523c195a7d5f7
 
     window.data = data
 
     td = data["series"]
     td = td.concat(data["movies"])
 
+<<<<<<< HEAD
     if (firstLoad){
         rand = 7
     }
@@ -40,6 +57,10 @@ $(document).ready(function() {
         var rand = Math.floor((new Date()).getTime() / 100000) % td.length
     }
 
+=======
+
+    var rand = Math.floor((new Date()).getTime() / 100000) % td.length
+>>>>>>> 770d92e63ba7fa266048b48aef4523c195a7d5f7
     var sliderTitle = td[rand]
 
 
@@ -101,9 +122,14 @@ $(document).ready(function() {
             }
         }
     })
+<<<<<<< HEAD
 })
 
 
+=======
+
+}
+>>>>>>> 770d92e63ba7fa266048b48aef4523c195a7d5f7
 
 $(".men_item").on('click', function() {
     $(".men_item").removeClass("current-menu-item")
@@ -289,6 +315,7 @@ if (url.searchParams.get("search") == "true") {
 }
 
 if (url.searchParams.get("search") == "false") {
+<<<<<<< HEAD
     $(document).ready(function() {
         $(".men_item").removeClass("current-menu-item")
         $(".movie_menu_item").addClass("current-menu-item")
@@ -326,4 +353,11 @@ function loadJSON() {
         location.reload()
 
     }
+=======
+    $(".men_item").removeClass("current-menu-item")
+    titleCont.titles = data["movies"]
+    titleCont.header = "Movies"
+
+    $("#movie_menu_item").addClass("current-menu-item")
+>>>>>>> 770d92e63ba7fa266048b48aef4523c195a7d5f7
 }
