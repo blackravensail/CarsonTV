@@ -6,7 +6,6 @@ from imdbpie import Imdb
 import glob
 import cv2
 import subprocess
-import sys
 
 imdb = Imdb()
 
@@ -26,7 +25,7 @@ def getPointer(file):
     original = str(subprocess.check_output([sys.argv[3], "add", "--raw-leaves", "--only-hash", "--quiet", file], shell=True))
     return(original[2:-3])
 
-    #return(file)
+    #return(file) #returns simple relative path: 'Movies/...'
 
 
 os.chdir(dir)
@@ -194,6 +193,11 @@ for name in os.listdir('Series'):
         if tempData["genres"] == []:
             tempData["genres"] = imdb.get_title_genres(imdb_id)["genres"]
         if tempData["tall"] == "":
+            if len(glob.glob(os.path.join(path,'tall.*'))) == 0:
+                print ("No tall image found. Downloading.")
+                url = show['base']["image"]['url']
+                r = requests.get(url)
+                open(os.path.join(path, "tall.jpg"),'wb').write(r.content)
             tempData["tall"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]))
         if tempData["wide"] == "":
             tempData["wide"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))
@@ -207,7 +211,7 @@ for name in os.listdir('Series'):
     for seasonName in os.listdir(os.path.join(path, "seasons")):
         seasonPath = os.path.join(os.path.join(path, "seasons"), seasonName)
         print("--Starting: " + seasonName)
-        sO = {"title": seasonName,
+        sO = {"title": seasonName[5:],
                 "episodes":[]}
         for episodeName in os.listdir(seasonPath):
             episodePath = os.path.join(seasonPath, episodeName)
@@ -245,6 +249,6 @@ for name in os.listdir('Series'):
         tempData["ep_map"].append(sO)
 
     data["series"].append(tempData)
-data["header"] = "http://ipfs.io/ipfs/"
+data["header"] = header
 with open("fileDump.json",'w') as file:
     json.dump(data, file)
