@@ -6,15 +6,15 @@ from imdbpie import Imdb
 import glob
 import cv2
 import subprocess
-
+cwd = os.getcwd()
 imdb = Imdb()
 
 #----Variable Pointers ------------ Refer to README for how to
-inputDirectory = ""
+inputDirectory = "E:\\ipfs\\CarsonMedia"
 
-header = ""
+header = "https://ipfs.io/ipfs/"
 
-ipfsCommand = "ipfs"  #unless you didn't add ipfs to path, you shouldn't need to change this
+ipfsCommand = "E:\\ipfs\\ipfs"  #unless you didn't add ipfs to path, you shouldn't need to change this
 
 #-------------------------------
 
@@ -22,16 +22,17 @@ ipfsCommand = "ipfs"  #unless you didn't add ipfs to path, you shouldn't need to
 
 def getPointer(file):
     #------------------Edit where you pointers go to---------------
-    original = str(subprocess.check_output([sys.argv[3], "add", "--raw-leaves", "--only-hash", "--quiet", file], shell=True))
+    original = str(subprocess.check_output([ipfsCommand, "add", "--raw-leaves", "--only-hash", "--quiet", os.path.join(inputDirectory,file)], shell=True))
     return(original[2:-3])
 
     #return(file) #returns simple relative path: 'Movies/...'
 
 
-os.chdir(dir)
+os.chdir(inputDirectory)
 
 data = {"movies": [],
-        "series": []}
+        "series": [],
+        "header": header}
 
 for name in os.listdir('Movies'):
     print ("Starting: " + name)
@@ -121,6 +122,7 @@ for name in os.listdir('Movies'):
             tempData["trailer_id"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'*.trailer'))[0]))
             print ("Got a trailer")
         if tempData["tall"] == "":
+            print("No Data for tall")
             #Add tall image, download if necessary
             if len(glob.glob(os.path.join(path,'tall.*'))) == 0:
                 print ("No tall image found. Downloading.")
@@ -193,14 +195,16 @@ for name in os.listdir('Series'):
         if tempData["genres"] == []:
             tempData["genres"] = imdb.get_title_genres(imdb_id)["genres"]
         if tempData["tall"] == "":
+            print("No data for tall found")
             if len(glob.glob(os.path.join(path,'tall.*'))) == 0:
                 print ("No tall image found. Downloading.")
                 url = show['base']["image"]['url']
                 r = requests.get(url)
                 open(os.path.join(path, "tall.jpg"),'wb').write(r.content)
-            tempData["tall"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]))
+            print(glob.glob(os.path.join(path,'tall.*'))[0])
+            tempData["tall"] = getPointer(glob.glob(os.path.join(path,'tall.*'))[0])
         if tempData["wide"] == "":
-            tempData["wide"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))
+            tempData["wide"] = getPointer(glob.glob(os.path.join(path,'wide.*'))[0])
         if otempData != tempData:
             with open(os.path.join(path, "info.json"),'w') as file:
                 json.dump(tempData, file)
@@ -249,6 +253,5 @@ for name in os.listdir('Series'):
         tempData["ep_map"].append(sO)
 
     data["series"].append(tempData)
-data["header"] = header
-with open("fileDump.json",'w') as file:
+with open(os.path.join(cwd,"fileDump.json"),'w') as file:
     json.dump(data, file)

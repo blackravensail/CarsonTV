@@ -20,7 +20,7 @@ $(document).ready(function() {
     }
 
     header = data['header']
-
+    console.log(header)
 
     window.data = data
 
@@ -298,6 +298,7 @@ $("#saveChange").on('click', function() {
 
 function loadJSON() {
     console.log("Saving Chanes")
+    localStorage.removeItem("ljson")
     var file = $("#inputGroupFile01").get(0).files[0]
     if(!file) {
         console.log("No file Found")
