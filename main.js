@@ -33,7 +33,7 @@ $(document).ready(function() {
     else {
         var rand = Math.floor((new Date()).getTime() / 100000) % td.length
     }
-
+    var sliderTitle = td[rand]
     console.log(sliderTitle)
     slider = new Vue({
         el: "#vue_slider",
