@@ -29,8 +29,8 @@ subprocess
 
 ```
 
-## Directory Structure
- main.py assumes a certain directory structure. For the tall and wide images, main.py will attempt to get images from the internet if it doesn't find them, but these will be lower quality, and it CANNOT GET ALL OF THEM, specifically wide images for TV Shows. If there isn't a file matching the name wide.* in each tv show's folder, it will error out. 
+### Directory Structure
+main.py assumes a certain directory structure. For the tall and wide images, main.py will attempt to get images from the internet if it doesn't find them, but these will be lower quality, and it CANNOT GET ALL OF THEM, specifically wide images for TV Shows. If there isn't a file matching the name wide.* in each tv show's folder, it will error out. 
     
      .
     ├── Movies                    
@@ -58,7 +58,11 @@ subprocess
     │   │   │  │  │  ├──tall.jpg/png/gif/whatever    # Must follow tall.* naming
     │   │   │  ├──02 - Season 2                     
     │   │   │  ├──03 - Season 3
-    │   └── SeriesName2              
+    │   └── SeriesName2 
+
+## Runing main.py
+
+While main.py is running, it will ask you if the title it found on IMDb is correct. For example, it might say Shrek (2001) == Shrek, if your foldername was "Shrek (2001)". If it is correct, press enter. If it is incorrect, press "n" then enter and paste in the IMDb ID (the string starting with tt in the URL of the IMDb page) For example www.imdb.com/title/tt0303461/. It will take a long time to run if you are using IPFS as it has to hash every file, but don't worry if it errors out for any reason. It saves it's progress constantly!
 
 ## Deployment
 
