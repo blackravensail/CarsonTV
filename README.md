@@ -47,13 +47,13 @@ main.py assumes a certain directory structure. For the tall and wide images, mai
     │   │   ├──tall.jpg/png/gif/whatever              # Must follow tall.* naming  
     │   │   ├──seasons
     │   │   │  ├──01 - Season 1                       #(two digit season numbering) 01 - SeasonName
-    │   │   │  │  ├──01 EpisodeName
+    │   │   │  │  ├──01 - EpisodeName
     │   │   │  │  │  ├──episodefile.mp4              # Must follow *.mp4 naming
     │   │   │  │  │  ├──tall.jpg/png/gif/whatever    # Must follow tall.* naming
-    │   │   │  │  ├──02 EpisodeName 
+    │   │   │  │  ├──02 - EpisodeName 
     │   │   │  │  │  ├──episodefile.mp4              # Must follow *.mp4 naming
     │   │   │  │  │  ├──tall.jpg/png/gif/whatever    # Must follow tall.* naming
-    │   │   │  │  ├──03 EpisodeName
+    │   │   │  │  ├──03 - EpisodeName
     │   │   │  │  │  ├──episodefile.mp4              # Must follow *.mp4 naming
     │   │   │  │  │  ├──tall.jpg/png/gif/whatever    # Must follow tall.* naming
     │   │   │  ├──02 - Season 2                     
