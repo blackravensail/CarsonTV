@@ -4,12 +4,12 @@ CarsonTV is a user-populated media viewer. You can access it at https://blakewin
 
 ## Getting Started
 
- To get started, you will need to make this JSON file. To do so, clone the repo and use the DataGenerator/main.py file. Open it and edit the custom settings. This includes the path to the folder of your data (remember to use double backslash instead of slash if you're on windows), your header, and the location of your IPFS executable. ('ipfs' if it is in your path)
+ To get started, you will need to make a JSON file containing all your data. To do so, clone the repo and use the DataGenerator/main.py file. Open it and edit the custom settings. This includes the path to the folder of your data (remember to use double backslash instead of slash if you're on windows), your header, and the location of your IPFS executable. ('ipfs' if it is in your path)
  
  If you are using IPFS, you will likely want to make your header: "http://ipfs.io/ipfs/"
  If you are using a custom HTTP server, use "http://IP_OF_SERVER:PORT/"
  
-You man also want to edit the getPointer function. By default, it returns the IPFS raw-leaves hash. If you are using an HTTP server, have it return the simple relative path.
+You may also want to edit the getPointer function. By default, it returns the IPFS raw-leaves hash (different than the hash you get with ipfs add file.txt). If you are using an HTTP server, simply have it return the relative path.
  
 Most likely the only thing you will have to do is edit your inputDirectory.
 
