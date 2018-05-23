@@ -6,26 +6,28 @@ from imdbpie import Imdb
 import glob
 import cv2
 import subprocess
+import time
 cwd = os.getcwd()
 imdb = Imdb()
 
 #----Variable Pointers ------------ Refer to README for how to
-inputDirectory = "E:\\ipfs\\CarsonMedia"
+inputDirectory = "E:\\CarsonMedia"
 
-header = "https://ipfs.io/ipfs/"
+header = "http://10.194.22.250:8000/"
 
 ipfsCommand = "E:\\ipfs\\ipfs"  #unless you didn't add ipfs to path, you shouldn't need to change this
+
+uDP = True
 
 #-------------------------------
 
 
-
 def getPointer(file):
     #------------------Edit where you pointers go to---------------
-    original = str(subprocess.check_output([ipfsCommand, "add", "--raw-leaves", "--only-hash", "--quiet", os.path.join(inputDirectory,file)], shell=True))
-    return(original[2:-3])
-
-    #return(file) #returns simple relative path: 'Movies/...'
+    #original = str(subprocess.check_output([ipfsCommand, "add", "--raw-leaves", "--only-hash", "--quiet", os.path.join(inputDirectory,file)], shell=True))
+    #return(original[2:-3])
+    path = file.replace("\\","/")
+    return(path) #returns simple relative path: 'Movies/...'
 
 
 os.chdir(inputDirectory)
@@ -54,7 +56,7 @@ for name in os.listdir('Movies'):
                     "tall":"",
                     "wide":"",
                     "progress":0}
-    if "" in tempData.values() or [] in tempData.values() or "progress" not in tempData.keys():
+    if "" in tempData.values() or [] in tempData.values() or "progress" not in tempData.keys() or uDP:
         try:
             if tempData["imdb_id"] == "":
                 imdb_id = imdb.search_for_title(name)[0]["imdb_id"]
@@ -108,38 +110,35 @@ for name in os.listdir('Movies'):
         tempData["progress"] = 0
 
         #Add main video file
-        if tempData["main_id"] == "":
-            print("Getting Pointer")
-            tempData["main_id"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'*.mp4'))[0]))
+        if tempData["main_id"] == "" or uDP:
+            tempData["main_id"] = getPointer(glob.glob(os.path.join(path,'*.mp4'))[0])
 
         #Add trailer file, download if doesn't exist
-        if tempData["trailer_id"] == "":
+        if tempData["trailer_id"] == "" or uDP:
             if (len(glob.glob(os.path.join(path,'*.trailer'))) == 0):
                 print("No trailer found. Downloading.")
                 url = imdb.get_title_videos(tempData["imdb_id"])['videos'][0]["encodings"][0]["play"]
                 r = requests.get(url)
                 open(os.path.join(path, tempData['title']+".trailer"),'wb').write(r.content)
-            tempData["trailer_id"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'*.trailer'))[0]))
-            print ("Got a trailer")
-        if tempData["tall"] == "":
-            print("No Data for tall")
+            tempData["trailer_id"] = getPointer(glob.glob(os.path.join(path,'*.trailer'))[0])
+        if tempData["tall"] == "" or uDP:
             #Add tall image, download if necessary
             if len(glob.glob(os.path.join(path,'tall.*'))) == 0:
                 print ("No tall image found. Downloading.")
                 url = movie['base']["image"]['url']
                 r = requests.get(url)
                 open(os.path.join(path, "tall.jpg"),'wb').write(r.content)
-            tempData["tall"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'tall.*'))[0]))
-        if tempData["wide"] == "":
+            tempData["tall"] = getPointer(glob.glob(os.path.join(path,'tall.*'))[0])
+        if tempData["wide"] == "" or uDP:
             if len(glob.glob(os.path.join(path,'wide*'))) == 0:
                 cap = cv2.VideoCapture(os.path.join(path, glob.glob(os.path.join(episodePath,'*.mp4'))[0]))
                 for i in range(10000):
                     ret, frame = cap.read()
                 cv2.imwrite(os.path.join(episodePath, "wide.jpg"), frame)
-            tempData["wide"] = getPointer(os.path.join(path, glob.glob(os.path.join(path,'wide.*'))[0]))
-
-        with open(os.path.join(path, "info.json"),'w') as file:
-            json.dump(tempData, file)
+            tempData["wide"] = getPointer(glob.glob(os.path.join(path,'wide.*'))[0])
+        if not uDP:
+            with open(os.path.join(path, "info.json"),'w') as file:
+                json.dump(tempData, file)
 
     data["movies"].append(tempData)
 
@@ -154,7 +153,6 @@ for name in os.listdir('Series'):
     print("Starting: " + name)
 
     if os.path.exists(os.path.join(path, "info.json")):
-        print("found Data")
         tempData = json.loads(open(os.path.join(path, "info.json")).read())
 
     else:
@@ -171,7 +169,7 @@ for name in os.listdir('Series'):
                     "ep_map":[],
                     "progress": 0}
     otempData = tempData
-    if "" in tempData.values() or "progress" not in tempData.keys():
+    if "" in tempData.values() or "progress" not in tempData.keys() or uDP:
         try:
             if tempData["imdb_id"] == "":
                 imdb_id = imdb.search_for_title(name)[0]["imdb_id"]
@@ -194,21 +192,21 @@ for name in os.listdir('Series'):
             tempData["release_date"] = show["base"]['year']
         if tempData["genres"] == []:
             tempData["genres"] = imdb.get_title_genres(imdb_id)["genres"]
-        if tempData["tall"] == "":
+        if tempData["tall"] == "" or uDP:
             print("No data for tall found")
             if len(glob.glob(os.path.join(path,'tall.*'))) == 0:
                 print ("No tall image found. Downloading.")
                 url = show['base']["image"]['url']
                 r = requests.get(url)
                 open(os.path.join(path, "tall.jpg"),'wb').write(r.content)
-            print(glob.glob(os.path.join(path,'tall.*'))[0])
             tempData["tall"] = getPointer(glob.glob(os.path.join(path,'tall.*'))[0])
-        if tempData["wide"] == "":
+        if tempData["wide"] == "" or uDP:
             tempData["wide"] = getPointer(glob.glob(os.path.join(path,'wide.*'))[0])
-        if otempData != tempData:
+        tempData["progress"] = 0
+        if not uDP:
             with open(os.path.join(path, "info.json"),'w') as file:
                 json.dump(tempData, file)
-        tempData["progress"] = 0
+
 
     tempData["ep_map"] = []
 
@@ -234,24 +232,25 @@ for name in os.listdir('Series'):
                     "tall": "",
                     "progress": 0
                 }
-            if td["tall"] == "":
+            if td["tall"] == "" or uDP:
                 if len(glob.glob(os.path.join(episodePath,'tall*'))) == 0:
-                    cap = cv2.VideoCapture(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'*.mp4'))[0]))
+                    cap = cv2.VideoCapture(glob.glob(os.path.join(episodePath,'*.mp4'))[0])
                     for i in range(6000):
                         ret, frame = cap.read()
                     cv2.imwrite(os.path.join(episodePath, "tall.jpg"), frame)
-                td["tall"] = getPointer(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'tall*'))[0]))
+                td["tall"] = getPointer(glob.glob(os.path.join(episodePath,'tall*'))[0])
 
-            if td["id"] == "":
-                td["id"] = getPointer(os.path.join(episodePath, glob.glob(os.path.join(episodePath,'*.mp4'))[0]))
+            if td["id"] == "" or uDP:
+                td["id"] = getPointer(glob.glob(os.path.join(episodePath,'*.mp4'))[0])
 
-            with open(os.path.join(episodePath, "info.json"),'w') as file:
-                json.dump(td, file)
+            if not uDP:
+                with open(os.path.join(episodePath, "info.json"),'w') as file:
+                    json.dump(td, file)
 
             sO["episodes"].append(td)
 
         tempData["ep_map"].append(sO)
 
     data["series"].append(tempData)
-with open(os.path.join(cwd,"fileDump.json"),'w') as file:
+with open(os.path.join(cwd,str(int(time.time())) + ".json"),'w') as file:
     json.dump(data, file)

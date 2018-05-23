@@ -20,9 +20,6 @@ $(document).ready(function() {
     }
 
     header = data['header']
-    console.log(header)
-
-    window.data = data
 
     td = data["series"]
     td = td.concat(data["movies"])

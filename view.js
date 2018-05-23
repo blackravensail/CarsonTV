@@ -1,4 +1,3 @@
-var header = "https://ipfs.io/ipfs/"
 
 var url = new URL(window.location.href)
 var id = url.searchParams.get("id")
@@ -21,7 +20,11 @@ if (localStorage.ljson == null) {
 
     console.log("Found local Data")
     data = JSON.parse(localStorage.ljson)[localStorage.current]
+
+    header = data['header']
 }
+
+header = data['header']
 
 var main_obj
 var type
