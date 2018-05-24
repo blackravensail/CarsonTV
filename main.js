@@ -25,11 +25,12 @@ $(document).ready(function() {
     td = td.concat(data["movies"])
 
     if (firstLoad){
-        rand = 7
+        var rand = 7
     }
     else {
         var rand = Math.floor((new Date()).getTime() / 100000) % td.length
     }
+
     var sliderTitle = td[rand]
     console.log(sliderTitle)
     slider = new Vue({
@@ -39,7 +40,7 @@ $(document).ready(function() {
         },
         methods: {
             getBackgroundStyle: function(str) {
-                return "background-image:url(" + header + str + ");"
+                return("background-image:url('" + header + str + "') !important;")
             },
             getType: function() {
                 if (this.title.hasOwnProperty("main_id")) {

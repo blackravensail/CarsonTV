@@ -81,6 +81,9 @@ if (type == "series") {
         var numS = $(this).attr("data-index")
         seaBox.selectSeason = numS
         epBox.episodes = data[type][titleIndex]["ep_map"][numS]["episodes"]
+        $(".episode").parent().css("border","")
+
+        // Add border to origianl season. 
     })
     $(".episode").on("click", function() {
         numE = $(this).parent().parent().attr("data-index")
@@ -108,6 +111,7 @@ if (type == "series") {
         $(window).scrollTo({left:0,top:0},800)
 
         //player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration)
+        console.log("Setting Time")
         setTimeout(function(){ player.currentTime = (((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration)); },300);
     })
 
