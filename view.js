@@ -83,7 +83,7 @@ if (type == "series") {
         epBox.episodes = data[type][titleIndex]["ep_map"][numS]["episodes"]
         $(".episode").parent().css("border","")
 
-        // Add border to origianl season. 
+        // Add border to origianl season.
     })
     $(".episode").on("click", function() {
         numE = $(this).parent().parent().attr("data-index")
@@ -112,7 +112,7 @@ if (type == "series") {
 
         //player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration)
         console.log("Setting Time")
-        setTimeout(function(){ player.currentTime = (((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration)); },300);
+        setTimeout(function(){ player.currentTime = (((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration)); }, 800);
     })
 
 
@@ -140,10 +140,10 @@ else {
 player.on('ready', event => {
     console.log("video Ready")
     if (type == "series"){
-        setTimeout(function(){ player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100.0) * player.duration); },500);
+        setTimeout(function(){ player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100.0) * player.duration); }, 1000);
     }
     else if(j % 2 == 0) {
-        setTimeout(function(){ player.currentTime = ((data[type][titleIndex]["progress"]/100) * player.duration); },500);
+        setTimeout(function(){ player.currentTime = ((data[type][titleIndex]["progress"]/100) * player.duration); }, 1000);
     }
 });
 
