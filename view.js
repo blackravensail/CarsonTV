@@ -1,28 +1,7 @@
-
 var url = new URL(window.location.href)
 var id = url.searchParams.get("id")
 
 var j = 0
-
-if (localStorage.ljson == null) {
-    console.log("No local JSON found, loading example")
-    firstLoad = true
-    /*
-    localStorage.ljson = JSON.stringify({
-        "default": data
-    })
-    localStorage.current = "default"
-    location.reload()
-    */
-
-
-} else {
-
-    console.log("Found local Data")
-    data = JSON.parse(localStorage.ljson)[localStorage.current]
-
-    header = data['header']
-}
 
 header = data['header']
 
@@ -59,14 +38,9 @@ for (var i = 0; i < data["series"].length; i++) {
 }
 
 player = new Plyr("#main_video", {
-    ratio : "16:9"
+    ratio: "16:9"
 })
 player.poster = header + data[type][titleIndex]["wide"]
-
-
-window.data = data
-
-
 
 
 if (type == "series") {
@@ -81,13 +55,13 @@ if (type == "series") {
         var numS = $(this).attr("data-index")
         seaBox.selectSeason = numS
         epBox.episodes = data[type][titleIndex]["ep_map"][numS]["episodes"]
-        $(".episode").parent().css("border","")
+        $(".episode").parent().css("border", "")
 
         // Add border to origianl season.
     })
     $(".episode").on("click", function() {
         numE = $(this).parent().parent().attr("data-index")
-        $(".episode").parent().css("border","")
+        $(".episode").parent().css("border", "")
         $(this).parent().css("border", "solid #3FB03F 3px")
 
         console.log(seaBox)
@@ -99,6 +73,16 @@ if (type == "series") {
         data[type][titleIndex]["cS"] = seaBox.selectSeason
         data[type][titleIndex]["cE"] = numE
 
+        update = {
+            "type": "movies",
+            "titleIndex": titleIndex,
+            "cS":seaBox.selectSeason,
+            "cE":numE
+        }
+        $.post("http://76.114.138.132:5000/update", update, function(response){
+            return
+        } )
+
         player.source = {
             type: 'video',
             title: data[type][titleIndex]["title"],
@@ -108,11 +92,16 @@ if (type == "series") {
             }]
         }
 
-        $(window).scrollTo({left:0,top:0},800)
+        $(window).scrollTo({
+            left: 0,
+            top: 0
+        }, 800)
 
         //player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration)
         console.log("Setting Time")
-        setTimeout(function(){ player.currentTime = (((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration)); }, 800);
+        setTimeout(function() {
+            player.currentTime = (((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] / 100) * player.duration));
+        }, 800);
     })
 
 
@@ -124,8 +113,7 @@ if (type == "series") {
             type: 'video/mp4'
         }]
     }
-}
-else {
+} else {
     $("#seriesCont").hide()
     player.source = {
         type: 'video',
@@ -139,11 +127,14 @@ else {
 
 player.on('ready', event => {
     console.log("video Ready")
-    if (type == "series"){
-        setTimeout(function(){ player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100.0) * player.duration); }, 1000);
-    }
-    else if(j % 2 == 0) {
-        setTimeout(function(){ player.currentTime = ((data[type][titleIndex]["progress"]/100) * player.duration); }, 1000);
+    if (type == "series") {
+        setTimeout(function() {
+            player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] / 100.0) * player.duration);
+        }, 1000);
+    } else if (j % 2 == 0) {
+        setTimeout(function() {
+            player.currentTime = ((data[type][titleIndex]["progress"] / 100) * player.duration);
+        }, 1000);
     }
 });
 
@@ -158,13 +149,13 @@ function defineVueElm() {
 
     var tit
 
-    if(type == "series") {
+    if (type == "series") {
         tit = data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["title"]
     }
 
     ratingBar = new Vue({
         el: "#ratingBar",
-        data:{
+        data: {
             rating: data[type][titleIndex]["rating"],
             title: tit
         },
@@ -185,9 +176,9 @@ function defineVueElm() {
         }
     })
 
-    if (type == "series"){
+    if (type == "series") {
         seaBox = new Vue({
-            el:"#seasonBox",
+            el: "#seasonBox",
             data: {
                 sList: data[type][titleIndex]["ep_map"],
                 selectSeason: cS
@@ -195,7 +186,7 @@ function defineVueElm() {
         })
         epBox = new Vue({
             el: "#epBox",
-            data:{
+            data: {
                 episodes: data[type][titleIndex]["ep_map"][cS]["episodes"],
                 header: header
             }
@@ -236,10 +227,10 @@ $("#trailer_Button").on("click", function() {
     j++;
 })
 
-function navtoLoc(loc, obj){
+function navtoLoc(loc, obj) {
     str = loc + "?"
-    for(key in obj){
-        if (obj.hasOwnProperty(key)){
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
             str = str + key + "=" + obj[key]
             str += "&"
         }
@@ -250,7 +241,7 @@ function navtoLoc(loc, obj){
 
 function getSearchPrams() {
     var genre = $("#genreSearch option:selected").text()
-    if (genre == "All Genres"){
+    if (genre == "All Genres") {
         genre = "0"
     }
     console.log(genre)
@@ -261,13 +252,12 @@ function getSearchPrams() {
     if (range[0] <= range[1]) {
         minR = range[0]
         maxR = range[1]
-    }
-    else {
+    } else {
         minR = range[1]
         maxR = range[0]
     }
-    navtoLoc("index.html",{
-        "search":true,
+    navtoLoc("index.html", {
+        "search": true,
         "query": $("#searchBar").val(),
         "movies": ($("#movies-type").attr("checked") == "checked"),
         "series": ($("#tv-type").attr("checked") == "checked"),
@@ -288,8 +278,8 @@ $("#searchBar").keydown(function(event) {
 
 $("#mobileSearch").keydown(function(event) {
     if (event.keyCode === 13) {
-        navtoLoc("index.html",{
-            "search":true,
+        navtoLoc("index.html", {
+            "search": true,
             "query": $("#mobileSearch").val(),
             "movies": true,
             "series": true,
@@ -301,19 +291,35 @@ $("#mobileSearch").keydown(function(event) {
 });
 
 $(".movieButton").on('click', function() {
-    navtoLoc("index.html",{"search":false})
+    navtoLoc("index.html", {
+        "search": false
+    })
 })
 
-window.setInterval(function(){
-    if(player.playing) {
-        if(type == "series") {
-            data["series"][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] = 100 * (player.currentTime/player.duration)
+window.setInterval(function() {
+    if (player.playing) {
+        if (type == "series") {
+            data["series"][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] = 100 * (player.currentTime / player.duration)
+            update = {
+                "type": "series2",
+                "titleIndex": titleIndex,
+                "cS": cS,
+                "cE": cE,
+                "progress": 100 * (player.currentTime / player.duration)
+            }
+            $.post("http://76.114.138.132:5000/update", update, function(response){
+                return
+            } )
+        } else if (j % 2 == 0) {
+            data["movies"][titleIndex]["progress"] = 100 * (player.currentTime / player.duration)
+            update = {
+                "type": "movies",
+                "titleIndex": titleIndex,
+                "progress": 100 * (player.currentTime / player.duration)
+            }
+            $.post("http://76.114.138.132:5000/update", update, function(response){
+                return
+            } )
         }
-        else if(j % 2 == 0) {
-            data["movies"][titleIndex]["progress"] = 100 * (player.currentTime/player.duration)
-        }
-        localStorage.ljson = JSON.stringify({
-            "default": data
-        })
     }
 }, 2000);

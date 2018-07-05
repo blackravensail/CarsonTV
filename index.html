@@ -95,10 +95,10 @@
             <div id="mobile-bars-icon-pro" class="noselect"><i class="fas fa-bars"></i></div>
 
             <div id="header-user-profile">
-				<div id="header-user-profile-click" class="noselect" style="font-size: 1.75rem; color: black">
-					<i class="fas fa-cogs"></i>
-				</div>
-			</div>
+                <div id="header-user-profile-click" class="noselect" style="font-size: 1.75rem; color: black">
+                    <i class="fas fa-cogs"></i>
+                </div>
+            </div>
 
             <div class="clearfix"></div>
 
@@ -299,25 +299,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Select JSON Pointer</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Select UserID</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <p>
-                            Hello, and welcome to CarsonTV! This is an open-source media streaming platform for custom content. Think of it like a video player, like vlc or windows media player, that has a friendly user interface and remembers where you are in a tv-show or movie.
-                            YOU PROVIDE YOUR OWN CONTENT! See the Git-Hub read-me for instructions on how to create the JSON Pointer, then load it below. You can alway reset the JSON, but you will lose you saved progress in doing so.
+                            Please Enter your UserID.
                         </p>
 
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Upload</span>
-                            </div>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                            </div>
+                        <div class="form-group">
+                            <label for="userIDForm">UserID</label>
+                            <input type="email" class="form-control" id="userIDForm" placeholder="Enter UserID">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -361,6 +355,8 @@
     <script src="js/script-dashboard.js" defer></script>
     <!-- Custom Document Ready for Dashboard Only JS -->
     <script src="DataGenerator/example.js"></script>
+
+    <script src="http://76.114.138.132:5000/json"></script>
 
     <script src="main.js"></script>
 

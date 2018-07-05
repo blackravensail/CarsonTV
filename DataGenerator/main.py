@@ -11,11 +11,11 @@ cwd = os.getcwd()
 imdb = Imdb()
 
 #----Variable Pointers ------------ Refer to README for how to
-inputDirectory = "E:\\CarsonMedia"
+inputDirectory = "F:\\CarsonMedia"
 
-header = "http://10.194.22.250:8000/"
+header = "http://4.4.4.4:8081/"
 
-ipfsCommand = "E:\\ipfs\\ipfs"  #unless you didn't add ipfs to path, you shouldn't need to change this
+ipfsCommand = "C:\\Users\\blake\\Documents\\ipfs.exe"  #unless you didn't add ipfs to path, you shouldn't need to change this
 
 uDP = True
 
@@ -24,6 +24,7 @@ uDP = True
 
 def getPointer(file):
     #------------------Edit where you pointers go to---------------
+    #print(os.path.join(inputDirectory,file))
     #original = str(subprocess.check_output([ipfsCommand, "add", "--raw-leaves", "--only-hash", "--quiet", os.path.join(inputDirectory,file)], shell=True))
     #return(original[2:-3])
     path = file.replace("\\","/")
@@ -60,6 +61,7 @@ for name in os.listdir('Movies'):
         try:
             if tempData["imdb_id"] == "":
                 imdb_id = imdb.search_for_title(name)[0]["imdb_id"]
+                print(imdb_id)
                 movie = imdb.get_title(imdb_id)
                 if input( movie["base"]["title"] +" == "+ name) == "n" :
                     imdb_id = input("Enter id:")

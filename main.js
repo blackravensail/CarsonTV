@@ -4,14 +4,9 @@ var titleCont;
 
 var firstLoad = false
 
-if (localStorage.ljson == null) {
+if (document.cookie == "") {
     console.log("No local JSON found, loading example")
     firstLoad = true
-
-} else {
-
-    console.log("Found local Data")
-    data = JSON.parse(localStorage.ljson)[localStorage.current]
 }
 
 $(document).ready(function() {
@@ -295,24 +290,6 @@ $("#saveChange").on('click', function() {
 })
 
 function loadJSON() {
-    console.log("Saving Chanes")
-    localStorage.removeItem("ljson")
-    var file = $("#inputGroupFile01").get(0).files[0]
-    if(!file) {
-        console.log("No file Found")
-        return
-    }
-    fr = new FileReader();
-    fr.onload = recievedText;
-    fr.readAsText(file)
-
-    function recievedText(e) {
-        lines = e.target.result;
-        localStorage.ljson = JSON.stringify({
-            "default": JSON.parse(lines)
-        })
-        localStorage.current = "default"
-        location.reload()
-
-    }
+    document.cookie = "UserID="+$("#userIDForm").val();
+    location.reload()
 }
