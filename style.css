@@ -11,6 +11,13 @@
 	background-color: red;
 	height:100%;
 }
+
+.episode {
+	margin-right: 1rem;
+}
+.activeEpisode {
+	border: 1px solid green;
+}
 /*
 body {
 	color: white;

@@ -3,7 +3,11 @@ var id = url.searchParams.get("id")
 
 var j = 0
 
+console.log(data)
+
 header = data['header']
+
+cordinationServer = "http://76.114.138.132:5000/update"
 
 var main_obj
 var type
@@ -18,70 +22,82 @@ var seaBox
 var epBox
 var player
 
-
-for (var i = 0; i < data["movies"].length; i++) {
-    if (data["movies"][i]["imdb_id"] == id) {
-        type = "movies"
-        titleIndex = i
-        defineVueElm();
-    }
-}
-
-for (var i = 0; i < data["series"].length; i++) {
-    if (data["series"][i]["imdb_id"] == id) {
-        type = "series"
-        titleIndex = i
-        cS = data["series"][i]["cS"]
-        cE = data["series"][i]["cE"]
-        defineVueElm();
-    }
-}
-
-player = new Plyr("#main_video", {
-    ratio: "16:9"
+$(document).ready(function(){
+    main(data);
 })
-player.poster = header + data[type][titleIndex]["wide"]
 
 
-if (type == "series") {
-    $("#trailer_Button").hide()
 
-    $($(".seasonButton").get(cS)).addClass("current")
-    $($(".title").get(cE)).css("border", "solid #3FB03F 3px")
 
-    $(".seasonButton").on("click", function() {
-        $(".seasonButton").removeClass("current")
-        $(this).addClass("current")
-        var numS = $(this).attr("data-index")
-        seaBox.selectSeason = numS
-        epBox.episodes = data[type][titleIndex]["ep_map"][numS]["episodes"]
-        $(".episode").parent().css("border", "")
-
-        // Add border to origianl season.
-    })
-    $(".episode").on("click", function() {
-        numE = $(this).parent().parent().attr("data-index")
-        $(".episode").parent().css("border", "")
-        $(this).parent().css("border", "solid #3FB03F 3px")
-
-        console.log(seaBox)
-        ratingBar.title = data[type][titleIndex]["ep_map"][seaBox.selectSeason]["episodes"][numE]["title"]
-
-        cS = seaBox.selectSeason
-        cE = numE
-
-        data[type][titleIndex]["cS"] = seaBox.selectSeason
-        data[type][titleIndex]["cE"] = numE
-
-        update = {
-            "type": "movies",
-            "titleIndex": titleIndex,
-            "cS":seaBox.selectSeason,
-            "cE":numE
+function main(data) {
+    for (var i = 0; i < data["movies"].length; i++) {
+        if (data["movies"][i]["imdb_id"] == id) {
+            type = "movies"
+            titleIndex = i
+            defineVueElm();
         }
-        $.post("http://76.114.138.132:5000/update", update, function(response){
-            return
-        } )
+    }
+
+    for (var i = 0; i < data["series"].length; i++) {
+        if (data["series"][i]["imdb_id"] == id) {
+            type = "series"
+            titleIndex = i
+            cS = data["series"][i]["cS"]
+            cE = data["series"][i]["cE"]
+            defineVueElm();
+        }
+    }
+
+    player = new Plyr("#main_video", {
+        ratio: "16:9"
+    })
+
+    if (type == "series") {
+        $("#trailer_Button").hide()
+
+        ratingBar.title = data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["title"]
+
+        $($("#seriesCont").get(0)).find(".episode[data-sindex="+ cS +"][data-eindex="+ cE +"]").addClass("activeEpisode")
+
+
+        $(".episode").on("click",  function() {
+            
+
+
+            if ($(this).hasClass("activeEpisode")) {
+                return;
+            }
+
+            console.log("Changing Episode")
+
+            $(".episode").removeClass("activeEpisode")
+            $(this).addClass("activeEpisode");
+
+
+            cS = $(this).attr('data-sindex')
+            cE = $(this).attr('data-eindex')
+
+            ratingBar.title = data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["title"]
+
+            if (data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] > 90) {
+                data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] = 0
+            }
+
+            player.source = {
+                type: 'video',
+                title: data[type][titleIndex]["title"],
+                sources: [{
+                    src: header + data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["id"],
+                    type: 'video/mp4'
+                }]
+            }
+
+            $(window).scrollTo({
+                left: 0,
+                top: 0
+            }, 800)
+        })
+
 
         player.source = {
             type: 'video',
@@ -91,52 +107,37 @@ if (type == "series") {
                 type: 'video/mp4'
             }]
         }
-
-        $(window).scrollTo({
-            left: 0,
-            top: 0
-        }, 800)
-
-        //player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"]/100) * player.duration)
-        console.log("Setting Time")
-        setTimeout(function() {
-            player.currentTime = (((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] / 100) * player.duration));
-        }, 800);
-    })
-
-
-    player.source = {
-        type: 'video',
-        title: data[type][titleIndex]["title"],
-        sources: [{
-            src: header + data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["id"],
-            type: 'video/mp4'
-        }]
+    } else {
+        $("#seriesCont").hide()
+        player.source = {
+            type: 'video',
+            title: data[type][titleIndex]["title"],
+            sources: [{
+                src: header + data[type][titleIndex]["main_id"],
+                type: 'video/mp4'
+            }]
+        }
     }
-} else {
-    $("#seriesCont").hide()
-    player.source = {
-        type: 'video',
-        title: data[type][titleIndex]["title"],
-        sources: [{
-            src: header + data[type][titleIndex]["main_id"],
-            type: 'video/mp4'
-        }]
-    }
+
+    player.on('ready', event => {
+        if (type == "series") {
+            setTimeout(function() {
+                player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] / 100.0) * player.duration);
+            }, 800);
+        } else if (j % 2 == 0) {
+            setTimeout(function() {
+                player.currentTime = ((data[type][titleIndex]["progress"] / 100) * player.duration);
+            }, 800);
+        }
+    });
+    $('.seasonSlider').slick({
+        slidesToShow: 4,
+        slidesToScroll: 2,
+        infinite: false,
+        arrows: true
+      });
 }
 
-player.on('ready', event => {
-    console.log("video Ready")
-    if (type == "series") {
-        setTimeout(function() {
-            player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] / 100.0) * player.duration);
-        }, 1000);
-    } else if (j % 2 == 0) {
-        setTimeout(function() {
-            player.currentTime = ((data[type][titleIndex]["progress"] / 100) * player.duration);
-        }, 1000);
-    }
-});
 
 function defineVueElm() {
     sideBar = new Vue({
@@ -176,18 +177,13 @@ function defineVueElm() {
         }
     })
 
+    console.log(data[type][titleIndex]["ep_map"])
+
     if (type == "series") {
-        seaBox = new Vue({
-            el: "#seasonBox",
-            data: {
-                sList: data[type][titleIndex]["ep_map"],
-                selectSeason: cS
-            }
-        })
         epBox = new Vue({
-            el: "#epBox",
+            el: "#seriesCont",
             data: {
-                episodes: data[type][titleIndex]["ep_map"][cS]["episodes"],
+                ep_map: data[type][titleIndex]["ep_map"],
                 header: header
             }
         })
@@ -301,13 +297,13 @@ window.setInterval(function() {
         if (type == "series") {
             data["series"][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] = 100 * (player.currentTime / player.duration)
             update = {
-                "type": "series2",
+                "type": "series",
                 "titleIndex": titleIndex,
                 "cS": cS,
                 "cE": cE,
                 "progress": 100 * (player.currentTime / player.duration)
             }
-            $.post("http://76.114.138.132:5000/update", update, function(response){
+            $.post(cordinationServer, update, function(response){
                 return
             } )
         } else if (j % 2 == 0) {
@@ -317,9 +313,45 @@ window.setInterval(function() {
                 "titleIndex": titleIndex,
                 "progress": 100 * (player.currentTime / player.duration)
             }
-            $.post("http://76.114.138.132:5000/update", update, function(response){
+            $.post(cordinationServer, update, function(response){
                 return
             } )
         }
+    }
+
+    if (player.ended && type == "series"){
+        playnext = false
+
+        if (cE+1 <  data[type][titleIndex]["ep_map"][cS]["episodes"].length){
+            cE++;
+            playnext = true;
+        }
+
+        else if(cS+1 < data[type][titleIndex]["ep_map"].length) {
+            cE = 0;
+            cS++;
+            playnext = true
+        }
+
+        if (playnext) {
+            $(".episode").removeClass("activeEpisode")
+            $($("#seriesCont").get(0)).find(".episode[data-sindex="+ cS +"][data-eindex="+ cE +"]").addClass("activeEpisode")
+
+            ratingBar.title = data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["title"]
+
+            data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] = 0
+
+            player.source = {
+                type: 'video',
+                title: data[type][titleIndex]["title"],
+                sources: [{
+                    src: header + data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["id"],
+                    type: 'video/mp4'
+                }]
+            }
+        }
+
+
+
     }
 }, 2000);

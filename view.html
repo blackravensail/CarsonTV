@@ -17,7 +17,8 @@
 	<!-- iconsmind.com Icons -->
 	<link rel="icon" href="icons/stylized-tv-3d-model-max-obj-fbx.png">
 
-
+	<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
 
 	<title>CarsonTV | Watch</title>
 </head>
@@ -104,20 +105,20 @@
 					<li>
 						<a href="index.html">
 						<span class="icon-Old-TV"></span>
-	                TV Series
-	              </a>
+					TV Series
+				  </a>
 						<li>
 							<li>
 								<a class="movieButton">
 						<span class="icon-Reel"></span>
-	                Movies
-	              </a>
+					Movies
+				  </a>
 								<li>
 									<a href="#!">
 						<i class="far fa-bell"></i>
 						<span class="user-notification-count">3</span>
-	                Notifications
-	              </a>
+					Notifications
+				  </a>
 								</li>
 				</ul>
 				<div class="clearfix"></div>
@@ -138,14 +139,14 @@
 				<li class="normal-item-pro">
 					<a href="index.html">
 						<span class="icon-Old-TV"></span>
-                  TV Series
-                </a>
+				  TV Series
+				</a>
 				</li>
 				<li class="normal-item-pro">
 					<a class="movieButton">
 						<span class="icon-Reel"></span>
-                  Movies
-                </a>
+				  Movies
+				</a>
 				</li>
 
 			</ul>
@@ -221,39 +222,25 @@
 				</div>
 				<!-- close .movie-details-section -->
 
-				<div id="seriesCont">
-					<ul class="dashboard-sub-menu" id="seasonBox">
-						<li v-for="(item, index) in sList" class="seasonButton" :data-index="index"><a style="user-select:none;">{{ item.title }}</a></li>
+				<div class="movie-details-section" id="seriesCont">
 
-					</ul>
-					<!-- close .dashboard-sub-menu -->
+					<div class="seasonRow" v-for="(season, sindex) in ep_map">
+						<h3>{{ season.title }}</h3>
+						<div class="seasonSlider">
 
-					<div class="movie-details-section" id="epBox">
-						<div class="row">
-							<div class="col-12 col-md-6 col-lg-6 col-xl-4 episodes" :data-index="index" v-for="(episode, index) in episodes">
-								<div class="item-listing-container-skrn title">
-									<a class="episode"><img :src="header + episode.tall" alt="Listing">
-									<div class="progressDiv">
-										<div :style="'width: ' + episode.progress +'%;'"></div>
+							<div class="episode card" v-for="(episode, eindex) in season.episodes" :data-eindex="eindex" :data-sindex="sindex">
+
+									<img class="card-img-top" :src="header + episode.tall" :alt="episode.title">
+									<div :style="'background-color: red; width: ' + episode.progress +'%;'"></div>
+									<div class="card-body">
+										<p class="card-text">{{ eindex + 1 }} - {{ episode.title }}</p>
 									</div>
-									<div class="item-listing-text-skrn">
-										<div class="item-listing-text-skrn-vertical-align">
 
-											<h6>{{ episode.title }}</h6>
-										</div>
-										<!-- close .item-listing-text-skrn-vertical-align -->
-									</div>
-								</a>
-									<!-- close .item-listing-text-skrn -->
-								</div>
-								<!-- close .item-listing-container-skrn -->
 							</div>
-							<!-- close .col -->
 
 						</div>
-						<!-- close .row -->
-
 					</div>
+
 				</div>
 				<!-- close .movie-details-section -->
 				<!--Close .seriesCont-->
@@ -284,19 +271,24 @@
 	<script src="js/circle-progress.min.js" defer></script>
 	<!-- Circle Progress JS Plugin -->
 	<script src="js/jquery.scrollTo.min.js" defer></script>
-    <!-- Scroll Plugin-->
+	<!-- Scroll Plugin-->
 	<script src="js/plyr.js"></script>
 	<!-- Video Player JS Plugin -->
 	<script src="js/script.js" defer></script>
 	<!-- Custom Document Ready JS -->
-	<script src="DataGenerator/example.js"></script>
-	
-	<script src="http://76.114.138.132:5000/json"></script>
 
 	<script src="js/script-dashboard.js" defer></script>
 	<!-- Custom Document Ready for Dashboard Only JS -->
 
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="slick/slick.min.js"></script>
+
+	<script src="DataGenerator/example.js"></script>
+	
+	<!--<script src="http://76.114.138.132:5000/json"></script>-->
 
 	<script src="view.js"></script>
 
