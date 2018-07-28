@@ -2,10 +2,11 @@ var url = new URL(window.location.href)
 var id = url.searchParams.get("id")
 
 var j = 0
+var k = 0
 
 console.log(data)
 
-header = data['header']
+
 
 JSONServer = "http://76.114.138.132:5000"
 
@@ -14,6 +15,7 @@ var type
 var titleIndex
 var cS
 var cE
+var playnext
 
 var sidebar
 var ratingBar
@@ -22,14 +24,24 @@ var seaBox
 var epBox
 var player
 
-$.getJSON(JSONServer+"/json", function(json) {
+
+/*
+$.getJSON(JSONServer + "/json", function (json, status) {
     $(document).ready(function () {
         main(json);
     })
 })
+*/
+
+$(document).ready(function () {
+    main(data);
+})
 
 
 function main(data) {
+
+    header = data['header']
+
     for (var i = 0; i < data["movies"].length; i++) {
         if (data["movies"][i]["imdb_id"] == id) {
             type = "movies"
@@ -294,7 +306,10 @@ $(".movieButton").on('click', function () {
 })
 
 window.setInterval(function () {
-    if (player.playing) {
+    k++;
+
+    if (player.playing && k == 60) {
+        k = 0
         if (type == "series") {
             data["series"][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] = 100 * (player.currentTime / player.duration)
             update = {
@@ -355,4 +370,4 @@ window.setInterval(function () {
 
 
     }
-}, 2000);
+}, 500);
