@@ -18,6 +18,12 @@
 .activeEpisode {
 	border: 1px solid green;
 }
+
+
+.slick-prev::before, 
+.slick-next::before { 
+	color: grey !important; 
+}
 /*
 body {
 	color: white;

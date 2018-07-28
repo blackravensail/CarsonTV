@@ -7,7 +7,7 @@ console.log(data)
 
 header = data['header']
 
-cordinationServer = "http://76.114.138.132:5000/update"
+JSONServer = "http://76.114.138.132:5000"
 
 var main_obj
 var type
@@ -22,11 +22,11 @@ var seaBox
 var epBox
 var player
 
-$(document).ready(function(){
-    main(data);
+$.getJSON(JSONServer+"/json", function(json) {
+    $(document).ready(function () {
+        main(json);
+    })
 })
-
-
 
 
 function main(data) {
@@ -57,11 +57,11 @@ function main(data) {
 
         ratingBar.title = data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["title"]
 
-        $($("#seriesCont").get(0)).find(".episode[data-sindex="+ cS +"][data-eindex="+ cE +"]").addClass("activeEpisode")
+        $($("#seriesCont").get(0)).find(".episode[data-sindex=" + cS + "][data-eindex=" + cE + "]").addClass("activeEpisode")
 
 
-        $(".episode").on("click",  function() {
-            
+        $(".episode").on("click", function () {
+
 
 
             if ($(this).hasClass("activeEpisode")) {
@@ -121,11 +121,11 @@ function main(data) {
 
     player.on('ready', event => {
         if (type == "series") {
-            setTimeout(function() {
+            setTimeout(function () {
                 player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] / 100.0) * player.duration);
             }, 800);
         } else if (j % 2 == 0) {
-            setTimeout(function() {
+            setTimeout(function () {
                 player.currentTime = ((data[type][titleIndex]["progress"] / 100) * player.duration);
             }, 800);
         }
@@ -134,8 +134,9 @@ function main(data) {
         slidesToShow: 4,
         slidesToScroll: 2,
         infinite: false,
-        arrows: true
-      });
+        arrows: true,
+        swipeToSlide: true
+    });
 }
 
 
@@ -161,7 +162,7 @@ function defineVueElm() {
             title: tit
         },
         methods: {
-            getColor: function(rating) {
+            getColor: function (rating) {
                 if (rating > 6) {
                     return "green"
                 }
@@ -196,7 +197,7 @@ function defineVueElm() {
 
 
 
-$("#trailer_Button").on("click", function() {
+$("#trailer_Button").on("click", function () {
     if (j % 2 == 0) {
         player.source = {
             type: 'video',
@@ -263,16 +264,16 @@ function getSearchPrams() {
     })
 }
 
-$("#searchButton").on("click", function() {
+$("#searchButton").on("click", function () {
     getSearchPrams()
 })
-$("#searchBar").keydown(function(event) {
+$("#searchBar").keydown(function (event) {
     if (event.keyCode === 13) {
         getSearchPrams();
     }
 });
 
-$("#mobileSearch").keydown(function(event) {
+$("#mobileSearch").keydown(function (event) {
     if (event.keyCode === 13) {
         navtoLoc("index.html", {
             "search": true,
@@ -286,13 +287,13 @@ $("#mobileSearch").keydown(function(event) {
     }
 });
 
-$(".movieButton").on('click', function() {
+$(".movieButton").on('click', function () {
     navtoLoc("index.html", {
         "search": false
     })
 })
 
-window.setInterval(function() {
+window.setInterval(function () {
     if (player.playing) {
         if (type == "series") {
             data["series"][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] = 100 * (player.currentTime / player.duration)
@@ -303,9 +304,9 @@ window.setInterval(function() {
                 "cE": cE,
                 "progress": 100 * (player.currentTime / player.duration)
             }
-            $.post(cordinationServer, update, function(response){
+            $.post(JSONServer + "/update", update, function (response) {
                 return
-            } )
+            })
         } else if (j % 2 == 0) {
             data["movies"][titleIndex]["progress"] = 100 * (player.currentTime / player.duration)
             update = {
@@ -313,21 +314,21 @@ window.setInterval(function() {
                 "titleIndex": titleIndex,
                 "progress": 100 * (player.currentTime / player.duration)
             }
-            $.post(cordinationServer, update, function(response){
+            $.post(JSONServer + "/update", update, function (response) {
                 return
-            } )
+            })
         }
     }
 
-    if (player.ended && type == "series"){
+    if (player.ended && type == "series") {
         playnext = false
 
-        if (cE+1 <  data[type][titleIndex]["ep_map"][cS]["episodes"].length){
+        if (cE + 1 < data[type][titleIndex]["ep_map"][cS]["episodes"].length) {
             cE++;
             playnext = true;
         }
 
-        else if(cS+1 < data[type][titleIndex]["ep_map"].length) {
+        else if (cS + 1 < data[type][titleIndex]["ep_map"].length) {
             cE = 0;
             cS++;
             playnext = true
@@ -335,7 +336,7 @@ window.setInterval(function() {
 
         if (playnext) {
             $(".episode").removeClass("activeEpisode")
-            $($("#seriesCont").get(0)).find(".episode[data-sindex="+ cS +"][data-eindex="+ cE +"]").addClass("activeEpisode")
+            $($("#seriesCont").get(0)).find(".episode[data-sindex=" + cS + "][data-eindex=" + cE + "]").addClass("activeEpisode")
 
             ratingBar.title = data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["title"]
 
