@@ -4,78 +4,132 @@ var id = url.searchParams.get("id")
 var j = 0
 var k = 0
 
-console.log(data)
-
-
-
 JSONServer = "http://76.114.138.132:5000"
 
-var main_obj
-var type
-var titleIndex
-var cS
-var cE
 var playnext
 
 var sidebar
 var ratingBar
 var desBox
-var seaBox
 var epBox
 var player
+
+var data
+var pdata
+
+var cS
+var cE
 
 
 /*
 $.getJSON(JSONServer + "/json", function (json, status) {
     $(document).ready(function () {
-        main(json);
+         main(json["titles"], json["personal"]);
     })
 })
 */
 
 $(document).ready(function () {
-    main(data);
+    data = defaultData
+    pdata = defaultPData
+    main()
 })
 
 
-function main(data) {
+function main() {
 
-    header = data['header']
-
-    for (var i = 0; i < data["movies"].length; i++) {
-        if (data["movies"][i]["imdb_id"] == id) {
-            type = "movies"
-            titleIndex = i
-            defineVueElm();
-        }
-    }
-
-    for (var i = 0; i < data["series"].length; i++) {
-        if (data["series"][i]["imdb_id"] == id) {
-            type = "series"
-            titleIndex = i
-            cS = data["series"][i]["cS"]
-            cE = data["series"][i]["cE"]
-            defineVueElm();
-        }
-    }
+    defineVueElm()
 
     player = new Plyr("#main_video", {
         ratio: "16:9"
     })
 
-    if (type == "series") {
+
+    // Set Time to current time saved
+    player.on('canplay', event => {
+        if (pdata.hasOwnProperty(id)) {
+            if (data[id]["type"] == "series") {
+                player.currentTime = ((pdata[id]["map"][cS.toString()][cE.toString()] / 100.0) * player.duration);
+            }
+            else if (j % 2 == 0) {
+                player.currentTime = ((pdata[id] / 100) * player.duration);
+            }
+        }
+    });
+
+    //Update tracking server
+    player.on('timechange', event => {
+        if (data[id]["type"] == "series") {
+            pdata[id]["map"][cS.toString()][cE.toString()] = 100 * (player.currentTime / player.duration)
+            update = {
+                "id": id,
+                "cS": cS,
+                "cE": cE,
+                "progress": 100 * (player.currentTime / player.duration)
+            }
+            $.post(JSONServer + "/update", update, function (response) {
+                return
+            })
+        }
+        else if (j % 2 == 0) {
+            pdata[id] = 100 * (player.currentTime / player.duration)
+            update = {
+                "id": id,
+                "progress": 100 * (player.currentTime / player.duration)
+            }
+            $.post(JSONServer + "/update", update, function (response) {
+                return
+            })
+        }
+    })
+
+    //Play next Episode Automagically
+    player.on('ended', event => {
+        if (data[id]["type"] == "series") {
+            var playNext = false
+            var season
+            var episode
+            if (cE + 1 < data[id]["ep_map"][cS]["episodes"].length) {
+                episode = cE + 1;
+                season = cS
+                playNext = true;
+            }
+            else if (cS + 1 < data[id]["ep_map"].length) {
+                episode = 0;
+                season = cS + 1;
+                playNext = true
+            }
+
+            if (playNext) {
+                playEpisode(season, episode)
+            }
+        }
+
+    })
+
+    if (data[id]["type"] == "series") {
         $("#trailer_Button").hide()
 
-        ratingBar.title = data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["title"]
+        $('.seasonSlider').slick({
+            slidesToShow: 4,
+            slidesToScroll: 2,
+            infinite: false,
+            arrows: true,
+            swipeToSlide: true
+        });
 
-        $($("#seriesCont").get(0)).find(".episode[data-sindex=" + cS + "][data-eindex=" + cE + "]").addClass("activeEpisode")
+        if (pdata.hasOwnProperty(id)) {
+            cS = pdata[id]["cS"]
+            cE = pdata[id]["cE"]
+        }
+        else {
+            cS = 0
+            cE = 0
+        }
 
+        playEpisode(cS, cE)
 
         $(".episode").on("click", function () {
-
-
-
             if ($(this).hasClass("activeEpisode")) {
                 return;
             }
@@ -86,92 +140,125 @@ function main(data) {
             $(this).addClass("activeEpisode");
 
 
-            cS = $(this).attr('data-sindex')
-            cE = $(this).attr('data-eindex')
+            season = $(this).attr('data-sindex')
+            episode = $(this).attr('data-eindex')
 
-            ratingBar.title = data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["title"]
-
-            if (data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] > 90) {
-                data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] = 0
+            if (pdata.hasOwnProperty(id)) {
+                if (pdata[id][map][season.toString()][episode.toString] > 95) {
+                    pdata[id][map][season.toString()][episode.toString] = 0
+                }
             }
 
-            player.source = {
-                type: 'video',
-                title: data[type][titleIndex]["title"],
-                sources: [{
-                    src: header + data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["id"],
-                    type: 'video/mp4'
-                }]
-            }
+            playEpisode(season, episode)
 
             $(window).scrollTo({
                 left: 0,
                 top: 0
             }, 800)
         })
-
-
-        player.source = {
-            type: 'video',
-            title: data[type][titleIndex]["title"],
-            sources: [{
-                src: header + data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["id"],
-                type: 'video/mp4'
-            }]
-        }
-    } else {
-        $("#seriesCont").hide()
-        player.source = {
-            type: 'video',
-            title: data[type][titleIndex]["title"],
-            sources: [{
-                src: header + data[type][titleIndex]["main_id"],
-                type: 'video/mp4'
-            }]
-        }
     }
+    else {
+        $("#seriesCont").hide()
 
-    player.on('ready', event => {
-        if (type == "series") {
-            setTimeout(function () {
-                player.currentTime = ((data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] / 100.0) * player.duration);
-            }, 800);
-        } else if (j % 2 == 0) {
-            setTimeout(function () {
-                player.currentTime = ((data[type][titleIndex]["progress"] / 100) * player.duration);
-            }, 800);
+        var srcList = []
+        for (var i; i < data[id]["location"]["html"].length; i++) {
+            srcList.push({
+                src: data[id]["location"]["html"][i] + "/" + data[id]["feature"],
+                type: 'video/mp4'
+            })
         }
-    });
-    $('.seasonSlider').slick({
-        slidesToShow: 4,
-        slidesToScroll: 2,
-        infinite: false,
-        arrows: true,
-        swipeToSlide: true
-    });
+
+        srcList.push({
+            src: "http://ipfs.io/ipfs/" + data[id]["location"]["ipfs"] + "/" + data[id]["feature"],
+            type: 'video/mp4'
+        })
+
+        srcObj = {
+            type: 'video',
+            title: data[id]["title"],
+            sources: srcList
+        }
+
+        if (data[id].hasOwnProperty("captions")) {
+            srcObj["tracks"] = data[id]["captions"]
+        }
+
+
+        player.source = srcObj
+
+        $("#trailer_Button").on("click", function () {
+            if (j % 2 == 0) {
+                player.source = {
+                    type: 'video',
+                    title: data[id]["title"],
+                    sources: [{
+                        src: "http:ipfs.io/ipfs/" + data[id]["location"]["ipfs"] + "/" + data[id]["trailer_id"],
+                        type: 'video/mp4'
+                    }]
+                }
+
+                $("#trailer_Button").html("<i class='fas fa-play'></i>Watch Film")
+            } else {
+                player.source = srcObj
+
+                $("#trailer_Button").html("<i class='fas fa-play'></i>Watch Trailer")
+            }
+            j++;
+        })
+    }
 }
 
+function playEpisode(season, episode) {
+    ratingBar.title = data[id]["ep_map"][season]["episodes"][episode]
+
+    $($("#seriesCont").get(0)).find(".episode[data-sindex=" + season + "][data-eindex=" + episode + "]").addClass("activeEpisode")
+
+    var srcList = []
+    for (var i = 0; i < data[id]["location"]["html"].length; i++) {
+        srcList.push({
+            src: data[id]["location"]["html"][i] + "/" + data[id]["ep_map"][season]["episodes"][episode]["video"],
+            type: 'video/mp4'
+        })
+    }
+
+    srcList.push({
+        src: "http://ipfs.io/ipfs/" + data[id]["location"]["ipfs"] + "/" + data[id]["ep_map"][season]["episodes"][episode]["video"],
+        type: 'video/mp4'
+    })
+
+    console.log(srcList)
+
+
+    srcObj = {
+        type: 'video',
+        title: data[id]["title"],
+        sources: srcList
+    }
+
+    if (data[id]["ep_map"][season]["episodes"][episode].hasOwnProperty("captions")) {
+        srcObj["tracks"] = data[id]["ep_map"][season]["episodes"][episode]["captions"]
+    }
+
+    player.source = srcObj
+
+    cE = episode
+    cS = season
+
+}
 
 function defineVueElm() {
     sideBar = new Vue({
         el: "#content-sidebar-pro",
         data: {
-            title: data[type][titleIndex],
-            header: header
+            title: data[id]
         }
     })
-
-    var tit
-
-    if (type == "series") {
-        tit = data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["title"]
-    }
 
     ratingBar = new Vue({
         el: "#ratingBar",
         data: {
-            rating: data[type][titleIndex]["rating"],
-            title: tit
+            rating: data[id]["rating"],
+            title: ""
         },
         methods: {
             getColor: function (rating) {
@@ -186,55 +273,31 @@ function defineVueElm() {
     desBox = new Vue({
         el: "#desBox",
         data: {
-            description: data[type][titleIndex]["description"]
+            description: data[id]["description"]
         }
     })
 
-    console.log(data[type][titleIndex]["ep_map"])
-
-    if (type == "series") {
+    if (data[id]["type"] == "series") {
         epBox = new Vue({
             el: "#seriesCont",
             data: {
-                ep_map: data[type][titleIndex]["ep_map"],
-                header: header
+                ep_map: data[id]["ep_map"],
+                header: "http://ipfs.io/ipfs/" + data[id]["location"]["ipfs"] + "/",
+                pdata: pdata
+            },
+            methods: {
+                getProgress: function (s, e) {
+                    if (this.pdata.hasOwnProperty(id)) {
+                        if (this.pdata[id]["map"].hasOwnProperty(s.toString()) && this.pdata["map"][s.toString()].hasOwnProperty(e.toString())) {
+                            return this.padata[id]["map"][s.toString()][e.toString()]
+                        }
+                    }
+                    return 0
+                }
             }
         })
     }
 }
-
-
-
-
-
-
-
-$("#trailer_Button").on("click", function () {
-    if (j % 2 == 0) {
-        player.source = {
-            type: 'video',
-            title: data[type][titleIndex]["title"],
-            sources: [{
-                src: header + data[type][titleIndex]["trailer_id"],
-                type: 'video/mp4'
-            }]
-        }
-
-        $("#trailer_Button").html("<i class='fas fa-play'></i>Watch Film")
-    } else {
-        player.source = {
-            type: 'video',
-            title: data[type][titleIndex]["title"],
-            sources: [{
-                src: header + data[type][titleIndex]["main_id"],
-                type: 'video/mp4'
-            }]
-        }
-
-        $("#trailer_Button").html("<i class='fas fa-play'></i>Watch Trailer")
-    }
-    j++;
-})
 
 function navtoLoc(loc, obj) {
     str = loc + "?"
@@ -304,70 +367,3 @@ $(".movieButton").on('click', function () {
         "search": false
     })
 })
-
-window.setInterval(function () {
-    k++;
-
-    if (player.playing && k == 60) {
-        k = 0
-        if (type == "series") {
-            data["series"][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] = 100 * (player.currentTime / player.duration)
-            update = {
-                "type": "series",
-                "titleIndex": titleIndex,
-                "cS": cS,
-                "cE": cE,
-                "progress": 100 * (player.currentTime / player.duration)
-            }
-            $.post(JSONServer + "/update", update, function (response) {
-                return
-            })
-        } else if (j % 2 == 0) {
-            data["movies"][titleIndex]["progress"] = 100 * (player.currentTime / player.duration)
-            update = {
-                "type": "movies",
-                "titleIndex": titleIndex,
-                "progress": 100 * (player.currentTime / player.duration)
-            }
-            $.post(JSONServer + "/update", update, function (response) {
-                return
-            })
-        }
-    }
-
-    if (player.ended && type == "series") {
-        playnext = false
-
-        if (cE + 1 < data[type][titleIndex]["ep_map"][cS]["episodes"].length) {
-            cE++;
-            playnext = true;
-        }
-
-        else if (cS + 1 < data[type][titleIndex]["ep_map"].length) {
-            cE = 0;
-            cS++;
-            playnext = true
-        }
-
-        if (playnext) {
-            $(".episode").removeClass("activeEpisode")
-            $($("#seriesCont").get(0)).find(".episode[data-sindex=" + cS + "][data-eindex=" + cE + "]").addClass("activeEpisode")
-
-            ratingBar.title = data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["title"]
-
-            data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["progress"] = 0
-
-            player.source = {
-                type: 'video',
-                title: data[type][titleIndex]["title"],
-                sources: [{
-                    src: header + data[type][titleIndex]["ep_map"][cS]["episodes"][cE]["id"],
-                    type: 'video/mp4'
-                }]
-            }
-        }
-
-
-
-    }
-}, 500);

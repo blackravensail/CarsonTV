@@ -9,53 +9,62 @@ if (document.cookie == "") {
     firstLoad = true
 }
 
-$(document).ready(function() {
+
+JSONServer = "http://76.114.138.132:5000"
+
+/*
+$.getJSON(JSONServer + "/json", function (json, status) {
+    $(document).ready(function () {
+        main(json["titles"], json["personal"]);
+    })
+})
+*/
+
+$(document).ready(function () {
+    main(defaultData, defaultPData);
+})
+
+function main(data, personal) {
     if (firstLoad) {
         $("#exampleModal").modal('show');
     }
 
-    header = data['header']
-
-    td = data["series"]
-    td = td.concat(data["movies"])
-
-    if (firstLoad){
-        var rand = 7
+    if (firstLoad) {
+        var sliderID = "tt0327137"
     }
     else {
-        var rand = Math.floor((new Date()).getTime() / 100000) % td.length
+        var sliderID = Object.keys(data)[Math.floor((new Date()).getTime() / 100000) % Object.keys(data).length]
     }
 
-    var sliderTitle = td[rand]
-    console.log(sliderTitle)
     slider = new Vue({
         el: "#vue_slider",
         data: {
-            title: sliderTitle,
+            title: data[sliderID],
+            id: sliderID
         },
         methods: {
-            getBackgroundStyle: function(str) {
-                return("background-image:url('" + header + str + "') !important;")
+            getBackgroundStyle: function () {
+                return ("background-image:url('http://ipfs.io/ipfs/" + this.title["location"]["ipfs"] + "/" + this.title["wide"] + "') !important;")
             },
-            getType: function() {
-                if (this.title.hasOwnProperty("main_id")) {
+            getType: function () {
+                if (this.title["type"] == "film") {
                     return "Film"
-                } else {
+                }
+                else if (this.title["type"] == "tv_show") {
                     return "TV Show"
                 }
+                else {
+                    return "Unknown"
+                }
             },
-            getColor: function(rating) {
+            getColor: function (rating) {
                 if (rating > 6) {
                     return "green"
                 }
                 return "red"
             },
-            getAddress: function() {
-                if (this.title.hasOwnProperty("id")) {
-                    return "view.html?id=" + this.title["id"]
-                } else {
-                    return "view.html?id=" + this.title["title"]
-                }
+            getAddress: function () {
+                return "view.html?id=" + this.id
             }
         }
     })
@@ -63,90 +72,111 @@ $(document).ready(function() {
     titleCont = new Vue({
         el: "#pannelCont",
         data: {
-            titles: data["series"],
-            header: "TV Shows"
+            set: new Set(["1","2","3","4"]), 
+            titles: data,
+            header: "TV Shows",
+            type:"tv_show",
+            pdata: personal
         },
         methods: {
-            addheader: function(str) {
+            addheader: function (str) {
                 return header + str
             },
-            getColor: function(rating) {
+            getColor: function (rating) {
                 if (rating > 6) {
                     return "green"
                 }
                 return "red"
             },
-            getaddress: function(obj) {
-                if (obj.hasOwnProperty("id")) {
-                    return "view.html?id=" + obj["id"]
-                } else {
-                    return "view.html?id=" + obj["title"]
+            returnProgress: function(id){
+                if (this.pdata.hasOwnProperty(id)) {
+                    if (this.pdata[id].hasOwnProperty("progress")) {
+                        return this.pdata[id]["progress"]
+                    }
+                }
+                else {
+                    return(0)
                 }
             }
         }
     })
-})
 
-
-$(".men_item").on('click', function() {
-    $(".men_item").removeClass("current-menu-item")
-    $(this).addClass("current-menu-item")
-    if ($(this).find("a").text().replace(/\s/g, '') == "Movies") {
-        titleCont.titles = data["movies"]
-        titleCont.header = "Movies"
-    } else {
-        titleCont.titles = data["series"]
-        titleCont.header = "TV Shows"
-    }
-
-})
-
-$(".genre_button").on("click", function() {
-    $(".genre_button").removeClass("active")
-    $(this).addClass("active")
-    var genre = $(this).find("h6").text().replace(/\s/g, '')
-    var list = []
-    for (var i = 0; i < data["movies"].length; i++) {
-        if (data["movies"][i]["genres"].indexOf(genre) >= 0) {
-            list.push(data["movies"][i])
+    $(".men_item").on('click', function () {
+        $(".men_item").removeClass("current-menu-item")
+        $(this).addClass("current-menu-item")
+        if ($(this).find("a").text().replace(/\s/g, '') == "Movies") {
+            titleCont.type = "film"
+            titleCont.header = "Films"
+        } else {
+            titleCont.type = "tv_show"
+            titleCont.header = "TV Shows"
         }
-    }
-    for (var i = 0; i < data["series"].length; i++) {
-        if (data["series"][i]["genres"].indexOf(genre) >= 0) {
-            list.push(data["series"][i])
+    
+    })
+    
+    $(".genre_button").on("click", function () {
+        $(".genre_button").removeClass("active")
+        $(this).addClass("active")
+        var genre = $(this).find("h6").text().replace(/\s/g, '')
+        var set = new Set()
+        for (var key in data) {
+            if (data.hasOwnProperty(key) && data[key]["genres"].indexOf(genre) >= 0) {
+                set.add(key)
+            }
         }
-    }
-    titleCont.header = genre
-    titleCont.titles = list
+        console.log(set)
+        titleCont.type = null
+        titleCont.header = genre
+        titleCont.set = set
+    
+    })
 
-})
+    $("#searchButton").on("click", function () {
+        getSearchPrams()
+    })
+    $("#searchBar").keyup(function (event) {
+        if (event.keyCode === 13) {
+            getSearchPrams();
+        }
+    });
+    
+    $("#mobileSearch").keyup(function (event) {
+        if (event.keyCode === 13) {
+            search($("#mobileSearch").val(), true, true, "0", 0, 10)
+        }
+    });
+
+    $(".fa-cogs").on('click', function () {
+        $("#exampleModal").modal('show');
+    })
+    
+    $("#saveChange").on('click', function () {
+        document.cookie = "UserID=" + $("#userIDForm").val();
+        location.reload()
+    })
+
+    
+}
+
+
+
 
 function search(query, movies, series, genre, minRating, maxRating) {
     list = []
-    //get all matching movies
-    if (movies) {
-        for (i = 0; i < data["movies"].length; i++) {
-            if (data["movies"][i]["rating"] > minRating && data["movies"][i]["rating"] < maxRating) {
-                if (genre == "0") {
-                    list.push(data["movies"][i])
-                } else if (data["movies"][i]['genres'].indexOf(genre) >= 0) {
-                    list.push(data["movies"][i])
+    for (var id in data){
+        if (data.hasOwnProperty(id)) {
+            if ((data[id] == "film" && movies) || (data[id] == "tv_show" && series)){
+                if (data[id]["rating"] > minRating && data[id]["rating"] < maxRating) {
+                    if (genre == "0") {
+                        list.push(id)
+                    } else if (data[id]['genres'].indexOf(genre) >= 0) {
+                        list.push(id)
+                    }
                 }
             }
         }
     }
-    //get all matching series
-    if (series) {
-        for (i = 0; i < data["series"].length; i++) {
-            if (data["series"][i]["rating"] > minRating && data["series"][i]["rating"] < maxRating) {
-                if (genre == "0") {
-                    list.push(data["series"][i])
-                } else if (data["series"][i]['genres'].indexOf(genre) >= 0) {
-                    list.push(data["series"][i])
-                }
-            }
-        }
-    }
+
     //rank by number of occurances of each individual word
     var obj = {}
     var nquery = query.toLowerCase()
@@ -163,19 +193,18 @@ function search(query, movies, series, genre, minRating, maxRating) {
 
     for (i = 0; i < list.length; i++) {
         rank = 0
-        main = list[i]
+        main = data[list[i]]
         for (j = 0; j < querylist.length; j++) {
             rank += count(main["title"].toLowerCase(), querylist[j])
             rank += count(main["description"].toLowerCase(), querylist[j])
         }
         obj[i] = {
-            "title": main,
+            "id": list[i],
             "rank": rank
         }
 
     }
     //convert list
-    console.log(obj)
     nlist = []
     for (key in obj) {
         if (obj.hasOwnProperty(key)) {
@@ -190,13 +219,14 @@ function search(query, movies, series, genre, minRating, maxRating) {
 
     //sort by rank
     nlist.sort(compare)
-    nalist = []
+    nset = new Set()
     for (var i = 0; i < nlist.length; i++) {
-        nalist[i] = nlist[i]["title"]
+        nset.add(nlist[i]["id"])
     }
     //display
+    titleCont.type = null
     titleCont.header = query
-    titleCont.titles = nalist
+    titleCont.set = set
     var url = new URL(window.location.href)
     $(window).scrollTo($("#pannelCont"), 800)
 
@@ -241,20 +271,7 @@ function getSearchPrams() {
     search($("#searchBar").val(), $("#movies-type").attr("checked") == "checked", $("#tv-type").attr("checked") == "checked", genre, minR, maxR)
 }
 
-$("#searchButton").on("click", function() {
-    getSearchPrams()
-})
-$("#searchBar").keyup(function(event) {
-    if (event.keyCode === 13) {
-        getSearchPrams();
-    }
-});
 
-$("#mobileSearch").keyup(function(event) {
-    if (event.keyCode === 13) {
-        search($("#mobileSearch").val(), true, true, "0", 0, 10)
-    }
-});
 
 var url = new URL(window.location.href)
 if (url.searchParams.get("search") == "true") {
@@ -272,24 +289,11 @@ if (url.searchParams.get("search") == "true") {
 }
 
 if (url.searchParams.get("search") == "false") {
-    $(document).ready(function() {
+    $(document).ready(function () {
         $(".men_item").removeClass("current-menu-item")
         $(".movie_menu_item").addClass("current-menu-item")
         titleCont.titles = data["movies"]
         titleCont.header = "Movies"
     })
 
-}
-
-$(".fa-cogs").on('click', function() {
-    $("#exampleModal").modal('show');
-})
-
-$("#saveChange").on('click', function() {
-    loadJSON();
-})
-
-function loadJSON() {
-    document.cookie = "UserID="+$("#userIDForm").val();
-    location.reload()
 }

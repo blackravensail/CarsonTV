@@ -157,7 +157,7 @@
 		<div id="content-sidebar-pro">
 
 			<div id="content-sidebar-image">
-				<img :src="header + title.tall" alt="Movie Poster">
+				<img :src="'http://ipfs.io/ipfs/'+ title.location.ipfs + '/' + title.tall" alt="Movie Poster">
 			</div>
 
 			<div class="content-sidebar-section">
@@ -193,7 +193,7 @@
 			<div id="movie-detail-rating">
 				<div class="dashboard-container">
 					<div class="row" id="ratingBar">
-						<h3 id="epTitle" style="float:left;">{{ title }}</h3>
+						<h3 id="epTitle" style="float:left;">{{ title.title }}</h3>
 						<div class="col-sm">
 							<a class="btn btn-green-pro btn-slider-pro btn-shadow-pro afterglow" id="trailer_Button"><i class="fas fa-play"></i>Watch Trailer</a>
 						</div>
@@ -227,11 +227,11 @@
 					<div class="seasonRow" v-for="(season, sindex) in ep_map">
 						<h3>{{ season.title }}</h3>
 						<div class="seasonSlider">
-
+				
 							<div class="episode card" v-for="(episode, eindex) in season.episodes" :data-eindex="eindex" :data-sindex="sindex">
 
-									<img class="card-img-top" :src="header + episode.tall" :alt="episode.title">
-									<div :style="'background-color: red; width: ' + episode.progress +'%;'"></div>
+									<img class="card-img-top" :src="header + episode.image" :alt="episode.title">
+									<div :style="'background-color: red; width: ' + getProgress(sindex,eindex) +'%;'"></div>
 									<div class="card-body">
 										<p class="card-text">{{ eindex + 1 }} - {{ episode.title }}</p>
 									</div>
