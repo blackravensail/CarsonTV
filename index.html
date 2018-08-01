@@ -25,7 +25,11 @@
     <div id="sidebar-bg">
 
         <header id="videohead-pro" class="sticky-header">
-            <div id="video-logo-background"><a href="index.html"><img src="images/logo-video-layout.png" alt="Logo"></a></div>
+            <div id="video-logo-background">
+                <a href="index.html">
+                    <img src="images/logo-video-layout.png" alt="Logo">
+                </a>
+            </div>
 
             <div id="video-search-header">
                 <div id="search-icon-more"></div>
@@ -39,14 +43,14 @@
                                 <div class="row">
                                     <div class="col-sm">
                                         <label class="checkbox-pro-container">Movies
-										  <input type="checkbox" checked="checked" id="movies-type">
-										  <span class="checkmark-pro"></span>
-										</label>
+                                            <input type="checkbox" checked="checked" id="movies-type">
+                                            <span class="checkmark-pro"></span>
+                                        </label>
 
                                         <label class="checkbox-pro-container">TV Series
-										  <input type="checkbox" checked="checked" id="tv-type">
-										  <span class="checkmark-pro"></span>
-										</label>
+                                            <input type="checkbox" checked="checked" id="tv-type">
+                                            <span class="checkmark-pro"></span>
+                                        </label>
                                     </div>
                                     <!-- close .col -->
                                 </div>
@@ -58,18 +62,18 @@
                             <div class="col-sm extra-padding">
                                 <h5>Genres:</h5>
                                 <select class="custom-select" id="genreSearch">
-								  <option value="0" selected>All Genres</option>
-								  <option value="1">Action</option>
-								  <option value="2">Adventure</option>
-								  <option value="3">Drama</option>
-								  <option value="4">Animation</option>
-								  <option value="5">Documentary</option>
-								  <option value="6">Drama</option>
-								  <option value="9">Fantasy</option>
-								  <option value="10">Romance</option>
-								  <option value="11">Sci-Fi</option>
-								  <option value="12">Western</option>
-								</select>
+                                    <option value="0" selected>All Genres</option>
+                                    <option value="1">Action</option>
+                                    <option value="2">Adventure</option>
+                                    <option value="3">Drama</option>
+                                    <option value="4">Animation</option>
+                                    <option value="5">Documentary</option>
+                                    <option value="6">Drama</option>
+                                    <option value="9">Fantasy</option>
+                                    <option value="10">Romance</option>
+                                    <option value="11">Sci-Fi</option>
+                                    <option value="12">Western</option>
+                                </select>
                                 <div class="dotted-dividers-pro"></div>
                             </div>
                             <!-- close .col -->
@@ -92,7 +96,9 @@
             </div>
             <!-- close .video-search-header -->
 
-            <div id="mobile-bars-icon-pro" class="noselect"><i class="fas fa-bars"></i></div>
+            <div id="mobile-bars-icon-pro" class="noselect">
+                <i class="fas fa-bars"></i>
+            </div>
 
             <div id="header-user-profile">
                 <div id="header-user-profile-click" class="noselect" style="font-size: 1.75rem; color: black">
@@ -107,15 +113,15 @@
                 <ul id="mobile-menu-pro">
                     <li class="current-menu-item men_item">
                         <a>
-						<span class="icon-Old-TV"></span>
-	                TV Series
-	              </a>
+                            <span class="icon-Old-TV"></span>
+                            TV Series
+                        </a>
                         <li>
                             <li class="men_item movie_menu_item">
                                 <a>
-						<span class="icon-Reel"></span>
-	                Movies
-	              </a>
+                                    <span class="icon-Reel"></span>
+                                    Movies
+                                </a>
                             </li>
                 </ul>
                 <div class="clearfix"></div>
@@ -135,15 +141,15 @@
             <ul id="vertical-sidebar-nav" class="sf-menu">
                 <li class="normal-item-pro current-menu-item men_item" id="tv_menu_item">
                     <a>
-						<span class="icon-Old-TV"></span>
-                  TV Series
-                </a>
+                        <span class="icon-Old-TV"></span>
+                        TV Series
+                    </a>
                 </li>
                 <li class="normal-item-pro men_item movie_menu_item">
                     <a>
-						<span class="icon-Reel"></span>
-                  Movies
-                </a>
+                        <span class="icon-Reel"></span>
+                        Movies
+                    </a>
                 </li>
             </ul>
             <div class="clearfix"></div>
@@ -161,14 +167,16 @@
                                 <div class="progression-studios-slider-vertical-align">
                                     <div class="container">
 
-                                        <a class="progression-studios-slider-play-btn afterglow" :href="'view.html?id=' + id"><i class="fas fa-play"></i></a>
-
-
+                                        <a class="progression-studios-slider-play-btn afterglow" :href="'view.html?id=' + id">
+                                            <i class="fas fa-play"></i>
+                                        </a>
 
                                         <div class="progression-studios-slider-dashboard-caption-width">
                                             <div class="progression-studios-slider-caption-align">
                                                 <h6 class="light-fonts-pro">{{ getType() }}</h6>
-                                                <h2 class="light-fonts-pro"><a :href="'view.html?id=' + id">{{ title["title"] }}</a></h2>
+                                                <h2 class="light-fonts-pro">
+                                                    <a :href="'view.html?id=' + id">{{ title["title"] }}</a>
+                                                </h2>
                                                 <ul class="progression-studios-slider-meta light-fonts-pro">
                                                     <li>{{ title["release_date"]}}</li>
                                                     <li>{{ title["duration"]}} mins.</li>
@@ -176,7 +184,8 @@
                                                 </ul>
                                                 <p class="progression-studios-slider-description light-fonts-pro">{{ title["description"]}}</p>
 
-                                                <a class="btn btn-green-pro btn-slider-pro btn-shadow-pro afterglow" :href="'view.html?id=' + id"><i class="fas fa-play"></i>Watch</a>
+                                                <a class="btn btn-green-pro btn-slider-pro btn-shadow-pro afterglow" :href="'view.html?id=' + id">
+                                                    <i class="fas fa-play"></i>Watch</a>
 
 
                                                 <div :class="'c100 p'+title.rating*10 + ' small ' + getColor(title.rating)" style="float: right; zoom:.8">
@@ -186,8 +195,6 @@
                                                         <div class="fill"></div>
                                                     </div>
                                                 </div>
-
-
 
                                                 <div class="clearfix"></div>
 
@@ -263,13 +270,17 @@
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-4 col-xl-3" v-for='(title, id) in titles' v-if="title['type'] == type || (type == null && set.has(id))">
                         <div class="item-listing-container-skrn title">
-                            <a :href="'view.html?id=' + id"><img :src="'http://ipfs.io/ipfs/' + title['location']['ipfs'] + '/' + title['tall']" :alt="title.title"></a>
+                            <a :href="'view.html?id=' + id">
+                                <img :src="'http://ipfs.io/ipfs/' + title['location']['ipfs'] + '/' + title['tall']" :alt="title.title">
+                            </a>
                             <div class="progressDiv">
-                                <div :style="'width: ' + returnProgress(id) +'%;'"></div>
+                                <div class="progressDivSub" :style="'height: 100%; background-color: red; width: ' + returnProgress(id) +'%;'"></div>
                             </div>
                             <div class="item-listing-text-skrn">
                                 <div class="item-listing-text-skrn-vertical-align">
-                                    <h6 id="titleTitle"><a :href="'view.html?id=' + id">{{ title.title }}</a></h6>
+                                    <h6 id="titleTitle">
+                                        <a :href="'view.html?id=' + id">{{ title.title }}</a>
+                                    </h6>
                                     <div :class="' c100 p'+title.rating*10 + ' small ' + getColor(title.rating)" style="float: right; zoom:.5;">
                                         <span style="font-weight: bold;">{{ title.rating }}</span>
                                         <div class="slice">
@@ -301,7 +312,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Select UserID</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -316,7 +327,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="saveChange">Save changes</button>
+                        <button type="button" class="btn btn-primary" id="saveChange">Save ID</button>
                     </div>
                 </div>
             </div>
@@ -346,17 +357,14 @@
     <!-- Circle Progress JS Plugin -->
     <script src="js/jquery.scrollTo.min.js" defer></script>
     <!-- Scroll Plugin-->
-    <script src="js/afterglow.min.js" defer></script>
-    <!-- Video Player JS Plugin -->
     <script src="js/script.js" defer></script>
-    <!-- Ipmort Vue -->
+    <!-- Import Vue -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!-- Custom Document Ready JS -->
     <script src="js/script-dashboard.js" defer></script>
     <!-- Custom Document Ready for Dashboard Only JS -->
-    <script src="DataGenerator/example.js"></script>
 
-    <!--<script src="http://76.114.138.132:5000/json"></script>-->
+    <script src="js/js.cookie.js"></script>
 
     <script src="main.js"></script>
 

@@ -3,12 +3,15 @@ var slider;
 var titleCont;
 
 var firstLoad = false
+var userID
 
-userID = "carson_stanford"
-
-if (document.cookie == "") {
-    console.log("No local JSON found, loading example")
+if (Cookies.get("UserID") == undefined) {
+    $("#exampleModal").modal('show');
+    userID = 'test' 
     firstLoad = true
+}
+else {
+    userID = Cookies.get("UserID")
 }
 
 
@@ -31,9 +34,6 @@ $.ajax({
 
 
 function main(data, personal) {
-    if (firstLoad) {
-        $("#exampleModal").modal('show');
-    }
 
     if (firstLoad) {
         var sliderID = "tt0327137"
@@ -74,7 +74,7 @@ function main(data, personal) {
             }
         }
     })
-
+    
     titleCont = new Vue({
         el: "#pannelCont",
         data: {
@@ -97,12 +97,11 @@ function main(data, personal) {
             returnProgress: function(id){
                 if (this.pdata.hasOwnProperty(id)) {
                     if (this.pdata[id].hasOwnProperty("progress")) {
+                        console.log(this.pdata[id]["progress"])
                         return this.pdata[id]["progress"]
                     }
                 }
-                else {
-                    return(0)
-                }
+                return 0
             }
         }
     })
@@ -161,7 +160,7 @@ $(".fa-cogs").on('click', function () {
 })
 
 $("#saveChange").on('click', function () {
-    document.cookie = "UserID=" + $("#userIDForm").val() +"; path=" + JSONServer;
+    Cookies.set("UserID", $("#userIDForm").val())
     location.reload()
 })
 

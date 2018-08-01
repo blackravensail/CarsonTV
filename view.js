@@ -4,7 +4,7 @@ var id = url.searchParams.get("id")
 var j = 0
 var k = 0
 
-JSONServer = "http://127.0.0.1:5000"
+JSONServer = "http://blakewintermute.pythonanywhere.com"
 
 var playnext
 
@@ -20,15 +20,27 @@ var pdata
 var cS
 var cE
 
+if (Cookies.get("UserID") == undefined) {
+    window.location = "/"
+}
+else {
+    userID = Cookies.get("UserID")
+}
 
 
-$.getJSON(JSONServer + "/json", function (json) {
-    $(document).ready(function () {
-        data = json["titles"]
-        pdata = json["pdata"]
-        main()
-    })
-})
+$.ajax({
+    dataType: "json",
+    url: JSONServer + "/json",
+    crossDomain: true,
+    data: { "UserID": userID },
+    success: function (json) {
+        $(document).ready(function () {
+            data = json["titles"]
+            pdata = json["pdata"]
+            main();
+        })
+    }
+});
 
 
 
@@ -59,7 +71,7 @@ function main() {
         if (data[id]["type"] == "series") {
             pdata[id]["map"][cS.toString()][cE.toString()] = 100 * (player.currentTime / player.duration)
             update = {
-                "UserID":userID,
+                "UserID": userID,
                 "id": id,
                 "cS": cS,
                 "cE": cE,
@@ -72,12 +84,21 @@ function main() {
         else if (j % 2 == 0) {
             pdata[id] = 100 * (player.currentTime / player.duration)
             update = {
-                "UserID":userID,
+                "UserID": userID,
                 "id": id,
                 "progress": 100 * (player.currentTime / player.duration)
             }
             $.post(JSONServer + "/update", update, function (response) {
                 return
+            })
+
+
+            update["UserID"] = userID
+            $.ajax({
+                url: JSONServer + "/update",
+                method: "POST",
+                crossDomain: true,
+                data: update,
             })
         }
     })
@@ -250,6 +271,7 @@ function playEpisode(season, episode) {
 }
 
 function defineVueElm() {
+    console.log(data)
     sideBar = new Vue({
         el: "#content-sidebar-pro",
         data: {
