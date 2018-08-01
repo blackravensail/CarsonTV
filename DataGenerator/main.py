@@ -7,6 +7,7 @@ import glob
 import cv2
 import subprocess
 import time
+
 cwd = os.getcwd()
 imdb = Imdb()
 

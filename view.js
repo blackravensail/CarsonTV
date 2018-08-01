@@ -4,7 +4,7 @@ var id = url.searchParams.get("id")
 var j = 0
 var k = 0
 
-JSONServer = "http://76.114.138.132:5000"
+JSONServer = "http://127.0.0.1:5000"
 
 var playnext
 
@@ -21,19 +21,16 @@ var cS
 var cE
 
 
-/*
-$.getJSON(JSONServer + "/json", function (json, status) {
+
+$.getJSON(JSONServer + "/json", function (json) {
     $(document).ready(function () {
-         main(json["titles"], json["personal"]);
+        data = json["titles"]
+        pdata = json["pdata"]
+        main()
     })
 })
-*/
 
-$(document).ready(function () {
-    data = defaultData
-    pdata = defaultPData
-    main()
-})
+
 
 
 function main() {
@@ -62,6 +59,7 @@ function main() {
         if (data[id]["type"] == "series") {
             pdata[id]["map"][cS.toString()][cE.toString()] = 100 * (player.currentTime / player.duration)
             update = {
+                "UserID":userID,
                 "id": id,
                 "cS": cS,
                 "cE": cE,
@@ -74,6 +72,7 @@ function main() {
         else if (j % 2 == 0) {
             pdata[id] = 100 * (player.currentTime / player.duration)
             update = {
+                "UserID":userID,
                 "id": id,
                 "progress": 100 * (player.currentTime / player.duration)
             }
@@ -210,6 +209,10 @@ function main() {
 
 function playEpisode(season, episode) {
     ratingBar.title = data[id]["ep_map"][season]["episodes"][episode]
+    if (data[id]["ep_map"][season]["episodes"][episode].hasOwnProperty("description") && data[id]["ep_map"][season]["episodes"][episode]["description"] != "") {
+        desBox.description = data[id]["ep_map"][season]["episodes"][episode]["description"]
+    }
+
 
     $($("#seriesCont").get(0)).find(".episode[data-sindex=" + season + "][data-eindex=" + episode + "]").addClass("activeEpisode")
 

@@ -4,25 +4,31 @@ var titleCont;
 
 var firstLoad = false
 
+userID = "carson_stanford"
+
 if (document.cookie == "") {
     console.log("No local JSON found, loading example")
     firstLoad = true
 }
 
 
-JSONServer = "http://76.114.138.132:5000"
+JSONServer = "http://blakewintermute.pythonanywhere.com"
 
-/*
-$.getJSON(JSONServer + "/json", function (json, status) {
-    $(document).ready(function () {
-        main(json["titles"], json["personal"]);
-    })
-})
-*/
+$.ajax({
+    dataType: "json",
+    url: JSONServer + "/json",
+    crossDomain: true,
+    data:{"UserID":userID},
+    success: function(json) {
+        $(document).ready(function () {
+            main(json["titles"], json["pdata"]);
+        })
+    }
+  });
 
-$(document).ready(function () {
-    main(defaultData, defaultPData);
-})
+
+
+
 
 function main(data, personal) {
     if (firstLoad) {
@@ -47,10 +53,10 @@ function main(data, personal) {
                 return ("background-image:url('http://ipfs.io/ipfs/" + this.title["location"]["ipfs"] + "/" + this.title["wide"] + "') !important;")
             },
             getType: function () {
-                if (this.title["type"] == "film") {
+                if (this.title["type"] == "movie") {
                     return "Film"
                 }
-                else if (this.title["type"] == "tv_show") {
+                else if (this.title["type"] == "series") {
                     return "TV Show"
                 }
                 else {
@@ -75,7 +81,7 @@ function main(data, personal) {
             set: new Set(["1","2","3","4"]), 
             titles: data,
             header: "TV Shows",
-            type:"tv_show",
+            type:"series",
             pdata: personal
         },
         methods: {
@@ -105,10 +111,10 @@ function main(data, personal) {
         $(".men_item").removeClass("current-menu-item")
         $(this).addClass("current-menu-item")
         if ($(this).find("a").text().replace(/\s/g, '') == "Movies") {
-            titleCont.type = "film"
+            titleCont.type = "movie"
             titleCont.header = "Films"
         } else {
-            titleCont.type = "tv_show"
+            titleCont.type = "series"
             titleCont.header = "TV Shows"
         }
     
@@ -146,26 +152,25 @@ function main(data, personal) {
         }
     });
 
-    $(".fa-cogs").on('click', function () {
-        $("#exampleModal").modal('show');
-    })
-    
-    $("#saveChange").on('click', function () {
-        document.cookie = "UserID=" + $("#userIDForm").val();
-        location.reload()
-    })
-
     
 }
 
+$(".fa-cogs").on('click', function () {
+    console.log("tried to open modal")
+    $("#exampleModal").modal('show');
+})
 
+$("#saveChange").on('click', function () {
+    document.cookie = "UserID=" + $("#userIDForm").val() +"; path=" + JSONServer;
+    location.reload()
+})
 
 
 function search(query, movies, series, genre, minRating, maxRating) {
     list = []
     for (var id in data){
         if (data.hasOwnProperty(id)) {
-            if ((data[id] == "film" && movies) || (data[id] == "tv_show" && series)){
+            if ((data[id]["type"] == "movie" && movies) || (data[id]["series"] == "series" && series)){
                 if (data[id]["rating"] > minRating && data[id]["rating"] < maxRating) {
                     if (genre == "0") {
                         list.push(id)
