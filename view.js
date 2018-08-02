@@ -7,6 +7,7 @@ var k = 0
 JSONServer = "http://blakewintermute.pythonanywhere.com"
 
 var playnext
+var played = false
 
 var sidebar
 var ratingBar
@@ -68,6 +69,7 @@ function main() {
 
     //Update tracking server
     player.on('timechange', event => {
+        played = true
         if (data[id]["type"] == "series") {
             pdata[id]["map"][cS.toString()][cE.toString()] = 100 * (player.currentTime / player.duration)
             update = {
@@ -105,23 +107,25 @@ function main() {
 
     //Play next Episode Automagically
     player.on('ended', event => {
-        if (data[id]["type"] == "series") {
-            var playNext = false
-            var season
-            var episode
-            if (cE + 1 < data[id]["ep_map"][cS]["episodes"].length) {
-                episode = cE + 1;
-                season = cS
-                playNext = true;
-            }
-            else if (cS + 1 < data[id]["ep_map"].length) {
-                episode = 0;
-                season = cS + 1;
-                playNext = true
-            }
+        if (played) {
+            if (data[id]["type"] == "series") {
+                var playNext = false
+                var season
+                var episode
+                if (cE + 1 < data[id]["ep_map"][cS]["episodes"].length) {
+                    episode = cE + 1;
+                    season = cS
+                    playNext = true;
+                }
+                else if (cS + 1 < data[id]["ep_map"].length) {
+                    episode = 0;
+                    season = cS + 1;
+                    playNext = true
+                }
 
-            if (playNext) {
-                playEpisode(season, episode)
+                if (playNext) {
+                    playEpisode(season, episode)
+                }
             }
         }
 
@@ -135,7 +139,30 @@ function main() {
             slidesToScroll: 2,
             infinite: false,
             arrows: true,
-            swipeToSlide: true
+            swipeToSlide: true,
+            responsive: [
+                {
+                  breakpoint: 1024,
+                  settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 2,
+                  }
+                },
+                {
+                  breakpoint: 600,
+                  settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 2
+                  }
+                },
+                {
+                  breakpoint: 480,
+                  settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                  }
+                }
+              ]
         });
 
         if (pdata.hasOwnProperty(id)) {
@@ -181,9 +208,9 @@ function main() {
         $("#seriesCont").hide()
 
         var srcList = []
-        for (var i; i < data[id]["location"]["html"].length; i++) {
+        for (var i; i < data[id]["location"]["http"].length; i++) {
             srcList.push({
-                src: data[id]["location"]["html"][i] + "/" + data[id]["feature"],
+                src: data[id]["location"]["http"][i] + "/" + data[id]["feature"],
                 type: 'video/mp4'
             })
         }
@@ -234,13 +261,15 @@ function playEpisode(season, episode) {
         desBox.description = data[id]["ep_map"][season]["episodes"][episode]["description"]
     }
 
+    played = false
 
+    $(".activeEpisode").removeClass("activeEpisode")
     $($("#seriesCont").get(0)).find(".episode[data-sindex=" + season + "][data-eindex=" + episode + "]").addClass("activeEpisode")
 
     var srcList = []
-    for (var i = 0; i < data[id]["location"]["html"].length; i++) {
+    for (var i = 0; i < data[id]["location"]["http"].length; i++) {
         srcList.push({
-            src: data[id]["location"]["html"][i] + "/" + data[id]["ep_map"][season]["episodes"][episode]["video"],
+            src: data[id]["location"]["http"][i] + "/" + data[id]["ep_map"][season]["episodes"][episode]["video"],
             type: 'video/mp4'
         })
     }

@@ -11,6 +11,12 @@
 .episode {
 	margin-right: 1rem;
 }
+.episode:focus {
+	outline:0;
+}
+.episode:hover{
+	cursor: pointer;
+}
 .activeEpisode {
 	border: 1px solid green;
 }

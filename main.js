@@ -129,7 +129,6 @@ function main(data, personal) {
                 set.add(key)
             }
         }
-        console.log(set)
         titleCont.type = null
         titleCont.header = genre
         titleCont.set = set
