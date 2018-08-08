@@ -4,6 +4,8 @@ var titleCont;
 var firstLoad = false
 var userID
 
+console.log("Version 82")
+
 if (Cookies.get("UserID") == undefined) {
     $("#exampleModal").modal('show');
     userID = 'test' 
