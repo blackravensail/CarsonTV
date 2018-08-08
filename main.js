@@ -1,4 +1,3 @@
-
 var slider;
 var titleCont;
 
@@ -149,6 +148,13 @@ function main(data, personal) {
             search($("#mobileSearch").val(), true, true, "0", 0, 10)
         }
     });
+    if (url.searchParams.get("search") == "false") {
+        $(".men_item").removeClass("current-menu-item")
+        $(".movie_menu_item").addClass("current-menu-item")
+        console.log("changing to Movies")
+        titleCont.type = "movie"
+        titleCont.header = "Films"
+}
 
     
 }
@@ -291,12 +297,3 @@ if (url.searchParams.get("search") == "true") {
     search(queryt, moviest, seriest, genret, minRatingt, maxRatingt)
 }
 
-if (url.searchParams.get("search") == "false") {
-    $(document).ready(function () {
-        $(".men_item").removeClass("current-menu-item")
-        $(".movie_menu_item").addClass("current-menu-item")
-        titleCont.titles = data["movies"]
-        titleCont.header = "Movies"
-    })
-
-}

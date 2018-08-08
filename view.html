@@ -230,7 +230,6 @@
 							<div class="episode card" v-for="(episode, eindex) in season.episodes" :data-eindex="eindex" :data-sindex="sindex">
 
 									<img class="card-img-top" :src="header + episode.image" :alt="episode.title">
-									<div :style="'background-color: red; width: ' + getProgress(sindex,eindex) +'%;'"></div>
 									<div class="card-body">
 										<p class="card-text">{{ eindex + 1 }} - {{ episode.title }}</p>
 									</div>

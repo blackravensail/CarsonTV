@@ -17,6 +17,9 @@ var player
 
 var data
 var pdata
+var serverList
+var timeCounter = 0;
+var canPlayRan = false
 
 var cS
 var cE
@@ -38,6 +41,7 @@ $.ajax({
         $(document).ready(function () {
             data = json["titles"]
             pdata = json["pdata"]
+            serverList = json["serverList"]
             main();
         })
     }
@@ -56,74 +60,101 @@ function main() {
 
 
     // Set Time to current time saved
-    player.on('canplay', event => {
-        if (pdata.hasOwnProperty(id)) {
-            if (data[id]["type"] == "series") {
-                player.currentTime = ((pdata[id]["map"][cS.toString()][cE.toString()] / 100.0) * player.duration);
-            }
-            else if (j % 2 == 0) {
-                player.currentTime = ((pdata[id] / 100) * player.duration);
+    player.on('canplaythrough', event => {
+        if (!canPlayRan) {
+            canPlayRan = true
+            if (pdata.hasOwnProperty(id)) {
+                console.log("settime")
+                if (data[id]["type"] == "series") {
+                    setTimeout(function(){ player.currentTime = ((pdata[id]["map"][cS.toString()][cE.toString()] / 100.0) * player.duration); }, 600);
+                    
+                }
+                else if (j % 2 == 0) {
+                    setTimeout(function(){ player.currentTime = ((pdata[id] / 100) * player.duration); }, 600);
+                    
+                }
             }
         }
     });
 
     //Update tracking server
-    player.on('timechange', event => {
-        played = true
-        if (data[id]["type"] == "series") {
-            pdata[id]["map"][cS.toString()][cE.toString()] = 100 * (player.currentTime / player.duration)
-            update = {
-                "UserID": userID,
-                "id": id,
-                "cS": cS,
-                "cE": cE,
-                "progress": 100 * (player.currentTime / player.duration)
-            }
-            $.post(JSONServer + "/update", update, function (response) {
+    player.on('timeupdate', event => {
+        timeCounter++;
+        if (timeCounter >= 20) {
+            timeCounter = 0
+            if (player.currentTime == 0) {
                 return
-            })
-        }
-        else if (j % 2 == 0) {
-            pdata[id] = 100 * (player.currentTime / player.duration)
-            update = {
-                "UserID": userID,
-                "id": id,
-                "progress": 100 * (player.currentTime / player.duration)
             }
-            $.post(JSONServer + "/update", update, function (response) {
-                return
-            })
+            played = true
+            console.log("Updating Server Time")
+            if (data[id]["type"] == "series") {
+                if (!pdata.hasOwnProperty(id)) {
+                    pdata[id] = {
+                        "cS": cS,
+                        "cE": cE,
+                        "map": {}
+                    }
+                }
 
+                if (!pdata[id]["map"].hasOwnProperty(cS.toString())) {
+                    pdata[id]["map"][cS.toString()] = {}
+                }
 
-            update["UserID"] = userID
-            $.ajax({
-                url: JSONServer + "/update",
-                method: "POST",
-                crossDomain: true,
-                data: update,
-            })
+                pdata[id]["map"][cS.toString()][cE.toString()] = 100 * (player.currentTime / player.duration)
+                update = {
+                    "UserID": userID,
+                    "id": id,
+                    "cS": cS,
+                    "cE": cE,
+                    "progress": 100 * (player.currentTime / player.duration)
+                }
+
+                $.ajax({
+                    dataType: "json",
+                    url: JSONServer + "/update",
+                    method: "POST",
+                    crossDomain: true,
+                    data: JSON.stringify(update)
+                })
+            }
+            else if (j % 2 == 0) {
+                pdata[id] = 100 * (player.currentTime / player.duration)
+                update = {
+                    "UserID": userID,
+                    "id": id,
+                    "progress": 100 * (player.currentTime / player.duration)
+                }
+                $.ajax({
+                    dataType: "json",
+                    url: JSONServer + "/update",
+                    method: "POST",
+                    crossDomain: true,
+                    data: JSON.stringify(update)
+                })
+            }
         }
     })
 
     //Play next Episode Automagically
     player.on('ended', event => {
+        console.log("ended")
         if (played) {
             if (data[id]["type"] == "series") {
                 var playNext = false
-                var season
-                var episode
+                var season = cS
+                var episode = cE
                 if (cE + 1 < data[id]["ep_map"][cS]["episodes"].length) {
-                    episode = cE + 1;
-                    season = cS
+                    episode++;
                     playNext = true;
                 }
                 else if (cS + 1 < data[id]["ep_map"].length) {
                     episode = 0;
-                    season = cS + 1;
+                    season++;
                     playNext = true
                 }
 
                 if (playNext) {
+                    console.log(season, episode)
                     playEpisode(season, episode)
                 }
             }
@@ -142,27 +173,27 @@ function main() {
             swipeToSlide: true,
             responsive: [
                 {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 2,
-                  }
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 2,
+                    }
                 },
                 {
-                  breakpoint: 600,
-                  settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 2
-                  }
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 2
+                    }
                 },
                 {
-                  breakpoint: 480,
-                  settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                  }
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
                 }
-              ]
+            ]
         });
 
         if (pdata.hasOwnProperty(id)) {
@@ -190,11 +221,6 @@ function main() {
             season = $(this).attr('data-sindex')
             episode = $(this).attr('data-eindex')
 
-            if (pdata.hasOwnProperty(id)) {
-                if (pdata[id][map][season.toString()][episode.toString] > 95) {
-                    pdata[id][map][season.toString()][episode.toString] = 0
-                }
-            }
 
             playEpisode(season, episode)
 
@@ -208,9 +234,9 @@ function main() {
         $("#seriesCont").hide()
 
         var srcList = []
-        for (var i; i < data[id]["location"]["http"].length; i++) {
+        for (var i; i < serverList.length; i++) {
             srcList.push({
-                src: data[id]["location"]["http"][i] + "/" + data[id]["feature"],
+                src: serverList[i] + "/" + data[id]["location"]["http"] + "/" + data[id]["feature"],
                 type: 'video/mp4'
             })
         }
@@ -234,12 +260,13 @@ function main() {
         player.source = srcObj
 
         $("#trailer_Button").on("click", function () {
+            canPlayRan = false
             if (j % 2 == 0) {
                 player.source = {
                     type: 'video',
                     title: data[id]["title"],
                     sources: [{
-                        src: "http:ipfs.io/ipfs/" + data[id]["location"]["ipfs"] + "/" + data[id]["trailer_id"],
+                        src: "http://ipfs.io/ipfs/" + data[id]["location"]["ipfs"] + "/" + data[id]["trailer"],
                         type: 'video/mp4'
                     }]
                 }
@@ -256,10 +283,16 @@ function main() {
 }
 
 function playEpisode(season, episode) {
+
+    console.log(season, episode)
+
     ratingBar.title = data[id]["ep_map"][season]["episodes"][episode]
-    if (data[id]["ep_map"][season]["episodes"][episode].hasOwnProperty("description") && data[id]["ep_map"][season]["episodes"][episode]["description"] != "") {
-        desBox.description = data[id]["ep_map"][season]["episodes"][episode]["description"]
+    try {
+        if (data[id]["ep_map"][season]["episodes"][episode].hasOwnProperty("description") && data[id]["ep_map"][season]["episodes"][episode]["description"] != "") {
+            desBox.description = data[id]["ep_map"][season]["episodes"][episode]["description"]
+        }
     }
+    catch (err) { }
 
     played = false
 
@@ -267,9 +300,9 @@ function playEpisode(season, episode) {
     $($("#seriesCont").get(0)).find(".episode[data-sindex=" + season + "][data-eindex=" + episode + "]").addClass("activeEpisode")
 
     var srcList = []
-    for (var i = 0; i < data[id]["location"]["http"].length; i++) {
+    for (var i = 0; i < serverList.length; i++) {
         srcList.push({
-            src: data[id]["location"]["http"][i] + "/" + data[id]["ep_map"][season]["episodes"][episode]["video"],
+            src: serverList[i] + "/" + data[id]["location"]["http"] + "/" + data[id]["ep_map"][season]["episodes"][episode]["video"],
             type: 'video/mp4'
         })
     }
@@ -293,9 +326,12 @@ function playEpisode(season, episode) {
     }
 
     player.source = srcObj
+    canPlayRan = false
 
     cE = episode
     cS = season
+
+    window.cE = cE
 
 }
 
