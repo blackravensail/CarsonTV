@@ -59,15 +59,20 @@ function main() {
 
 
     // Set Time to current time saved
-    player.on('canplaythrough', event => {
+    player.on('canplay', event => {
         if (!canPlayRan) {
             canPlayRan = true
             if (pdata.hasOwnProperty(id)) {
-                console.log("settime")
                 if (data[id]["type"] == "series") {
+                    if (pdata[id]["map"][cS.toString()][cE.toString()] > .95){
+                        pdata[id]["map"][cS.toString()][cE.toString()] = 0
+                    }
                     setTimeout(function(){ player.currentTime = ((pdata[id]["map"][cS.toString()][cE.toString()] / 100.0) * player.duration); player.play() }, 600);
                 }
                 else if (j % 2 == 0) {
+                    if (pdata[id] > .95) {
+                        pdata[id] = 0
+                    }
                     setTimeout(function(){ player.currentTime = ((pdata[id] / 100) * player.duration);player.play() }, 600);
 
                 }
