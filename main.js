@@ -117,6 +117,7 @@ function main(data, personal) {
             titleCont.type = "series"
             titleCont.header = "TV Shows"
         }
+        $(window).scrollTo($(".dashboard-genres-pro"), 800)
 
     })
 
@@ -133,6 +134,7 @@ function main(data, personal) {
         titleCont.type = null
         titleCont.header = genre
         titleCont.set = set
+        $(window).scrollTo($(".dashboard-genres-pro"), 800)
 
     })
 
@@ -150,12 +152,17 @@ function main(data, personal) {
             search($("#mobileSearch").val(), true, true, "0", 0, 10)
         }
     });
+    console.log(url.searchParams.get("search"), url.searchParams.get("men"))
     if (url.searchParams.get("search") == "false") {
-        $(".men_item").removeClass("current-menu-item")
-        $(".movie_menu_item").addClass("current-menu-item")
-        console.log("changing to Movies")
-        titleCont.type = "movie"
-        titleCont.header = "Films"
+        
+        if (url.searchParams.get("men") == "movies") {
+            $(".men_item").removeClass("current-menu-item")
+            $(".movie_menu_item").addClass("current-menu-item")
+            console.log("changing to Movies")
+            titleCont.type = "movie"
+            titleCont.header = "Films"
+        }
+        $(window).scrollTo($(".dashboard-genres-pro"), 800)
 }
 
 

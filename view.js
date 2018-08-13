@@ -65,10 +65,10 @@ function main() {
             if (pdata.hasOwnProperty(id)) {
                 console.log("settime")
                 if (data[id]["type"] == "series") {
-                    setTimeout(function(){ player.currentTime = ((pdata[id]["map"][cS.toString()][cE.toString()] / 100.0) * player.duration); }, 600);
+                    setTimeout(function(){ player.currentTime = ((pdata[id]["map"][cS.toString()][cE.toString()] / 100.0) * player.duration); player.play() }, 600);
                 }
                 else if (j % 2 == 0) {
-                    setTimeout(function(){ player.currentTime = ((pdata[id] / 100) * player.duration); }, 600);
+                    setTimeout(function(){ player.currentTime = ((pdata[id] / 100) * player.duration);player.play() }, 600);
 
                 }
             }
@@ -210,8 +210,6 @@ function main() {
                 return;
             }
 
-            console.log("Changing Episode")
-
             $(".episode").removeClass("activeEpisode")
             $(this).addClass("activeEpisode");
 
@@ -222,10 +220,7 @@ function main() {
 
             playEpisode(season, episode)
 
-            $(window).scrollTo({
-                left: 0,
-                top: 0
-            }, 800)
+            $(window).scrollTo($("video"), 800)
         })
     }
     else {
@@ -272,8 +267,6 @@ function main() {
 
 function playEpisode(season, episode) {
 
-    console.log(season, episode)
-
     ratingBar.title = data[id]["ep_map"][season]["episodes"][episode]
     try {
         if (data[id]["ep_map"][season]["episodes"][episode].hasOwnProperty("description") && data[id]["ep_map"][season]["episodes"][episode]["description"] != "") {
@@ -305,8 +298,6 @@ function playEpisode(season, episode) {
 
     cE = episode
     cS = season
-
-    window.cE = cE
 
 }
 
@@ -426,9 +417,3 @@ $("#mobileSearch").keydown(function (event) {
         })
     }
 });
-
-$(".movieButton").on('click', function () {
-    navtoLoc("index.html", {
-        "search": false
-    })
-})

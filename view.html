@@ -17,8 +17,8 @@
 	<!-- iconsmind.com Icons -->
 	<link rel="icon" href="icons/stylized-tv-3d-model-max-obj-fbx.png">
 
-	<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
-	<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+	<link rel="stylesheet" type="text/css" href="slick/slick.css" />
+	<link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
 
 	<title>CarsonTV | Watch</title>
 </head>
@@ -27,7 +27,11 @@
 	<div id="sidebar-bg">
 
 		<header id="videohead-pro" class="sticky-header">
-			<div id="video-logo-background"><a href="index.html"><img src="images/logo-video-layout.png" alt="Logo"></a></div>
+			<div id="video-logo-background">
+				<a href="index.html">
+					<img src="images/logo-video-layout.png" alt="Logo">
+				</a>
+			</div>
 
 			<div id="video-search-header">
 				<div id="search-icon-more"></div>
@@ -41,13 +45,13 @@
 								<div class="row">
 									<div class="col-sm">
 										<label class="checkbox-pro-container">Movies
-										  <input type="checkbox" checked="checked" id="movies-type">
-										  <span class="checkmark-pro"></span>
+											<input type="checkbox" checked="checked" id="movies-type">
+											<span class="checkmark-pro"></span>
 										</label>
 
 										<label class="checkbox-pro-container">TV Series
-										  <input type="checkbox"  checked="checked" id="tv-type">
-										  <span class="checkmark-pro"></span>
+											<input type="checkbox" checked="checked" id="tv-type">
+											<span class="checkmark-pro"></span>
 										</label>
 									</div>
 									<!-- close .col -->
@@ -61,17 +65,17 @@
 							<div class="col-sm extra-padding">
 								<h5>Genres:</h5>
 								<select class="custom-select" id="genreSearch">
-								  <option selected>All Genres</option>
-								  <option value="1">Action</option>
-								  <option value="2">Adventure</option>
-								  <option value="3">Drama</option>
-								  <option value="4">Animation</option>
-								  <option value="5">Documentary</option>
-								  <option value="6">Drama</option>
-								  <option value="9">Fantasy</option>
-								  <option value="10">Romance</option>
-								  <option value="11">Sci-Fi</option>
-								  <option value="12">Western</option>
+									<option selected>All Genres</option>
+									<option value="1">Action</option>
+									<option value="2">Adventure</option>
+									<option value="3">Drama</option>
+									<option value="4">Animation</option>
+									<option value="5">Documentary</option>
+									<option value="6">Drama</option>
+									<option value="9">Fantasy</option>
+									<option value="10">Romance</option>
+									<option value="11">Sci-Fi</option>
+									<option value="12">Western</option>
 								</select>
 								<div class="dotted-dividers-pro"></div>
 							</div>
@@ -96,30 +100,26 @@
 			</div>
 			<!-- close .video-search-header -->
 
-			<div id="mobile-bars-icon-pro" class="noselect"><i class="fas fa-bars"></i></div>
+			<div id="mobile-bars-icon-pro" class="noselect">
+				<i class="fas fa-bars"></i>
+			</div>
 			<div class="clearfix"></div>
 
 			<nav id="mobile-navigation-pro">
 
 				<ul id="mobile-menu-pro">
 					<li>
-						<a href="index.html">
-						<span class="icon-Old-TV"></span>
-					TV Series
-				  </a>
+						<a href="index.html?search=false&men=series">
+							<span class="icon-Old-TV"></span>
+							TV Series
+						</a>
 						<li>
 							<li>
-								<a class="movieButton">
-						<span class="icon-Reel"></span>
-					Movies
-				  </a>
-								<li>
-									<a href="#!">
-						<i class="far fa-bell"></i>
-						<span class="user-notification-count">3</span>
-					Notifications
-				  </a>
-								</li>
+								<a href="index.html?search=false&men=movies">
+									<span class="icon-Reel"></span>
+									Movies
+								</a>
+							</li>
 				</ul>
 				<div class="clearfix"></div>
 
@@ -137,16 +137,16 @@
 			<!-- Add class="sticky-sidebar-js" for auto-height sidebar -->
 			<ul id="vertical-sidebar-nav" class="sf-menu">
 				<li class="normal-item-pro">
-					<a href="index.html">
+					<a href="index.html?search=false&men=series">
 						<span class="icon-Old-TV"></span>
-				  TV Series
-				</a>
+						TV Series
+					</a>
 				</li>
 				<li class="normal-item-pro">
-					<a class="movieButton">
+					<a href="index.html?search=false&men=movies">
 						<span class="icon-Reel"></span>
-				  Movies
-				</a>
+						Movies
+					</a>
 				</li>
 
 			</ul>
@@ -195,7 +195,8 @@
 					<div class="row" id="ratingBar">
 						<h3 id="epTitle" style="float:left;">{{ title.title }}</h3>
 						<div class="col-sm">
-							<a class="btn btn-green-pro btn-slider-pro btn-shadow-pro afterglow" id="trailer_Button"><i class="fas fa-play"></i>Watch Trailer</a>
+							<a class="btn btn-green-pro btn-slider-pro btn-shadow-pro afterglow" id="trailer_Button">
+								<i class="fas fa-play"></i>Watch Trailer</a>
 						</div>
 						<div class="col-sm">
 							<h6>User Rating</h6>
@@ -226,13 +227,13 @@
 					<div class="seasonRow" v-for="(season, sindex) in ep_map">
 						<h3>{{ season.title }}</h3>
 						<div class="seasonSlider">
-				
+
 							<div class="episode card" v-for="(episode, eindex) in season.episodes" :data-eindex="eindex" :data-sindex="sindex">
 
-									<img class="card-img-top" :src="header + episode.image" :alt="episode.title">
-									<div class="card-body">
-										<p class="card-text">{{ eindex + 1 }} - {{ episode.title }}</p>
-									</div>
+								<img class="card-img-top" :src="header + episode.image" :alt="episode.title">
+								<div class="card-body">
+									<p class="card-text">{{ eindex + 1 }} - {{ episode.title }}</p>
+								</div>
 
 							</div>
 
@@ -282,7 +283,7 @@
 
 	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script type="text/javascript" src="slick/slick.min.js"></script>
-	
+
 	<script src="js/js.cookie.js"></script>
 
 	<script src="view.js"></script>
