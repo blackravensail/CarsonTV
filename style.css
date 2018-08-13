@@ -7,6 +7,13 @@
 	height: 4px;
 }
 
+.seasonRow {
+	max-width: 100%;
+}
+body {
+    overflow-x:hidden;
+}
+
 
 .episode {
 	margin-right: 1rem;

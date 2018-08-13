@@ -41,6 +41,7 @@ function main(data, personal) {
     }
     else {
         var sliderID = Object.keys(data)[Math.floor((new Date()).getTime() / 100000) % Object.keys(data).length]
+        $("#idBox").text(userID)
     }
 
     slider = new Vue({
