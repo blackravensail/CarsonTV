@@ -4,7 +4,7 @@ var id = url.searchParams.get("id")
 var j = 0
 var k = 0
 
-JSONServer = "http://blakewintermute.pythonanywhere.com"
+JSONServer = "http://76.114.138.132:8081"
 
 var playnext
 var played = false
@@ -67,11 +67,11 @@ function main() {
                 console.log("settime")
                 if (data[id]["type"] == "series") {
                     setTimeout(function(){ player.currentTime = ((pdata[id]["map"][cS.toString()][cE.toString()] / 100.0) * player.duration); }, 600);
-                    
+
                 }
                 else if (j % 2 == 0) {
                     setTimeout(function(){ player.currentTime = ((pdata[id] / 100) * player.duration); }, 600);
-                    
+
                 }
             }
         }

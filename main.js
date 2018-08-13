@@ -4,11 +4,11 @@ var titleCont;
 var firstLoad = false
 var userID
 
-console.log("Version 82")
+console.log("Version 83")
 
 if (Cookies.get("UserID") == undefined) {
     $("#exampleModal").modal('show');
-    userID = 'test' 
+    userID = 'test'
     firstLoad = true
 }
 else {
@@ -16,7 +16,7 @@ else {
 }
 
 
-JSONServer = "http://blakewintermute.pythonanywhere.com"
+JSONServer = "http://76.114.138.132:8081"
 
 $.ajax({
     dataType: "json",
@@ -75,11 +75,11 @@ function main(data, personal) {
             }
         }
     })
-    
+
     titleCont = new Vue({
         el: "#pannelCont",
         data: {
-            set: new Set(["1","2","3","4"]), 
+            set: new Set(["1","2","3","4"]),
             titles: data,
             header: "TV Shows",
             type:"series",
@@ -117,9 +117,9 @@ function main(data, personal) {
             titleCont.type = "series"
             titleCont.header = "TV Shows"
         }
-    
+
     })
-    
+
     $(".genre_button").on("click", function () {
         $(".genre_button").removeClass("active")
         $(this).addClass("active")
@@ -133,7 +133,7 @@ function main(data, personal) {
         titleCont.type = null
         titleCont.header = genre
         titleCont.set = set
-    
+
     })
 
     $("#searchButton").on("click", function () {
@@ -144,7 +144,7 @@ function main(data, personal) {
             getSearchPrams();
         }
     });
-    
+
     $("#mobileSearch").keyup(function (event) {
         if (event.keyCode === 13) {
             search($("#mobileSearch").val(), true, true, "0", 0, 10)
@@ -158,7 +158,7 @@ function main(data, personal) {
         titleCont.header = "Films"
 }
 
-    
+
 }
 
 $(".fa-cogs").on('click', function () {
@@ -298,4 +298,3 @@ if (url.searchParams.get("search") == "true") {
     var maxRatingt = parseInt(url.searchParams.get("maxRating"))
     search(queryt, moviest, seriest, genret, minRatingt, maxRatingt)
 }
-
