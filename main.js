@@ -51,7 +51,7 @@ function main(data, personal) {
         },
         methods: {
             getBackgroundStyle: function () {
-                return ("background-image:url('http://ipfs.io/ipfs/" + this.title["location"]["ipfs"] + "/" + this.title["wide"] + "') !important;")
+                return ("background-image:url('" + this.title["location"] + "/" + this.title["wide"] + "') !important;")
             },
             getType: function () {
                 if (this.title["type"] == "movie") {

@@ -61,11 +61,6 @@ for title in inputData["series"]:
     ipfsHash = ipfsLookup(folderName)
 
     title["type"] = "series"
-    title["location"] = {
-        "ipfs": ipfsHash,
-        "http":title["wide"].split("/")[0]
-    }
-
 
     title["wide"] = title["wide"].replace(folderName,"")
     title["tall"] = title["tall"].replace(folderName,"")
@@ -98,13 +93,6 @@ for title in inputData["movies"]:
     title["type"] = "movie"
 
     folderName = title["wide"].split("/")[0] + "/"
-
-    ipfsHash = ipfsLookup(folderName)
-
-    title["location"] = {
-        "ipfs": ipfsHash,
-        "http":title["wide"].split("/")[0]
-    }
     
     title["wide"] = title["wide"].replace(folderName,"")
     title["tall"] = title["tall"].replace(folderName,"")

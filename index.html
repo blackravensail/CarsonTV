@@ -271,7 +271,7 @@
                     <div class="col-12 col-md-6 col-lg-4 col-xl-3" v-for='(title, id) in titles' v-if="title['type'] == type || (type == null && set.has(id))">
                         <div class="item-listing-container-skrn title">
                             <a :href="'view.html?id=' + id">
-                                <img :src="'http://ipfs.io/ipfs/' + title['location']['ipfs'] + '/' + title['tall']" :alt="title.title">
+                                <img :src="title['location'] + '/' + title['tall']" :alt="title.title">
                             </a>
                             <div class="progressDiv">
                                 <div class="progressDivSub" :style="'height: 100%; background-color: red; width: ' + returnProgress(id) +'%;'"></div>

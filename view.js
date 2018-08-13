@@ -41,7 +41,6 @@ $.ajax({
         $(document).ready(function () {
             data = json["titles"]
             pdata = json["pdata"]
-            serverList = json["serverList"]
             main();
         })
     }
@@ -67,7 +66,6 @@ function main() {
                 console.log("settime")
                 if (data[id]["type"] == "series") {
                     setTimeout(function(){ player.currentTime = ((pdata[id]["map"][cS.toString()][cE.toString()] / 100.0) * player.duration); }, 600);
-
                 }
                 else if (j % 2 == 0) {
                     setTimeout(function(){ player.currentTime = ((pdata[id] / 100) * player.duration); }, 600);
@@ -233,23 +231,13 @@ function main() {
     else {
         $("#seriesCont").hide()
 
-        var srcList = []
-        for (var i; i < serverList.length; i++) {
-            srcList.push({
-                src: serverList[i] + "/" + data[id]["location"]["http"] + "/" + data[id]["feature"],
-                type: 'video/mp4'
-            })
-        }
-
-        srcList.push({
-            src: "http://ipfs.io/ipfs/" + data[id]["location"]["ipfs"] + "/" + data[id]["feature"],
-            type: 'video/mp4'
-        })
-
         srcObj = {
             type: 'video',
             title: data[id]["title"],
-            sources: srcList
+            sources: [{
+                src: data[id]["location"] + "/" + data[id]["feature"],
+                type: 'video/mp4'
+            }]
         }
 
         if (data[id].hasOwnProperty("captions")) {
@@ -299,26 +287,13 @@ function playEpisode(season, episode) {
     $(".activeEpisode").removeClass("activeEpisode")
     $($("#seriesCont").get(0)).find(".episode[data-sindex=" + season + "][data-eindex=" + episode + "]").addClass("activeEpisode")
 
-    var srcList = []
-    for (var i = 0; i < serverList.length; i++) {
-        srcList.push({
-            src: serverList[i] + "/" + data[id]["location"]["http"] + "/" + data[id]["ep_map"][season]["episodes"][episode]["video"],
-            type: 'video/mp4'
-        })
-    }
-
-    srcList.push({
-        src: "http://ipfs.io/ipfs/" + data[id]["location"]["ipfs"] + "/" + data[id]["ep_map"][season]["episodes"][episode]["video"],
-        type: 'video/mp4'
-    })
-
-    console.log(srcList)
-
-
     srcObj = {
         type: 'video',
         title: data[id]["title"],
-        sources: srcList
+        sources: [{
+            src: data[id]["location"] + "/" + data[id]["ep_map"][season]["episodes"][episode]["video"],
+            type: 'video/mp4'
+        }]
     }
 
     if (data[id]["ep_map"][season]["episodes"][episode].hasOwnProperty("captions")) {
@@ -372,7 +347,7 @@ function defineVueElm() {
             el: "#seriesCont",
             data: {
                 ep_map: data[id]["ep_map"],
-                header: "http://ipfs.io/ipfs/" + data[id]["location"]["ipfs"] + "/",
+                header: data[id]["location"] + "/",
                 pdata: pdata
             },
             methods: {
