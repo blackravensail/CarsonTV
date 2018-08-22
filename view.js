@@ -64,16 +64,16 @@ function main() {
             canPlayRan = true
             if (pdata.hasOwnProperty(id)) {
                 if (data[id]["type"] == "series") {
-                    if (pdata[id]["map"][cS.toString()][cE.toString()] > .95){
+                    if (pdata[id]["map"][cS.toString()][cE.toString()] > 95){
                         pdata[id]["map"][cS.toString()][cE.toString()] = 0
                     }
-                    setTimeout(function(){ player.currentTime = ((pdata[id]["map"][cS.toString()][cE.toString()] / 100.0) * player.duration); player.play() }, 600);
+                    setTimeout(function(){ player.currentTime = ((pdata[id]["map"][cS.toString()][cE.toString()] / 100.0) * player.duration); player.play() }, 400);
                 }
                 else if (j % 2 == 0) {
-                    if (pdata[id] > .95) {
+                    if (pdata[id] > 95) {
                         pdata[id] = 0
                     }
-                    setTimeout(function(){ player.currentTime = ((pdata[id] / 100) * player.duration);player.play() }, 600);
+                    setTimeout(function(){ player.currentTime = ((pdata[id] / 100) * player.duration);player.play() }, 400);
 
                 }
             }
